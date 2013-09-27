@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Name: net/mircomacrelli/rss
+Sealed: true
+Specification-Title: "RSS Parsing Library"
+Specification-Version: "1.0"
+Specification-Vendor: "Mirco Macrelli"
+Implementation-Title: "net.mircomacrelli.rss"
+Implementation-Version: "1.0"
+Implementation-Vendor: "Mirco Macrelli"
