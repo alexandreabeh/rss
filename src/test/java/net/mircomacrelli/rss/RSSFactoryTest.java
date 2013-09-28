@@ -72,4 +72,12 @@ public final class RSSFactoryTest {
             assertEquals(new Date(1138555064000L), rss.getChannel().getPublishDate());
         }
     }
+
+    @Test
+    public void dateWithoutSeconds() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-seconds.xml")) {
+            RSS rss = factory.parse(in);
+            assertEquals(new Date(1138555020000L), rss.getChannel().getPublishDate());
+        }
+    }
 }
