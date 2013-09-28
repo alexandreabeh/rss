@@ -56,9 +56,6 @@ final class Utils {
 
     public static void append(final StringBuilder sb, final String fieldName, final Object field, final boolean quote) {
         if (field != null) {
-            if ((field instanceof Collection) && ((Collection)field).isEmpty()) {
-                return;
-            }
             if ((sb.length() > 0) && (sb.charAt(sb.length() - 1) != '{')) {
                 sb.append(", ");
             }
