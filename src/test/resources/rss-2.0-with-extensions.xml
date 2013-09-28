@@ -1,0 +1,18 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <atom:link href="http://mircomacrelli.net" rel="self" type="application/rss+xml"/>
+        <description>Current headlines from the Dallas Times-Herald newspaper</description>
+        <link>http://dallas.example.com</link>
+        <title>Dallas Times-Herald</title>
+        <item>
+            <title>Seventh Heaven! Ryan Hurls Another No Hitter</title>
+            <link>http://dallas.example.com/1991/05/02/nolan.htm</link>
+            <atom:link href="http://mircomacreli.net/index.html"/>
+            <description>Texas Rangers pitcher Nolan Ryan hurled the seventh no-hitter of his legendary career on
+                Arlington Appreciation Night, defeating the Toronto Blue Jays 3-0. The 44-year-old struck out 16 batters
+                before a crowd of 33,439.
+            </description>
+            <guid>http://dallas.example.com/1991/05/02/nolan.htm</guid>
+        </item>
+    </channel>
+</rss>

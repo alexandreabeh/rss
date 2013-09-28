@@ -18,7 +18,7 @@ public final class RSSFactoryTest {
     @Test
     public void parseIgnoreAllTheExtensionsInChannelAndItem() throws Exception {
         final RSSFactory factory = RSSFactory.newFactory();
-        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-complete-with-extensions.xml")) {
+        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-with-extensions.xml")) {
             assertNotNull(factory.parse(in));
         }
     }
