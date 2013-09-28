@@ -133,9 +133,22 @@ final class Utils {
         if (date.trim().isEmpty()) {
             return null;
         }
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-        return dateFormat.parse(date);
+        for (String format : DATE_FORMATS) {
+            final SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
+            try {
+                return dateFormat.parse(date);
+            } catch (ParseException ignored) {
+                // ignore all the exceptions until there are formats to try
+            }
+        }
+
+        throw new ParseException(format("Unparseable date: \"%s\"", date), 0);
     }
+
+    private static final String[] DATE_FORMATS = {
+            "EEE, d MMM yyyy HH:mm:ss Z",
+                 "d MMM yyyy HH:mm:ss Z"
+    };
 
     public static String formatDate(Date date) {
         if (date == null) {

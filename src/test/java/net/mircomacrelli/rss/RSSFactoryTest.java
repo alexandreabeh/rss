@@ -3,16 +3,11 @@ package net.mircomacrelli.rss;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.activation.MimeTypeParseException;
-import javax.mail.internet.AddressException;
-import javax.xml.stream.XMLStreamException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.text.ParseException;
+import java.util.Date;
 
 import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -59,6 +54,14 @@ public final class RSSFactoryTest {
             assertNull(rss.getChannel().getPublishDate());
             assertNull(rss.getChannel().getBuildDate());
             assertNull(rss.getChannel().getItems().iterator().next().getPublishDate());
+        }
+    }
+
+    @Test
+    public void dateWithoutDayName() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-day-name.xml")) {
+            RSS rss = factory.parse(in);
+            assertEquals(new Date(1138510800000L), rss.getChannel().getPublishDate());
         }
     }
 }
