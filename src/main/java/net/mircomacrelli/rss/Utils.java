@@ -102,18 +102,17 @@ final class Utils {
     }
 
     static String getText(final XMLEventReader reader) throws XMLStreamException {
-        while (reader.hasNext()) {
-            final XMLEvent event = reader.nextEvent();
+        final XMLEvent event = reader.nextEvent();
 
-            if (event.isCharacters()) {
-                return event.asCharacters().getData();
-            }
-
-            if (event.isEndElement()) {
-                return "";
-            }
+        if (event.isCharacters()) {
+            return event.asCharacters().getData();
         }
-        throw new IllegalStateException("tag not terminated");
+
+        if (event.isEndElement()) {
+            return "";
+        } else {
+            throw new IllegalStateException("text not found");
+        }
     }
 
     static boolean isEndOfTag(final XMLEvent event, final String tagName) {
