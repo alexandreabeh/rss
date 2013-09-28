@@ -130,6 +130,9 @@ final class Utils {
     }
 
     public static Date parseDate(String date) throws ParseException {
+        if (date.trim().isEmpty()) {
+            return null;
+        }
         final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
         return dateFormat.parse(date);
     }
