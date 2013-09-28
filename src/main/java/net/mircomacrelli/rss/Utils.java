@@ -89,7 +89,7 @@ final class Utils {
             final XMLEvent event = reader.nextEvent();
 
             if (isEndOfTag(event, containerTagName)) {
-                return values;
+                break;
             }
 
             if (event.isStartElement()) {
@@ -98,7 +98,7 @@ final class Utils {
             }
         }
 
-        throw new IllegalStateException(format("tag '%s' not terminated ", containerTagName));
+        return values;
     }
 
     static String getText(final XMLEventReader reader) throws XMLStreamException {
