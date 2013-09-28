@@ -8,6 +8,31 @@
     <artifactId>rss</artifactId>
     <version>1.0</version>
 
+    <name>rss</name>
+    <description>A small library that I use to parse RSS 2.0 feeds</description>
+    <url>https://github.com/mircomacrelli/rss</url>
+    <inceptionYear>2013</inceptionYear>
+
+    <developers>
+        <developer>
+            <name>Mirco Macrelli</name>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>The MIT License (MIT)</name>
+            <url>http://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/mircomacrelli/rss.git</connection>
+        <developerConnection>scm:git:git://github.com/mircomacrelli/rss.git</developerConnection>
+        <url>https://github.com/mircomacrelli/rss</url>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
