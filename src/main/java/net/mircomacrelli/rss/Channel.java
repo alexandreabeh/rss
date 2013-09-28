@@ -20,6 +20,7 @@ import static net.mircomacrelli.rss.Utils.copyEnumSet;
 import static net.mircomacrelli.rss.Utils.copyInternetAddress;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
+import static net.mircomacrelli.rss.Utils.formatDate;
 
 /**
  * Contains all the information regarding the rss and all the items published in this feed.
@@ -265,8 +266,8 @@ public final class Channel {
         append(sb, "copyright", copyright);
         append(sb, "editorEmail", editorEmail);
         append(sb, "webmasterEmail", webmasterEmail);
-        append(sb, "publishDate", publishDate);
-        append(sb, "buildDate", buildDate);
+        append(sb, "publishDate", formatDate(publishDate));
+        append(sb, "buildDate", formatDate(buildDate));
         append(sb, "categories", categories, false);
         append(sb, "generator", generator);
         append(sb, "documentation", documentation);

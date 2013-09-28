@@ -12,6 +12,7 @@ import static net.mircomacrelli.rss.Utils.append;
 import static net.mircomacrelli.rss.Utils.copyDate;
 import static net.mircomacrelli.rss.Utils.copyInternetAddress;
 import static net.mircomacrelli.rss.Utils.copySet;
+import static net.mircomacrelli.rss.Utils.formatDate;
 
 /**
  * An Item of the Feed
@@ -153,7 +154,7 @@ public final class Item {
         append(sb, "authorEmail", authorEmail);
         append(sb, "commentsLink", commentsLink);
         append(sb, "uniqueId", uniqueId, false);
-        append(sb, "publishDate", publishDate);
+        append(sb, "publishDate", formatDate(publishDate));
         append(sb, "categories", categories, false);
         append(sb, "source", source, false);
         append(sb, "enclosure", enclosure, false);

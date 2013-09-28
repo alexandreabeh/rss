@@ -16,8 +16,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import static net.mircomacrelli.rss.Utils.parseDate;
+
 final class ChannelBuilder {
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
     String title;
     URL link;
     String description;
@@ -74,11 +75,11 @@ final class ChannelBuilder {
     }
 
     public void setPublishDate(final String publishDate) throws ParseException {
-        this.publishDate = dateFormat.parse(publishDate);
+        this.publishDate = parseDate(publishDate);
     }
 
     public void setBuildDate(final String buildDate) throws ParseException {
-        this.buildDate = dateFormat.parse(buildDate);
+        this.buildDate = parseDate(buildDate);
     }
 
     public void addCategory(final Category category) {

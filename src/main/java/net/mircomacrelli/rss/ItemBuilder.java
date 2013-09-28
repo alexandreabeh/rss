@@ -11,8 +11,9 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import static net.mircomacrelli.rss.Utils.parseDate;
+
 final class ItemBuilder {
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
     InternetAddress authorEmail;
     String title;
     String description;
@@ -65,7 +66,7 @@ final class ItemBuilder {
     }
 
     public void setPublishDate(final String publishDate) throws ParseException {
-        this.publishDate = dateFormat.parse(publishDate);
+        this.publishDate = parseDate(publishDate);
     }
 
     public void setSource(final Source source) {

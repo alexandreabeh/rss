@@ -162,7 +162,7 @@ public final class ItemTest {
     @Test
     public void testToString() {
         assertEquals(
-                "Item{title='Titolo post', link='http://mircomacrelli.net', description='parla di questo e quello', authorEmail='info@mircomacrelli.net', commentsLink='http://mircomacrelli.net', uniqueId=UniqueId{id='id12345', isLink=false}, publishDate='Fri Sep 27 13:04:46 CEST 2013', categories=[Category{location='web'}], source=Source{name='Mirco Macrelli', link='http://mircomacrelli.net'}, enclosure=Enclosure{link='http://mircomacrelli.net', length=10, type=audio/mp3}}",
+                "Item{title='Titolo post', link='http://mircomacrelli.net', description='parla di questo e quello', authorEmail='info@mircomacrelli.net', commentsLink='http://mircomacrelli.net', uniqueId=UniqueId{id='id12345', isLink=false}, publishDate='Fri, 27 Sep 2013 11:04:46 +0000', categories=[Category{location='web'}], source=Source{name='Mirco Macrelli', link='http://mircomacrelli.net'}, enclosure=Enclosure{link='http://mircomacrelli.net', length=10, type=audio/mp3}}",
                 item.toString());
     }
 }
