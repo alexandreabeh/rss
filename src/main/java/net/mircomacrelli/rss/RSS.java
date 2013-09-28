@@ -73,6 +73,10 @@ public final class RSS {
 
     /** RSS Version */
     public enum Version {
+        /** Version 0.91 */
+        RSS_0_91("0.91"),
+        /** Version 0.92 */
+        RSS_0_92("0.92"),
         /** Version 2.0.1 */
         RSS_2_0("2.0");
         private final String version;
