@@ -64,4 +64,12 @@ public final class RSSFactoryTest {
             assertEquals(new Date(1138510800000L), rss.getChannel().getPublishDate());
         }
     }
+
+    @Test
+    public void dateWithoutATimezone() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-timezone.xml")) {
+            RSS rss = factory.parse(in);
+            assertEquals(new Date(1138555064000L), rss.getChannel().getPublishDate());
+        }
+    }
 }

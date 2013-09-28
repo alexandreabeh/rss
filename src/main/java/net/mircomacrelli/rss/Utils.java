@@ -149,7 +149,8 @@ final class Utils {
 
     private static final String[] DATE_FORMATS = {
             "EEE, d MMM yyyy HH:mm:ss Z",
-                 "d MMM yyyy HH:mm:ss Z"
+                 "d MMM yyyy HH:mm:ss Z",
+            "EEE, d MMM yyyy HH:mm:ss"
     };
 
     public static String formatDate(Date date) {
