@@ -36,4 +36,11 @@ public final class RSSFactoryTest {
             assertTrue(factory.parse(in).getChannel().getDescription().isEmpty());
         }
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void aTagInTheWrongPlaceWillCauseAnException() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-a-tag-in-the-wrong-place.xml")) {
+            assertTrue(factory.parse(in).getChannel().getDescription().isEmpty());
+        }
+    }
 }
