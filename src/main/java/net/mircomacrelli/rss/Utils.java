@@ -136,6 +136,7 @@ final class Utils {
         for (String format : DATE_FORMATS) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
             dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            dateFormat.setLenient(true);
             try {
                 return dateFormat.parse(date);
             } catch (ParseException ignored) {
