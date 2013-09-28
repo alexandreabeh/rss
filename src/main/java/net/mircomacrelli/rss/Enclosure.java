@@ -1,6 +1,7 @@
 package net.mircomacrelli.rss;
 
 import javax.activation.MimeType;
+import javax.activation.MimeTypeParseException;
 import java.net.URL;
 
 import static java.lang.String.format;
@@ -27,7 +28,7 @@ public final class Enclosure {
      * @param length the length of the file. in bytes
      * @param type MIME Type of the linked file
      */
-    Enclosure(final URL link, final long length, final MimeType type) {
+    Enclosure(final URL link, final long length, final MimeType type) throws MimeTypeParseException {
         requireNonNull(link);
         requireNonNull(type);
         lengthInvariant(length);
@@ -61,7 +62,7 @@ public final class Enclosure {
     }
 
     /** @return a copy of the MIME Type */
-    public MimeType getType() {
+    public MimeType getType() throws MimeTypeParseException {
         return copyMimeType(type);
     }
 

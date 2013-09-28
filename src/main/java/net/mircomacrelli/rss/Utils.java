@@ -50,12 +50,8 @@ final class Utils {
         return (source == null) ? null : (InternetAddress)source.clone();
     }
 
-    public static MimeType copyMimeType(final MimeType original) {
-        try {
-            return new MimeType(original.getPrimaryType(), original.getSubType());
-        } catch (MimeTypeParseException e) {
-            throw new AssertionError("this should never happen", e);
-        }
+    public static MimeType copyMimeType(final MimeType original) throws MimeTypeParseException {
+        return new MimeType(original.getPrimaryType(), original.getSubType());
     }
 
     public static void append(final StringBuilder sb, final String fieldName, final Object field, final boolean quote) {

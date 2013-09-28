@@ -22,7 +22,7 @@ final class EnclosureBuilder {
         this.type = new MimeType(type);
     }
 
-    public Enclosure build() {
+    public Enclosure build() throws MimeTypeParseException {
         return new Enclosure(url, length, type);
     }
 }
