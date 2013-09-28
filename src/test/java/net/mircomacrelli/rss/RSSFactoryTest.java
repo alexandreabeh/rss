@@ -80,4 +80,11 @@ public final class RSSFactoryTest {
             assertEquals(new Date(1138555020000L), rss.getChannel().getPublishDate());
         }
     }
+
+    @Test
+    public void incompleteVersionNumberDoNotCauseError() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-incomplete-version-number.xml")) {
+            assertNotNull(factory.parse(in));
+        }
+    }
 }

@@ -88,6 +88,9 @@ public final class RSS {
          * @return the version
          */
         public static Version from(final String text) {
+            if (text.equals("2")) {
+                return RSS_2_0;
+            }
             return valueOf("RSS_" + text.replace('.', '_'));
         }
 
