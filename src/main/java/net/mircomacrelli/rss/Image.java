@@ -50,16 +50,16 @@ public final class Image {
 
     private static void widthInvariant(final Integer width) {
         if (width != null) {
-            if ((width < 0) || (width > 144)) {
-                throw new IllegalArgumentException(format("width must be between 0 and 144. was %d", width));
+            if (width < 0) {
+                throw new IllegalArgumentException(format("width can't be negative. was %d", width));
             }
         }
     }
 
     private static void heightInvariant(final Integer height) {
         if (height != null) {
-            if ((height < 0) || (height > 400)) {
-                throw new IllegalArgumentException(format("height must be between 0 and 400. was %d", height));
+            if (height < 0) {
+                throw new IllegalArgumentException(format("height can't be negative. was %d", height));
             }
         }
     }

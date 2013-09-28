@@ -73,16 +73,6 @@ public final class ImageTest {
         new Image(validImage, validLink, "logo", "Il mio logo", 80, -1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void widthCantBeGreaterThan144() {
-        new Image(validImage, validLink, "logo", "Il mio logo", 145, 80);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void heightCantBeGreaterThan400() {
-        new Image(validImage, validLink, "logo", "Il mio logo", 80, 401);
-    }
-
     @Test
     public void image() {
         assertSame(validImage, image.getImage());
