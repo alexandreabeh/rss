@@ -47,20 +47,17 @@ public final class ImageTest {
 
     @Test
     public void descriptionCanBeNull() {
-        final Image image = new Image(validImage, validLink, "logo", null, 80, 80);
-        assertNull(image.getDescription());
+        assertNull(new Image(validImage, validLink, "logo", null, 80, 80).getDescription());
     }
 
     @Test
     public void ifWidthIsNullADefaultValueIsUsed() {
-        final Image image = new Image(validImage, validLink, "logo", "Il mio logo", null, 80);
-        assertEquals(88, image.getWidth());
+        assertEquals(88, new Image(validImage, validLink, "logo", "Il mio logo", null, 80).getWidth());
     }
 
     @Test
     public void ifHeightIsNullADefaultValueIsUsed() {
-        final Image image = new Image(validImage, validLink, "logo", "Il mio logo", 80, null);
-        assertEquals(31, image.getHeight());
+        assertEquals(31, new Image(validImage, validLink, "logo", "Il mio logo", 80, null).getHeight());
     }
 
     @Test(expected = IllegalArgumentException.class)
