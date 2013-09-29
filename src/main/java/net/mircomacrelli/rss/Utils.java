@@ -131,11 +131,11 @@ final class Utils {
         return values;
     }
 
-    public static Date parseDate(String date) throws ParseException {
+    public static Date parseDate(final String date) throws ParseException {
         if (date.trim().isEmpty()) {
             return null;
         }
-        for (String format : DATE_FORMATS) {
+        for (final String format : DATE_FORMATS) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
             dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             dateFormat.setLenient(true);
@@ -157,7 +157,7 @@ final class Utils {
             "yyyy-MM-dd HH:mm:ss"
     };
 
-    public static String formatDate(Date date) {
+    public static String formatDate(final Date date) {
         if (date == null) {
             return null;
         }
@@ -166,7 +166,7 @@ final class Utils {
         return dateFormat.format(date);
     }
 
-    public static URL parseURL(String docs) throws MalformedURLException {
+    public static URL parseURL(final String docs) throws MalformedURLException {
         if (docs.trim().isEmpty()) {
             return null;
         }

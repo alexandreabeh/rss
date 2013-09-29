@@ -50,7 +50,7 @@ public final class RSSFactoryTest {
     @Test
     public void emptyDatesAreIgnored() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-empty-date.xml")) {
-            RSS rss = factory.parse(in);
+            final RSS rss = factory.parse(in);
             assertNull(rss.getChannel().getPublishDate());
             assertNull(rss.getChannel().getBuildDate());
             assertNull(rss.getChannel().getItems().iterator().next().getPublishDate());
@@ -60,7 +60,7 @@ public final class RSSFactoryTest {
     @Test
     public void dateWithoutDayName() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-day-name.xml")) {
-            RSS rss = factory.parse(in);
+            final RSS rss = factory.parse(in);
             assertEquals(new Date(1138510800000L), rss.getChannel().getPublishDate());
         }
     }
@@ -68,7 +68,7 @@ public final class RSSFactoryTest {
     @Test
     public void dateWithoutATimezone() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-timezone.xml")) {
-            RSS rss = factory.parse(in);
+            final RSS rss = factory.parse(in);
             assertEquals(new Date(1138555064000L), rss.getChannel().getPublishDate());
         }
     }
@@ -76,7 +76,7 @@ public final class RSSFactoryTest {
     @Test
     public void dateWithoutSeconds() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-seconds.xml")) {
-            RSS rss = factory.parse(in);
+            final RSS rss = factory.parse(in);
             assertEquals(new Date(1138555020000L), rss.getChannel().getPublishDate());
         }
     }
