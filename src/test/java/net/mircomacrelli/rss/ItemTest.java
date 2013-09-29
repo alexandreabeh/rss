@@ -17,6 +17,7 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
@@ -61,12 +62,12 @@ public final class ItemTest {
 
     @Test
     public void anItemWithOnlyTitleIsValid() {
-        new Item(null, "Titolo post", null, null, null, null, null, null, null, null);
+        assertNotNull(new Item(null, "Titolo post", null, null, null, null, null, null, null, null).getTitle());
     }
 
     @Test
     public void anItemWithOnlyDescriptionIsValid() {
-        new Item(null, null, "parla di questo e quello", null, null, null, null, null, null, null);
+        assertNotNull(new Item(null, null, "parla di questo e quello", null, null, null, null, null, null, null).getDescription());
     }
 
     @Test

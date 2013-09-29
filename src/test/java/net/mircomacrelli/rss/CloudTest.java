@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public final class CloudTest {
     private URI validDomain;
@@ -60,12 +61,12 @@ public final class CloudTest {
 
     @Test
     public void procedureNameCanBeEmptyForHTTPPOST() {
-        new Cloud(validDomain, 80, validPath, "", Protocol.HTTP_POST);
+        assertTrue(new Cloud(validDomain, 80, validPath, "", Protocol.HTTP_POST).getProcedureName().isEmpty());
     }
 
     @Test
     public void procedureNameCanBEmptyForSOAP() {
-        new Cloud(validDomain, 80, validPath, "", Protocol.SOAP);
+        assertTrue(new Cloud(validDomain, 80, validPath, "", Protocol.SOAP).getProcedureName().isEmpty());
     }
 
     @Test(expected = NullPointerException.class)

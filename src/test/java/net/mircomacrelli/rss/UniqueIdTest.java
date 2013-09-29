@@ -19,7 +19,7 @@ public final class UniqueIdTest {
 
     @Test
     public void idCanBeAnythingIfIsLinkIsFalse() throws MalformedURLException {
-        new UniqueId("any string you can think of", false);
+        assertEquals("any string you can think of", new UniqueId("any string you can think of", false).getId());
     }
 
     @Test(expected = MalformedURLException.class)

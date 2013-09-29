@@ -23,7 +23,7 @@ public final class CategoryTest {
 
     @Test
     public void domainCanBeNull() {
-        new Category(null, "security");
+        assertNull(new Category(null, "security").getDomain());
     }
 
     @Test(expected = NullPointerException.class)
