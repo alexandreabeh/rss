@@ -94,4 +94,11 @@ public final class RSSFactoryTest {
             assertNotNull(factory.parse(in));
         }
     }
+
+    @Test
+    public void allowHttpsInEnclosureLinks() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-allow-https-urls.xml")) {
+            assertNotNull(factory.parse(in));
+        }
+    }
 }

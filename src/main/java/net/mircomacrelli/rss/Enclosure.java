@@ -46,7 +46,7 @@ public final class Enclosure {
     }
 
     private static void linkInvariant(final URL link) {
-        if (!link.getProtocol().equals("http")) {
+        if (!(link.getProtocol().equals("http") || link.getProtocol().equals("https"))) {
             throw new IllegalArgumentException(format("only HTTP URLs are allowed. was %s", link.getProtocol()));
         }
     }
