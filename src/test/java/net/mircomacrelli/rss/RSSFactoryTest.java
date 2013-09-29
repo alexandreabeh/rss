@@ -1,6 +1,6 @@
 package net.mircomacrelli.rss;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -12,10 +12,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public final class RSSFactoryTest {
-    private static RSSFactory factory;
+    private RSSFactory factory;
 
-    @BeforeClass
-    public static void setup() {
+    @Before
+    public void setup() {
         factory = RSSFactory.newFactory();
     }
 
