@@ -61,7 +61,8 @@ public final class Enclosure {
         return length;
     }
 
-    /** @return a copy of the MIME Type */
+    /** @return a copy of the MIME Type
+     * @throws MimeTypeParseException this should never happen*/
     public MimeType getType() throws MimeTypeParseException {
         return copyMimeType(type);
     }
