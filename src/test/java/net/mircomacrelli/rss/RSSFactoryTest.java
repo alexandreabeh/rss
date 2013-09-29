@@ -101,4 +101,11 @@ public final class RSSFactoryTest {
             assertNotNull(factory.parse(in));
         }
     }
+
+    @Test
+    public void isoDateFormat() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-iso-date-format.xml")) {
+            assertNotNull(factory.parse(in));
+        }
+    }
 }

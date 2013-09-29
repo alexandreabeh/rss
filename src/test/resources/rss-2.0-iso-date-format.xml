@@ -1,0 +1,8 @@
+<rss version="2.0">
+    <channel>
+        <description>Current headlines from the Dallas Times-Herald newspaper</description>
+        <link>http://dallas.example.com</link>
+        <title>Dallas Times-Herald</title>
+        <pubDate>2013-09-28 00:00:00</pubDate>
+    </channel>
+</rss>
