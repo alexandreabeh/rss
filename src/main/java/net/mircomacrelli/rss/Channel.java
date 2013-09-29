@@ -2,6 +2,7 @@ package net.mircomacrelli.rss;
 
 import javax.mail.internet.InternetAddress;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
@@ -214,7 +215,7 @@ public final class Channel {
     }
 
     /** @return a set of days that can be skipped when checking the feed for updates */
-    public EnumSet<Day> getSkipDays() {
+    public Collection<Day> getSkipDays() {
         return copyEnumSet(skipDays);
     }
 
