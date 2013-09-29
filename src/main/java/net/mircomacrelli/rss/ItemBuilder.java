@@ -12,6 +12,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import static net.mircomacrelli.rss.Utils.parseDate;
+import static net.mircomacrelli.rss.Utils.parseURL;
 
 final class ItemBuilder {
     InternetAddress authorEmail;
@@ -54,7 +55,7 @@ final class ItemBuilder {
     }
 
     public void setCommentsLink(final String commentsLink) throws MalformedURLException {
-        this.commentsLink = new URL(commentsLink);
+        this.commentsLink = parseURL(commentsLink);
     }
 
     public void setEnclosure(final Enclosure enclosure) {

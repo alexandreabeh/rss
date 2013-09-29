@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import static net.mircomacrelli.rss.Utils.parseDate;
+import static net.mircomacrelli.rss.Utils.parseURL;
 
 final class ChannelBuilder {
     String title;
@@ -94,7 +95,7 @@ final class ChannelBuilder {
     }
 
     public void setDocs(final String docs) throws MalformedURLException {
-        this.docs = new URL(docs);
+        this.docs = parseURL(docs);
     }
 
     public void setCloud(final Cloud cloud) {
