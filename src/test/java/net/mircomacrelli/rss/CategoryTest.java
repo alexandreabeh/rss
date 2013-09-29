@@ -12,7 +12,6 @@ import static org.junit.Assert.assertTrue;
 
 public final class CategoryTest {
     private Category withDomain;
-
     private Category withoutDomain;
 
     @Before

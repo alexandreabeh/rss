@@ -23,21 +23,13 @@ import static org.junit.Assert.assertSame;
 
 public final class ItemTest {
     private URL validLink;
-
     private InternetAddress authorEmail;
-
     private Set<Category> categories;
-
     private UniqueId uniqueId;
-
     private Source source;
-
     private Date publishDate;
-
     private Enclosure enclosure;
-
     private URL otherLink;
-
     private Item item;
 
     @Before
@@ -67,7 +59,8 @@ public final class ItemTest {
 
     @Test
     public void anItemWithOnlyDescriptionIsValid() {
-        assertNotNull(new Item(null, null, "parla di questo e quello", null, null, null, null, null, null, null).getDescription());
+        assertNotNull(new Item(null, null, "parla di questo e quello", null, null, null, null, null, null, null)
+                              .getDescription());
     }
 
     @Test

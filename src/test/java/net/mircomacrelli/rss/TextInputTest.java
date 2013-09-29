@@ -13,9 +13,7 @@ import static org.junit.Assert.assertSame;
 
 public final class TextInputTest {
     private URL validUrl;
-
     private URL otherUrl;
-
     private TextInput input;
 
     @Before

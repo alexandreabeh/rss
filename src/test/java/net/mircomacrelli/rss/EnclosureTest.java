@@ -16,13 +16,9 @@ import static org.junit.Assert.assertTrue;
 
 public final class EnclosureTest {
     private URL validLink;
-
     private URL badLink;
-
     private URL otherLink;
-
     private MimeType validMimeType;
-
     private Enclosure enclosure;
 
     @Before

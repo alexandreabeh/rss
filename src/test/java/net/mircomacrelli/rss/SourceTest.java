@@ -13,9 +13,7 @@ import static org.junit.Assert.assertSame;
 
 public final class SourceTest {
     private URL validLink;
-
     private URL otherLink;
-
     private Source source;
 
     @Before

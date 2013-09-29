@@ -27,6 +27,10 @@ import java.util.TimeZone;
 import static java.lang.String.format;
 
 final class Utils {
+    private static final String[] DATE_FORMATS = {"EEE, d MMM yyyy HH:mm:ss Z", "d MMM yyyy HH:mm:ss Z",
+                                                  "EEE, d MMM yyyy HH:mm:ss", "EEE, d MMM yyyy HH:mm Z",
+                                                  "yyyy-MM-dd HH:mm:ss"};
+
     private Utils() {
         throw new AssertionError("do not instantiate this class");
     }
@@ -55,6 +59,10 @@ final class Utils {
         return new MimeType(original.getPrimaryType(), original.getSubType());
     }
 
+    public static void append(final StringBuilder sb, final String fieldName, final Object field) {
+        append(sb, fieldName, field, true);
+    }
+
     public static void append(final StringBuilder sb, final String fieldName, final Object field, final boolean quote) {
         if (field != null) {
             if ((sb.length() > 0) && (sb.charAt(sb.length() - 1) != '{')) {
@@ -69,10 +77,6 @@ final class Utils {
                 sb.append('\'');
             }
         }
-    }
-
-    public static void append(final StringBuilder sb, final String fieldName, final Object field) {
-        append(sb, fieldName, field, true);
     }
 
     static boolean isStartOfTag(final XMLEvent event, final String tagName) {
@@ -99,6 +103,10 @@ final class Utils {
         return values;
     }
 
+    static boolean isEndOfTag(final XMLEvent event, final String tagName) {
+        return event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(tagName);
+    }
+
     static String getText(final XMLEventReader reader) throws XMLStreamException {
         final XMLEvent event = reader.nextEvent();
 
@@ -111,10 +119,6 @@ final class Utils {
         } else {
             throw new IllegalStateException("text not found");
         }
-    }
-
-    static boolean isEndOfTag(final XMLEvent event, final String tagName) {
-        return event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(tagName);
     }
 
     static Map<String, String> getAttributesValues(final StartElement element) {
@@ -147,14 +151,6 @@ final class Utils {
 
         throw new ParseException(format("Unparseable date: \"%s\"", date), 0);
     }
-
-    private static final String[] DATE_FORMATS = {
-            "EEE, d MMM yyyy HH:mm:ss Z",
-                 "d MMM yyyy HH:mm:ss Z",
-            "EEE, d MMM yyyy HH:mm:ss",
-            "EEE, d MMM yyyy HH:mm Z",
-            "yyyy-MM-dd HH:mm:ss"
-    };
 
     public static String formatDate(final Date date) {
         if (date == null) {

@@ -15,11 +15,8 @@ import static org.junit.Assert.assertSame;
 public final class ImageTest {
 
     private URL validImage;
-
     private URL validLink;
-
     private URL otherLink;
-
     private Image image;
 
     @Before

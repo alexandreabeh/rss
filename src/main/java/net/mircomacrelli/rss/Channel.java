@@ -107,12 +107,6 @@ public final class Channel {
         this.items = copyList(items);
     }
 
-    private static void ttlInvariant(final Integer ttl) {
-        if ((ttl != null) && (ttl < 0)) {
-            throw new IllegalArgumentException(format("timeToLive can't be negative. was %d", ttl));
-        }
-    }
-
     private static void skipHoursInvariant(final Set<Integer> skipHours) {
         if (skipHours != null) {
             for (final Integer hour : skipHours) {
@@ -121,6 +115,12 @@ public final class Channel {
                             format("skipHours can contain only values from 0 to 23. was: %s", skipHours));
                 }
             }
+        }
+    }
+
+    private static void ttlInvariant(final Integer ttl) {
+        if ((ttl != null) && (ttl < 0)) {
+            throw new IllegalArgumentException(format("timeToLive can't be negative. was %d", ttl));
         }
     }
 

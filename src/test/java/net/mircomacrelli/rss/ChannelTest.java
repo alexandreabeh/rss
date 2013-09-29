@@ -24,37 +24,25 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 public final class ChannelTest {
 
     private URL validLink;
-
     private URL otherLink;
-
     private Channel channel;
-
     private InternetAddress validAddress;
-
     private Date validDate;
-
     private Cloud cloud;
-
     private Locale language;
-
     private Image image;
-
     private Set<Category> categories;
-
     private TextInput input;
-
     private Set<Integer> skipHours;
-
     private EnumSet<Day> skipDays;
-
     private List<Item> items;
 
     @Before

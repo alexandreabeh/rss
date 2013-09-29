@@ -15,13 +15,9 @@ import static org.junit.Assert.assertSame;
 
 public final class RSSTest {
     private Charset validCharset;
-
     private Charset otherCharset;
-
     private Version validVersion;
-
     private Channel validChannel;
-
     private RSS rss;
 
     @Before

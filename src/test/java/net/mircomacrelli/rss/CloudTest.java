@@ -17,9 +17,7 @@ import static org.junit.Assert.assertTrue;
 
 public final class CloudTest {
     private URI validDomain;
-
     private Path validPath;
-
     private Cloud cloud;
 
     @Before
