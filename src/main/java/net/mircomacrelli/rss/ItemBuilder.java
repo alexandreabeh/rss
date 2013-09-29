@@ -5,10 +5,8 @@ import javax.mail.internet.InternetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 import static net.mircomacrelli.rss.Utils.parseDate;
