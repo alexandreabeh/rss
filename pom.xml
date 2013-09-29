@@ -9,7 +9,7 @@
     <version>1.0</version>
 
     <name>rss</name>
-    <description>A small library that I use to parse RSS 2.0 feeds</description>
+    <description>A small library that I use to parse RSS feeds</description>
     <url>https://github.com/mircomacrelli/rss</url>
     <inceptionYear>2013</inceptionYear>
 
