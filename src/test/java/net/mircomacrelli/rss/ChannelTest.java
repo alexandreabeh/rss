@@ -4,7 +4,6 @@ import net.mircomacrelli.rss.Channel.Day;
 import net.mircomacrelli.rss.Cloud.Protocol;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertSame;
@@ -261,19 +260,19 @@ public final class ChannelTest {
     @Test
     public void editorEmailIsCopiedByGetter() throws UnsupportedEncodingException {
         channel.getEditorEmail().setPersonal("Mirco Macrelli");
-        Assert.assertNull(channel.getEditorEmail().getPersonal());
+        assertNull(channel.getEditorEmail().getPersonal());
     }
 
     @Test
     public void webmasterEmailIsCopiedByCtor() throws UnsupportedEncodingException {
         validAddress.setPersonal("Mirco Macrelli");
-        Assert.assertNull(channel.getWebmasterEmail().getPersonal());
+        assertNull(channel.getWebmasterEmail().getPersonal());
     }
 
     @Test
     public void webmasterEmailIsCopiedByGetter() throws UnsupportedEncodingException {
         channel.getWebmasterEmail().setPersonal("Mirco Macrelli");
-        Assert.assertNull(channel.getWebmasterEmail().getPersonal());
+        assertNull(channel.getWebmasterEmail().getPersonal());
     }
 
     @Test
