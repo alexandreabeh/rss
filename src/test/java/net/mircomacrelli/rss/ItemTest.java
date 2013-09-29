@@ -44,7 +44,7 @@ public final class ItemTest {
         validLink = new URL("http://mircomacrelli.net");
         otherLink = new URL("http://www.google.com");
         authorEmail = new InternetAddress("info@mircomacrelli.net");
-        categories = new HashSet<>();
+        categories = new HashSet<>(1);
         categories.add(new Category(null, "web"));
         source = new Source("Mirco Macrelli", validLink);
         enclosure = new Enclosure(validLink, 10, new MimeType("audio/mp3"));
