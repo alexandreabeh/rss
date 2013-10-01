@@ -5,8 +5,10 @@ import javax.mail.internet.InternetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static net.mircomacrelli.rss.Utils.parseDate;
@@ -22,10 +24,10 @@ final class ItemBuilder {
     UniqueId uniqueId;
     Date publishDate;
     Source source;
-    Enclosure enclosure;
+    List<Enclosure> enclosures;
 
     public Item build() {
-        return new Item(link, title, description, authorEmail, publishDate, categories, source, commentsLink, enclosure,
+        return new Item(link, title, description, authorEmail, publishDate, categories, source, commentsLink, enclosures,
                         uniqueId);
     }
 
@@ -56,8 +58,11 @@ final class ItemBuilder {
         this.commentsLink = parseURL(commentsLink);
     }
 
-    public void setEnclosure(final Enclosure enclosure) {
-        this.enclosure = enclosure;
+    public void addEnclosure(final Enclosure enclosure) {
+        if (enclosures == null) {
+            enclosures = new ArrayList<>(1);
+        }
+        enclosures.add(enclosure);
     }
 
     public void setUniqueId(final UniqueId uniqueId) {

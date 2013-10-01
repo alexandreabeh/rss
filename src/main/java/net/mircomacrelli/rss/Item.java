@@ -2,15 +2,19 @@ package net.mircomacrelli.rss;
 
 import javax.mail.internet.InternetAddress;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.hash;
 import static net.mircomacrelli.rss.Utils.append;
 import static net.mircomacrelli.rss.Utils.copyDate;
 import static net.mircomacrelli.rss.Utils.copyInternetAddress;
+import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 
@@ -30,7 +34,7 @@ public final class Item {
     private final UniqueId uniqueId;
     private final Date publishDate;
     private final Source source;
-    private final Enclosure enclosure;
+    private final List<Enclosure> enclosures;
 
     /**
      * Creates a new Item. All parameters are optional an can be null. But at least on of title or description must be
@@ -44,12 +48,12 @@ public final class Item {
      * @param categories a set of categories
      * @param source the original source of the item
      * @param commentsLink link to a page with comments
-     * @param enclosure an attached file to the item
+     * @param enclosures an list with all the attached files
      * @param uniqueId the unique id of the item
      */
     Item(final URL link, final String title, final String description, final InternetAddress authorEmail,
          final Date publishDate, final Set<Category> categories, final Source source, final URL commentsLink,
-         final Enclosure enclosure, final UniqueId uniqueId) {
+         final List<Enclosure> enclosures, final UniqueId uniqueId) {
         itemInvariant(title, description);
 
         this.authorEmail = copyInternetAddress(authorEmail);
@@ -61,7 +65,7 @@ public final class Item {
         this.uniqueId = uniqueId;
         this.publishDate = copyDate(publishDate);
         this.source = source;
-        this.enclosure = enclosure;
+        this.enclosures = copyList(enclosures);
     }
 
     private static void itemInvariant(final String title, final String description) {
@@ -116,14 +120,14 @@ public final class Item {
     }
 
     /** @return the attached file if present */
-    public Enclosure getEnclosure() {
-        return enclosure;
+    public List<Enclosure> getEnclosures() {
+        return unmodifiableList(enclosures);
     }
 
     @Override
     public int hashCode() {
         return hash(authorEmail, title, description, link, commentsLink, categories, uniqueId, publishDate, source,
-                    enclosure);
+                    enclosures);
     }
 
     @Override
@@ -140,7 +144,7 @@ public final class Item {
                Objects.equals(description, other.description) && Objects.equals(link, other.link) &&
                Objects.equals(commentsLink, other.commentsLink) && Objects.equals(categories, other.categories) &&
                Objects.equals(uniqueId, other.uniqueId) && Objects.equals(publishDate, other.publishDate) &&
-               Objects.equals(source, other.source) && Objects.equals(enclosure, other.enclosure);
+               Objects.equals(source, other.source) && Objects.equals(enclosures, other.enclosures);
     }
 
     @Override
@@ -157,7 +161,7 @@ public final class Item {
         append(sb, "publishDate", formatDate(publishDate));
         append(sb, "categories", categories, false);
         append(sb, "source", source, false);
-        append(sb, "enclosure", enclosure, false);
+        append(sb, "enclosure", enclosures, false);
 
         sb.append('}');
         return sb.toString();

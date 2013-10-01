@@ -11,8 +11,10 @@ import javax.mail.internet.InternetAddress;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -28,7 +30,7 @@ public final class ItemTest {
     private UniqueId uniqueId;
     private Source source;
     private Date publishDate;
-    private Enclosure enclosure;
+    private List<Enclosure> enclosures;
     private URL otherLink;
     private Item item;
 
@@ -40,11 +42,13 @@ public final class ItemTest {
         categories = new HashSet<>(1);
         categories.add(new Category(null, "web"));
         source = new Source("Mirco Macrelli", validLink);
-        enclosure = new Enclosure(validLink, 10, new MimeType("audio/mp3"));
+        enclosures = new ArrayList<>(2);
+        enclosures.add(new Enclosure(validLink, 10, new MimeType("audio/mp3")));
+        enclosures.add(new Enclosure(otherLink, 1024, new MimeType("audio/mp3")));
         uniqueId = new UniqueId("id12345", false);
         publishDate = new Date(1380279886610L);
         item = new Item(validLink, "Titolo post", "parla di questo e quello", authorEmail, publishDate, categories,
-                        source, validLink, enclosure, uniqueId);
+                        source, validLink, enclosures, uniqueId);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -99,8 +103,8 @@ public final class ItemTest {
     }
 
     @Test
-    public void enclosure() {
-        assertEquals(enclosure, item.getEnclosure());
+    public void enclosures() {
+        assertEquals(enclosures, item.getEnclosures());
     }
 
     @Test
@@ -154,9 +158,20 @@ public final class ItemTest {
     }
 
     @Test
+    public void enclosuresAreCopiedByCtor() {
+        enclosures.clear();
+        assertNotEquals(enclosures, item.getEnclosures());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void enclosuresAreUnmodifiable() {
+        item.getEnclosures().clear();
+    }
+
+    @Test
     public void testToString() {
         assertEquals(
-                "Item{title='Titolo post', link='http://mircomacrelli.net', description='parla di questo e quello', authorEmail='info@mircomacrelli.net', commentsLink='http://mircomacrelli.net', uniqueId=UniqueId{id='id12345', isLink=false}, publishDate='Fri, 27 Sep 2013 11:04:46 +0000', categories=[Category{location='web'}], source=Source{name='Mirco Macrelli', link='http://mircomacrelli.net'}, enclosure=Enclosure{link='http://mircomacrelli.net', length=10, type=audio/mp3}}",
+                "Item{title='Titolo post', link='http://mircomacrelli.net', description='parla di questo e quello', authorEmail='info@mircomacrelli.net', commentsLink='http://mircomacrelli.net', uniqueId=UniqueId{id='id12345', isLink=false}, publishDate='Fri, 27 Sep 2013 11:04:46 +0000', categories=[Category{location='web'}], source=Source{name='Mirco Macrelli', link='http://mircomacrelli.net'}, enclosure=[Enclosure{link='http://mircomacrelli.net', length=10, type=audio/mp3}, Enclosure{link='http://www.google.com', length=1024, type=audio/mp3}]}",
                 item.toString());
     }
 }

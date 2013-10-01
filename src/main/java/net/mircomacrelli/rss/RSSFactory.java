@@ -262,7 +262,7 @@ public final class RSSFactory {
                         builder.setCommentsLink(getText(reader));
                         break;
                     case "enclosure":
-                        builder.setEnclosure(parseEnclosure(element));
+                        builder.addEnclosure(parseEnclosure(element));
                         break;
                     case "guid":
                         builder.setUniqueId(parseUniqueId(reader, element));
