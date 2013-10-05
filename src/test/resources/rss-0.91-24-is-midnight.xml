@@ -1,0 +1,10 @@
+<rss version="0.91">
+    <channel>
+        <description>Current headlines from the Dallas Times-Herald newspaper</description>
+        <link>http://dallas.example.com</link>
+        <title>Dallas Times-Herald</title>
+        <skipHours>
+            <hour>24</hour>
+        </skipHours>
+    </channel>
+</rss>

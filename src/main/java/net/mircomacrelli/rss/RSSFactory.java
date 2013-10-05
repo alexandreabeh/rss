@@ -214,7 +214,11 @@ public final class RSSFactory {
             }
 
             if (isStartOfTag(event, "hour")) {
-                hours.add(Integer.parseInt(getText(reader)));
+                int hour = Integer.parseInt(getText(reader));
+                if (hour == 24) {
+                    hour = 0;
+                }
+                hours.add(hour);
             }
         }
 

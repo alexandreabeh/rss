@@ -6,9 +6,11 @@ import org.junit.Test;
 import java.io.InputStream;
 import java.util.Date;
 
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public final class RSSFactoryTest {
@@ -106,6 +108,13 @@ public final class RSSFactoryTest {
     public void isoDateFormat() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-iso-date-format.xml")) {
             assertNotNull(factory.parse(in));
+        }
+    }
+
+    @Test
+    public void inRSS09124IsMidnight() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/rss-0.91-24-is-midnight.xml")) {
+            assertThat(factory.parse(in).getChannel().getSkipHours(), contains(0));
         }
     }
 }
