@@ -20,8 +20,6 @@ import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.parseDate;
 import static net.mircomacrelli.rss.Utils.parseURL;
-import static net.mircomacrelli.rss.Utils.unmodifiableList;
-import static net.mircomacrelli.rss.Utils.unmodifiableSet;
 
 /**
  * An Item of the Feed
@@ -106,7 +104,7 @@ public final class Item {
 
     /** @return a set of categories that contains this item */
     public Set<Category> getCategories() {
-        return unmodifiableSet(categories);
+        return categories;
     }
 
     /** @return the unique id of the item */
@@ -126,7 +124,7 @@ public final class Item {
 
     /** @return the attached file if present */
     public List<Enclosure> getEnclosures() {
-        return unmodifiableList(enclosures);
+        return enclosures;
     }
 
     @Override

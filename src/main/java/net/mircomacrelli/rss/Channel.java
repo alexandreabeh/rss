@@ -26,8 +26,6 @@ import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.parseDate;
 import static net.mircomacrelli.rss.Utils.parseURL;
-import static net.mircomacrelli.rss.Utils.unmodifiableList;
-import static net.mircomacrelli.rss.Utils.unmodifiableSet;
 
 /**
  * Contains all the information regarding the rss and all the items published in this feed.
@@ -182,7 +180,7 @@ public final class Channel {
 
     /** @return a set of categories that contains this feed */
     public Set<Category> getCategories() {
-        return unmodifiableSet(categories);
+        return categories;
     }
 
     /** @return the name of the program that created this feed */
@@ -218,7 +216,7 @@ public final class Channel {
 
     /** @return a set of hours that can be skipped when checking the feed for updates */
     public Set<Integer> getSkipHours() {
-        return unmodifiableSet(skipHours);
+        return skipHours;
     }
 
     /** @return a set of days that can be skipped when checking the feed for updates */
@@ -228,7 +226,7 @@ public final class Channel {
 
     /** @return the list with all the items published in this feed */
     public List<Item> getItems() {
-        return unmodifiableList(items);
+        return items;
     }
 
     @Override

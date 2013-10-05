@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
 
 final class Utils {
     private static final DateTimeFormatter[] DATE_FORMATS = {
@@ -46,15 +48,11 @@ final class Utils {
     }
 
     public static <T> Set<T> copySet(final Set<T> source) {
-        return (source == null) ? null : new HashSet<>(source);
+        return (source == null) ? null : unmodifiableSet(new HashSet<>(source));
     }
 
     public static <T> List<T> copyList(final List<T> source) {
-        return (source == null) ? null : new ArrayList<>(source);
-    }
-
-    public static <T> Set<T> unmodifiableSet(final Set<T> set) {
-        return (set == null) ? null : Collections.unmodifiableSet(set);
+        return (source == null) ? null : unmodifiableList(new ArrayList<>(source));
     }
 
     public static <E extends Enum<E>> EnumSet<E> copyEnumSet(final EnumSet<E> set) {
@@ -173,9 +171,5 @@ final class Utils {
             return null;
         }
         return new URL(docs);
-    }
-
-    public static <T> List<T> unmodifiableList(final List<T> list) {
-        return (list == null) ? null : Collections.unmodifiableList(list);
     }
 }
