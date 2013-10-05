@@ -13,6 +13,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -41,6 +42,11 @@ final class Utils {
 
     public static <T> List<T> copyList(final List<T> source) {
         return (source == null) ? null : new ArrayList<>(source);
+    }
+
+
+    public static <T> Set<T> unmodifiableSet(final Set<T> set) {
+        return (set == null) ? null : Collections.unmodifiableSet(set);
     }
 
     public static Date copyDate(final Date source) {
@@ -166,5 +172,9 @@ final class Utils {
             return null;
         }
         return new URL(docs);
+    }
+
+    public static <T> List<T> unmodifiableList(final List<T> list) {
+        return (list == null) ? null : Collections.unmodifiableList(list);
     }
 }

@@ -16,8 +16,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static java.util.Collections.unmodifiableList;
-import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.append;
@@ -29,6 +27,8 @@ import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.parseDate;
 import static net.mircomacrelli.rss.Utils.parseURL;
+import static net.mircomacrelli.rss.Utils.unmodifiableList;
+import static net.mircomacrelli.rss.Utils.unmodifiableSet;
 
 /**
  * Contains all the information regarding the rss and all the items published in this feed.
@@ -202,7 +202,8 @@ public final class Channel {
     }
 
     /** @return the number of seconds that the feed can be cached */
-    public int getTimeToLive() {
+
+    public Integer getTimeToLive() {
         return timeToLive;
     }
 

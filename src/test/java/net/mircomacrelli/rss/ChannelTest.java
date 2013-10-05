@@ -137,7 +137,7 @@ public final class ChannelTest {
 
     @Test
     public void timeToLive() {
-        assertEquals(60, channel.getTimeToLive());
+        assertEquals(Integer.valueOf(60), channel.getTimeToLive());
     }
 
     @Test
