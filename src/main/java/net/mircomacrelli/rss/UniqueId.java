@@ -25,12 +25,7 @@ public final class UniqueId {
      */
     UniqueId(final String id, final boolean isLink) throws MalformedURLException {
         requireNonNull(id);
-        if (isLink) {
-            this.id = new URL(id).toString();
-        } else {
-            this.id = id;
-        }
-
+        this.id = isLink ? new URL(id).toString() : id;
         this.isLink = isLink;
     }
 
