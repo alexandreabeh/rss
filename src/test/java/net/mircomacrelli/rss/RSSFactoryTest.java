@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.Date;
 
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
@@ -115,6 +116,13 @@ public final class RSSFactoryTest {
     public void inRSS09124IsMidnight() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-0.91-24-is-midnight.xml")) {
             assertThat(factory.parse(in).getChannel().getSkipHours(), contains(0));
+        }
+    }
+
+    @Test(expected = ParseException.class)
+    public void whenADateCantBeParsedThrowAnException() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-malformed-date.xml")) {
+            factory.parse(in);
         }
     }
 }
