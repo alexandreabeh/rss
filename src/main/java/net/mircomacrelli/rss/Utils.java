@@ -15,7 +15,6 @@ import javax.xml.stream.events.XMLEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,7 +38,6 @@ final class Utils {
             DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm Z").withLocale(Locale.ENGLISH).withZoneUTC(),
             DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm z").withLocale(Locale.ENGLISH).withZoneUTC(),
             DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withLocale(Locale.ENGLISH).withZoneUTC()};
-
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss z")
                                                                        .withLocale(Locale.ENGLISH).withZoneUTC();
 
@@ -111,10 +109,6 @@ final class Utils {
         return values;
     }
 
-    static boolean isEndOfTag(final XMLEvent event, final String tagName) {
-        return event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(tagName);
-    }
-
     static String getText(final XMLEventReader reader) throws XMLStreamException {
         final XMLEvent event = reader.nextEvent();
 
@@ -127,6 +121,10 @@ final class Utils {
         } else {
             throw new IllegalStateException("text not found");
         }
+    }
+
+    static boolean isEndOfTag(final XMLEvent event, final String tagName) {
+        return event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(tagName);
     }
 
     static Map<String, String> getAttributesValues(final StartElement element) {

@@ -40,15 +40,15 @@ public final class Enclosure {
         this.type = copyMimeType(type);
     }
 
-    private static void lengthInvariant(final long length) {
-        if (length < 0) {
-            throw new IllegalArgumentException(format("length can't be negative. was %d", length));
-        }
-    }
-
     private static void linkInvariant(final URL link) {
         if (!(link.getProtocol().equals("http") || link.getProtocol().equals("https"))) {
             throw new IllegalArgumentException(format("only HTTP URLs are allowed. was %s", link.getProtocol()));
+        }
+    }
+
+    private static void lengthInvariant(final long length) {
+        if (length < 0) {
+            throw new IllegalArgumentException(format("length can't be negative. was %d", length));
         }
     }
 
