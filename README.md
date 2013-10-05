@@ -42,4 +42,4 @@ public class Example {
 ```
 
 ## License
-This is distibuted hunder the MIT license. For the full text of the license see the file LICENSE
+This is distributed under the MIT license. For the full text of the license see the file LICENSE
