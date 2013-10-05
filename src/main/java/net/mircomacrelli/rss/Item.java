@@ -161,7 +161,7 @@ public final class Item {
         append(sb, "publishDate", formatDate(publishDate));
         append(sb, "categories", categories, false);
         append(sb, "source", source, false);
-        append(sb, "enclosure", enclosures, false);
+        append(sb, "enclosures", enclosures, false);
 
         sb.append('}');
         return sb.toString();
