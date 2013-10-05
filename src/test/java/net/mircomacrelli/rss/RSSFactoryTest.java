@@ -1,11 +1,11 @@
 package net.mircomacrelli.rss;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
-import java.text.ParseException;
-import java.util.Date;
 
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertEquals;
@@ -64,7 +64,7 @@ public final class RSSFactoryTest {
     public void dateWithoutDayName() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-day-name.xml")) {
             final RSS rss = factory.parse(in);
-            assertEquals(new Date(1138510800000L), rss.getChannel().getPublishDate());
+            assertEquals(new DateTime(1138510800000L, DateTimeZone.UTC), rss.getChannel().getPublishDate());
         }
     }
 
@@ -72,7 +72,7 @@ public final class RSSFactoryTest {
     public void dateWithoutATimezone() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-timezone.xml")) {
             final RSS rss = factory.parse(in);
-            assertEquals(new Date(1138555064000L), rss.getChannel().getPublishDate());
+            assertEquals(new DateTime(1138555064000L, DateTimeZone.UTC), rss.getChannel().getPublishDate());
         }
     }
 
@@ -80,7 +80,7 @@ public final class RSSFactoryTest {
     public void dateWithoutSeconds() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-seconds.xml")) {
             final RSS rss = factory.parse(in);
-            assertEquals(new Date(1138555020000L), rss.getChannel().getPublishDate());
+            assertEquals(new DateTime(1138555020000L, DateTimeZone.UTC), rss.getChannel().getPublishDate());
         }
     }
 
@@ -119,7 +119,7 @@ public final class RSSFactoryTest {
         }
     }
 
-    @Test(expected = ParseException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void whenADateCantBeParsedThrowAnException() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-malformed-date.xml")) {
             factory.parse(in);

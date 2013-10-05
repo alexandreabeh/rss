@@ -4,6 +4,7 @@ import net.mircomacrelli.rss.Channel.Day;
 import net.mircomacrelli.rss.Cloud.Protocol;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +18,6 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +25,6 @@ import java.util.Locale;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
@@ -35,7 +34,7 @@ public final class ChannelTest {
     private URL otherLink;
     private Channel channel;
     private InternetAddress validAddress;
-    private Date validDate;
+    private DateTime validDate;
     private Cloud cloud;
     private Locale language;
     private Image image;
@@ -50,7 +49,7 @@ public final class ChannelTest {
         validLink = new URL("http://mircomacrelli.net");
         validAddress = new InternetAddress("info@mircomacrelli.net");
         otherLink = new URL("http://www.google.com");
-        validDate = new Date(1380279886610L);
+        validDate = new DateTime(1380279886610L);
         categories = new HashSet<>(1);
         categories.add(new Category(null, "web"));
         cloud = new Cloud(new URI("mircomacrelli.net"), 80, Paths.get("/subscribe"), "", Protocol.HTTP_POST);
@@ -264,30 +263,6 @@ public final class ChannelTest {
     }
 
     @Test
-    public void publishDateIsCopiedByCtor() {
-        validDate.setTime(1);
-        assertNotEquals(1, channel.getPublishDate());
-    }
-
-    @Test
-    public void publishDateIsCopiedByGetter() {
-        channel.getPublishDate().setTime(1);
-        assertNotEquals(1, channel.getPublishDate());
-    }
-
-    @Test
-    public void buildDateIsCopiedByCtor() {
-        validDate.setTime(1);
-        assertNotEquals(1, channel.getBuildDate());
-    }
-
-    @Test
-    public void buildDateIsCopiedByGetter() {
-        channel.getBuildDate().setTime(1);
-        assertNotEquals(1, channel.getBuildDate());
-    }
-
-    @Test
     public void categoriesAreCopiedByCtor() {
         categories.clear();
         assertEquals(1, channel.getCategories().size());
@@ -307,7 +282,7 @@ public final class ChannelTest {
     @Test
     public void testToString() {
         assertEquals(
-                "Channel{title='Mirco Macrelli', link='http://mircomacrelli.net', description='Descrizione del feed', language='it_IT', copyright='Copyright (c) 2013 Mirco Macrelli', editorEmail='info@mircomacrelli.net', webmasterEmail='info@mircomacrelli.net', publishDate='Fri, 27 Sep 2013 11:04:46 +0000', buildDate='Fri, 27 Sep 2013 11:04:46 +0000', categories=[Category{location='web'}], generator='Generatore del feed 1.0', documentation='http://mircomacrelli.net', cloud=Cloud{domain='mircomacrelli.net', port=80, path='/subscribe', procedureName='', protocol=HTTP-POST}, timeToLive='60', image=Image{image='http://mircomacrelli.net', alt='logo', link='http://mircomacrelli.net'}, textInput=TextInput{label='Search', description='Search the feed', name='q', scriptUrl='http://mircomacrelli.net'}, skipHours=[13, 14], skipDays=[FRIDAY], items=[Item{title='titolo'}]}",
+                "Channel{title='Mirco Macrelli', link='http://mircomacrelli.net', description='Descrizione del feed', language='it_IT', copyright='Copyright (c) 2013 Mirco Macrelli', editorEmail='info@mircomacrelli.net', webmasterEmail='info@mircomacrelli.net', publishDate='Fri, 27 Sep 2013 11:04:46 UTC', buildDate='Fri, 27 Sep 2013 11:04:46 UTC', categories=[Category{location='web'}], generator='Generatore del feed 1.0', documentation='http://mircomacrelli.net', cloud=Cloud{domain='mircomacrelli.net', port=80, path='/subscribe', procedureName='', protocol=HTTP-POST}, timeToLive='60', image=Image{image='http://mircomacrelli.net', alt='logo', link='http://mircomacrelli.net'}, textInput=TextInput{label='Search', description='Search the feed', name='q', scriptUrl='http://mircomacrelli.net'}, skipHours=[13, 14], skipDays=[FRIDAY], items=[Item{title='titolo'}]}",
                 channel.toString());
     }
 }

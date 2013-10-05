@@ -229,8 +229,7 @@ public final class RSSFactory {
     }
 
     private static Item parseItem(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
-                                                                      AddressException, MimeTypeParseException,
-                                                                      ParseException {
+                                                                      AddressException, MimeTypeParseException {
         final Item.Builder builder = new Item.Builder();
 
         while (reader.hasNext()) {

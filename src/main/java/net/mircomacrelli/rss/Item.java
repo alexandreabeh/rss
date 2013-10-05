@@ -1,12 +1,12 @@
 package net.mircomacrelli.rss;
 
+import org.joda.time.DateTime;
+
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +14,6 @@ import java.util.Set;
 
 import static java.util.Objects.hash;
 import static net.mircomacrelli.rss.Utils.append;
-import static net.mircomacrelli.rss.Utils.copyDate;
 import static net.mircomacrelli.rss.Utils.copyInternetAddress;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
@@ -38,7 +37,7 @@ public final class Item {
     private final URL commentsLink;
     private final Set<Category> categories;
     private final UniqueId uniqueId;
-    private final Date publishDate;
+    private final DateTime publishDate;
     private final Source source;
     private final List<Enclosure> enclosures;
 
@@ -58,7 +57,7 @@ public final class Item {
      * @param uniqueId the unique id of the item
      */
     Item(final URL link, final String title, final String description, final InternetAddress authorEmail,
-         final Date publishDate, final Set<Category> categories, final Source source, final URL commentsLink,
+         final DateTime publishDate, final Set<Category> categories, final Source source, final URL commentsLink,
          final List<Enclosure> enclosures, final UniqueId uniqueId) {
         itemInvariant(title, description);
 
@@ -69,7 +68,7 @@ public final class Item {
         this.commentsLink = commentsLink;
         this.categories = copySet(categories);
         this.uniqueId = uniqueId;
-        this.publishDate = copyDate(publishDate);
+        this.publishDate = publishDate;
         this.source = source;
         this.enclosures = copyList(enclosures);
     }
@@ -116,8 +115,8 @@ public final class Item {
     }
 
     /** @return when the item was published */
-    public Date getPublishDate() {
-        return copyDate(publishDate);
+    public DateTime getPublishDate() {
+        return publishDate;
     }
 
     /** @return the original source of the file if present */
@@ -181,7 +180,7 @@ public final class Item {
         URL commentsLink;
         Set<Category> categories;
         UniqueId uniqueId;
-        Date publishDate;
+        DateTime publishDate;
         Source source;
         List<Enclosure> enclosures;
 
@@ -228,7 +227,7 @@ public final class Item {
             this.uniqueId = uniqueId;
         }
 
-        public void setPublishDate(final String publishDate) throws ParseException {
+        public void setPublishDate(final String publishDate) {
             this.publishDate = parseDate(publishDate);
         }
 

@@ -1,6 +1,7 @@
 package net.mircomacrelli.rss;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +13,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +29,7 @@ public final class ItemTest {
     private Set<Category> categories;
     private UniqueId uniqueId;
     private Source source;
-    private Date publishDate;
+    private DateTime publishDate;
     private List<Enclosure> enclosures;
     private URL otherLink;
     private Item item;
@@ -46,7 +46,7 @@ public final class ItemTest {
         enclosures.add(new Enclosure(validLink, 10, new MimeType("audio/mp3")));
         enclosures.add(new Enclosure(otherLink, 1024, new MimeType("audio/mp3")));
         uniqueId = new UniqueId("id12345", false);
-        publishDate = new Date(1380279886610L);
+        publishDate = new DateTime(1380279886610L);
         item = new Item(validLink, "Titolo post", "parla di questo e quello", authorEmail, publishDate, categories,
                         source, validLink, enclosures, uniqueId);
     }
@@ -141,18 +141,6 @@ public final class ItemTest {
     }
 
     @Test
-    public void publishDateIsCopiedByCtor() {
-        publishDate.setTime(1);
-        assertNotEquals(1, item.getPublishDate().getTime());
-    }
-
-    @Test
-    public void publishDateIsCopiedByGetter() {
-        item.getPublishDate().setTime(1);
-        assertNotEquals(1, item.getPublishDate().getTime());
-    }
-
-    @Test
     public void equalsContract() {
         EqualsVerifier.forClass(Item.class).withPrefabValues(URL.class, validLink, otherLink).verify();
     }
@@ -171,7 +159,7 @@ public final class ItemTest {
     @Test
     public void testToString() {
         assertEquals(
-                "Item{title='Titolo post', link='http://mircomacrelli.net', description='parla di questo e quello', authorEmail='info@mircomacrelli.net', commentsLink='http://mircomacrelli.net', uniqueId=UniqueId{id='id12345', isLink=false}, publishDate='Fri, 27 Sep 2013 11:04:46 +0000', categories=[Category{location='web'}], source=Source{name='Mirco Macrelli', link='http://mircomacrelli.net'}, enclosures=[Enclosure{link='http://mircomacrelli.net', length=10, type=audio/mp3}, Enclosure{link='http://www.google.com', length=1024, type=audio/mp3}]}",
+                "Item{title='Titolo post', link='http://mircomacrelli.net', description='parla di questo e quello', authorEmail='info@mircomacrelli.net', commentsLink='http://mircomacrelli.net', uniqueId=UniqueId{id='id12345', isLink=false}, publishDate='Fri, 27 Sep 2013 11:04:46 UTC', categories=[Category{location='web'}], source=Source{name='Mirco Macrelli', link='http://mircomacrelli.net'}, enclosures=[Enclosure{link='http://mircomacrelli.net', length=10, type=audio/mp3}, Enclosure{link='http://www.google.com', length=1024, type=audio/mp3}]}",
                 item.toString());
     }
 }

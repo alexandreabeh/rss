@@ -1,13 +1,13 @@
 package net.mircomacrelli.rss;
 
+import org.joda.time.DateTime;
+
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +19,6 @@ import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.append;
-import static net.mircomacrelli.rss.Utils.copyDate;
 import static net.mircomacrelli.rss.Utils.copyEnumSet;
 import static net.mircomacrelli.rss.Utils.copyInternetAddress;
 import static net.mircomacrelli.rss.Utils.copyList;
@@ -44,8 +43,8 @@ public final class Channel {
     private final String copyright;
     private final InternetAddress editorEmail;
     private final InternetAddress webmasterEmail;
-    private final Date publishDate;
-    private final Date buildDate;
+    private final DateTime publishDate;
+    private final DateTime buildDate;
     private final Set<Category> categories;
     private final String generator;
     private final URL documentation;
@@ -82,8 +81,8 @@ public final class Channel {
      * @param items a list with all the items published in the feed
      */
     Channel(final String title, final URL link, final String description, final Locale language, final String copyright,
-            final InternetAddress editorEmail, final InternetAddress webmasterEmail, final Date publishDate,
-            final Date buildDate, final Set<Category> categories, final String generator, final URL documentation,
+            final InternetAddress editorEmail, final InternetAddress webmasterEmail, final DateTime publishDate,
+            final DateTime buildDate, final Set<Category> categories, final String generator, final URL documentation,
             final Cloud cloud, final Integer timeToLive, final Image image, final TextInput textInput,
             final Set<Integer> skipHours, final EnumSet<Day> skipDays, final String rating, final List<Item> items) {
         requireNonNull(title);
@@ -99,8 +98,8 @@ public final class Channel {
         this.copyright = copyright;
         this.editorEmail = copyInternetAddress(editorEmail);
         this.webmasterEmail = copyInternetAddress(webmasterEmail);
-        this.publishDate = copyDate(publishDate);
-        this.buildDate = copyDate(buildDate);
+        this.publishDate = publishDate;
+        this.buildDate = buildDate;
         this.categories = copySet(categories);
         this.generator = generator;
         this.documentation = documentation;
@@ -172,13 +171,13 @@ public final class Channel {
     }
 
     /** @return when the feed was published */
-    public Date getPublishDate() {
-        return copyDate(publishDate);
+    public DateTime getPublishDate() {
+        return publishDate;
     }
 
     /** @return when the feed was built */
-    public Date getBuildDate() {
-        return copyDate(buildDate);
+    public DateTime getBuildDate() {
+        return buildDate;
     }
 
     /** @return a set of categories that contains this feed */
@@ -329,8 +328,8 @@ public final class Channel {
         String copyright;
         InternetAddress managingEditorEmail;
         InternetAddress webmasterEmail;
-        Date publishDate;
-        Date buildDate;
+        DateTime publishDate;
+        DateTime buildDate;
         Set<Category> categories;
         String generator;
         URL docs;
@@ -377,11 +376,11 @@ public final class Channel {
             this.webmasterEmail = new InternetAddress(webmasterEmail);
         }
 
-        public void setPublishDate(final String publishDate) throws ParseException {
+        public void setPublishDate(final String publishDate) {
             this.publishDate = parseDate(publishDate);
         }
 
-        public void setBuildDate(final String buildDate) throws ParseException {
+        public void setBuildDate(final String buildDate) {
             this.buildDate = parseDate(buildDate);
         }
 

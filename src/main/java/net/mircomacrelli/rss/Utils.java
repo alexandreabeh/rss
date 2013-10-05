@@ -1,5 +1,9 @@
 package net.mircomacrelli.rss;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
 import javax.mail.internet.InternetAddress;
@@ -10,11 +14,8 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,14 +24,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 import static java.lang.String.format;
 
 final class Utils {
-    private static final String[] DATE_FORMATS = {"EEE, d MMM yyyy HH:mm:ss Z", "d MMM yyyy HH:mm:ss Z",
-                                                  "EEE, d MMM yyyy HH:mm:ss", "EEE, d MMM yyyy HH:mm Z",
-                                                  "yyyy-MM-dd HH:mm:ss"};
+    private static final DateTimeFormatter[] DATE_FORMATS = {
+            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss Z").withLocale(Locale.ENGLISH).withZoneUTC(),
+            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss z").withLocale(Locale.ENGLISH).withZoneUTC(),
+            DateTimeFormat.forPattern("d MMM yyyy HH:mm:ss Z").withLocale(Locale.ENGLISH).withZoneUTC(),
+            DateTimeFormat.forPattern("d MMM yyyy HH:mm:ss z").withLocale(Locale.ENGLISH).withZoneUTC(),
+            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss").withLocale(Locale.ENGLISH).withZoneUTC(),
+            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm Z").withLocale(Locale.ENGLISH).withZoneUTC(),
+            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm z").withLocale(Locale.ENGLISH).withZoneUTC(),
+            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withLocale(Locale.ENGLISH).withZoneUTC()};
+
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss z")
+                                                                       .withLocale(Locale.ENGLISH).withZoneUTC();
 
     private Utils() {
         throw new AssertionError("do not instantiate this class");
@@ -44,13 +53,8 @@ final class Utils {
         return (source == null) ? null : new ArrayList<>(source);
     }
 
-
     public static <T> Set<T> unmodifiableSet(final Set<T> set) {
         return (set == null) ? null : Collections.unmodifiableSet(set);
-    }
-
-    public static Date copyDate(final Date source) {
-        return (source == null) ? null : (Date)source.clone();
     }
 
     public static <E extends Enum<E>> EnumSet<E> copyEnumSet(final EnumSet<E> set) {
@@ -140,31 +144,28 @@ final class Utils {
         return values;
     }
 
-    public static Date parseDate(final String date) throws ParseException {
+    public static DateTime parseDate(final String date) {
         if (date.trim().isEmpty()) {
             return null;
         }
-        for (final String format : DATE_FORMATS) {
-            final SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
-            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-            dateFormat.setLenient(true);
+
+        for (final DateTimeFormatter format : DATE_FORMATS) {
             try {
-                return dateFormat.parse(date);
-            } catch (ParseException ignored) {
+                return format.parseDateTime(date);
+            } catch (IllegalArgumentException ignored) {
                 // ignore all the exceptions until there are formats to try
             }
         }
 
-        throw new ParseException(format("Unparseable date: \"%s\"", date), 0);
+        throw new IllegalArgumentException(format("Unparseable date: \"%s\"", date));
     }
 
-    public static String formatDate(final Date date) {
+    public static String formatDate(final DateTime date) {
         if (date == null) {
             return null;
         }
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return dateFormat.format(date);
+
+        return DATE_FORMAT.print(date);
     }
 
     public static URL parseURL(final String docs) throws MalformedURLException {
