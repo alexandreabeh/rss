@@ -92,14 +92,10 @@ public final class RSSFactory {
         return new RSS(charset, version, channel);
     }
 
-    private static Charset getCharset(final StartDocument doc) {
-        return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
-    }
-
     private static Channel parseChannel(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
                                                                             AddressException, ParseException,
                                                                             URISyntaxException, MimeTypeParseException {
-        final ChannelBuilder builder = new ChannelBuilder();
+        final Channel.Builder builder = new Channel.Builder();
 
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();
@@ -185,50 +181,57 @@ public final class RSSFactory {
         return builder.build();
     }
 
-    private static EnumSet<Day> parseSkipDays(final XMLEventReader reader) throws XMLStreamException {
-        final EnumSet<Day> days = EnumSet.noneOf(Day.class);
+    private static Cloud parseCloud(final StartElement element) throws URISyntaxException {
+        final Map<String, String> attributes = getAttributesValues(element);
 
-        while (reader.hasNext()) {
-            final XMLEvent event = reader.nextEvent();
+        final Cloud.Builder builder = new Cloud.Builder();
+        builder.setDomain(attributes.get("domain"));
+        builder.setPath(attributes.get("path"));
+        builder.setProcedureName(attributes.get("registerProcedure"));
+        builder.setPort(attributes.get("port"));
+        builder.setProtocol(attributes.get("protocol"));
 
-            if (isEndOfTag(event, "skipDays")) {
-                break;
-            }
-
-            if (isStartOfTag(event, "day")) {
-                days.add(Day.from(getText(reader)));
-            }
-        }
-
-        return days;
+        return builder.build();
     }
 
-    private static Set<Integer> parseSkipHours(final XMLEventReader reader) throws XMLStreamException {
-        final Set<Integer> hours = new HashSet<>(24);
+    private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws
+                                                                                                   XMLStreamException {
+        final String domain = getAttributesValues(element).get("domain");
+        final String location = getText(reader);
+        return new Category(domain, location);
+    }
 
-        while (reader.hasNext()) {
-            final XMLEvent event = reader.nextEvent();
+    private static Image parseImage(final XMLEventReader reader) throws XMLStreamException, MalformedURLException {
+        final Map<String, String> values = getAllTagsValuesInside(reader, "image");
 
-            if (isEndOfTag(event, "skipHours")) {
-                break;
-            }
+        final Image.Builder builder = new Image.Builder();
+        builder.setImage(values.get("url"));
+        builder.setAlt(values.get("title"));
+        builder.setLink(values.get("link"));
+        builder.setDescription(values.get("description"));
+        builder.setWidth(values.get("width"));
+        builder.setHeight(values.get("height"));
 
-            if (isStartOfTag(event, "hour")) {
-                int hour = Integer.parseInt(getText(reader));
-                if (hour == 24) {
-                    hour = 0;
-                }
-                hours.add(hour);
-            }
-        }
+        return builder.build();
+    }
 
-        return hours;
+    private static TextInput parseTextInput(final XMLEventReader reader) throws XMLStreamException,
+                                                                                MalformedURLException {
+        final Map<String, String> values = getAllTagsValuesInside(reader, "textInput");
+
+        final TextInput.Builder builder = new TextInput.Builder();
+        builder.setLabel(values.get("title"));
+        builder.setDescription(values.get("description"));
+        builder.setName(values.get("name"));
+        builder.setCgiScriptURL(values.get("link"));
+
+        return builder.build();
     }
 
     private static Item parseItem(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
                                                                       AddressException, MimeTypeParseException,
                                                                       ParseException {
-        final ItemBuilder builder = new ItemBuilder();
+        final Item.Builder builder = new Item.Builder();
 
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();
@@ -284,12 +287,16 @@ public final class RSSFactory {
         return builder.build();
     }
 
-    private static Source parseSource(final XMLEventReader reader, final StartElement element) throws
-                                                                                               XMLStreamException,
-                                                                                               MalformedURLException {
-        final URL link = new URL(getAttributesValues(element).get("url"));
-        final String title = getText(reader);
-        return new Source(title, link);
+    private static Enclosure parseEnclosure(final StartElement element) throws MimeTypeParseException,
+                                                                               MalformedURLException {
+        final Map<String, String> attributes = getAttributesValues(element);
+
+        final Enclosure.Builder builder = new Enclosure.Builder();
+        builder.setUrl(attributes.get("url"));
+        builder.setLength(attributes.get("length"));
+        builder.setType(attributes.get("type"));
+
+        return builder.build();
     }
 
     private static UniqueId parseUniqueId(final XMLEventReader reader, final StartElement element) throws
@@ -304,62 +311,55 @@ public final class RSSFactory {
         return new UniqueId(id, isLink);
     }
 
-    private static Enclosure parseEnclosure(final StartElement element) throws MimeTypeParseException,
-                                                                               MalformedURLException {
-        final Map<String, String> attributes = getAttributesValues(element);
-
-        final EnclosureBuilder builder = new EnclosureBuilder();
-        builder.setUrl(attributes.get("url"));
-        builder.setLength(attributes.get("length"));
-        builder.setType(attributes.get("type"));
-
-        return builder.build();
+    private static Source parseSource(final XMLEventReader reader, final StartElement element) throws
+                                                                                               XMLStreamException,
+                                                                                               MalformedURLException {
+        final URL link = new URL(getAttributesValues(element).get("url"));
+        final String title = getText(reader);
+        return new Source(title, link);
     }
 
-    private static TextInput parseTextInput(final XMLEventReader reader) throws XMLStreamException,
-                                                                                MalformedURLException {
-        final Map<String, String> values = getAllTagsValuesInside(reader, "textInput");
+    private static Set<Integer> parseSkipHours(final XMLEventReader reader) throws XMLStreamException {
+        final Set<Integer> hours = new HashSet<>(24);
 
-        final TextInputBuilder builder = new TextInputBuilder();
-        builder.setLabel(values.get("title"));
-        builder.setDescription(values.get("description"));
-        builder.setName(values.get("name"));
-        builder.setCgiScriptURL(values.get("link"));
+        while (reader.hasNext()) {
+            final XMLEvent event = reader.nextEvent();
 
-        return builder.build();
+            if (isEndOfTag(event, "skipHours")) {
+                break;
+            }
+
+            if (isStartOfTag(event, "hour")) {
+                int hour = Integer.parseInt(getText(reader));
+                if (hour == 24) {
+                    hour = 0;
+                }
+                hours.add(hour);
+            }
+        }
+
+        return hours;
     }
 
-    private static Image parseImage(final XMLEventReader reader) throws XMLStreamException, MalformedURLException {
-        final Map<String, String> values = getAllTagsValuesInside(reader, "image");
+    private static EnumSet<Day> parseSkipDays(final XMLEventReader reader) throws XMLStreamException {
+        final EnumSet<Day> days = EnumSet.noneOf(Day.class);
 
-        final ImageBuilder builder = new ImageBuilder();
-        builder.setImage(values.get("url"));
-        builder.setAlt(values.get("title"));
-        builder.setLink(values.get("link"));
-        builder.setDescription(values.get("description"));
-        builder.setWidth(values.get("width"));
-        builder.setHeight(values.get("height"));
+        while (reader.hasNext()) {
+            final XMLEvent event = reader.nextEvent();
 
-        return builder.build();
+            if (isEndOfTag(event, "skipDays")) {
+                break;
+            }
+
+            if (isStartOfTag(event, "day")) {
+                days.add(Day.from(getText(reader)));
+            }
+        }
+
+        return days;
     }
 
-    private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws
-                                                                                                   XMLStreamException {
-        final String domain = getAttributesValues(element).get("domain");
-        final String location = getText(reader);
-        return new Category(domain, location);
-    }
-
-    private static Cloud parseCloud(final StartElement element) throws URISyntaxException {
-        final Map<String, String> attributes = getAttributesValues(element);
-
-        final CloudBuilder builder = new CloudBuilder();
-        builder.setDomain(attributes.get("domain"));
-        builder.setPath(attributes.get("path"));
-        builder.setProcedureName(attributes.get("registerProcedure"));
-        builder.setPort(attributes.get("port"));
-        builder.setProtocol(attributes.get("protocol"));
-
-        return builder.build();
+    private static Charset getCharset(final StartDocument doc) {
+        return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
     }
 }

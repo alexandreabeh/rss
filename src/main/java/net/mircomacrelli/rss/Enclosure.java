@@ -2,6 +2,7 @@ package net.mircomacrelli.rss;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import static java.lang.String.format;
@@ -39,15 +40,15 @@ public final class Enclosure {
         this.type = copyMimeType(type);
     }
 
-    private static void linkInvariant(final URL link) {
-        if (!(link.getProtocol().equals("http") || link.getProtocol().equals("https"))) {
-            throw new IllegalArgumentException(format("only HTTP URLs are allowed. was %s", link.getProtocol()));
-        }
-    }
-
     private static void lengthInvariant(final long length) {
         if (length < 0) {
             throw new IllegalArgumentException(format("length can't be negative. was %d", length));
+        }
+    }
+
+    private static void linkInvariant(final URL link) {
+        if (!(link.getProtocol().equals("http") || link.getProtocol().equals("https"))) {
+            throw new IllegalArgumentException(format("only HTTP URLs are allowed. was %s", link.getProtocol()));
         }
     }
 
@@ -92,5 +93,27 @@ public final class Enclosure {
     @Override
     public String toString() {
         return format("Enclosure{link='%s', length=%d, type=%s}", link, length, type);
+    }
+
+    static final class Builder {
+        URL url;
+        long length = -1;
+        MimeType type;
+
+        public void setUrl(final String url) throws MalformedURLException {
+            this.url = new URL(url);
+        }
+
+        public void setLength(final String length) {
+            this.length = Long.valueOf(length);
+        }
+
+        public void setType(final String type) throws MimeTypeParseException {
+            this.type = new MimeType(type);
+        }
+
+        public Enclosure build() throws MimeTypeParseException {
+            return new Enclosure(url, length, type);
+        }
     }
 }

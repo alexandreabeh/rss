@@ -1,5 +1,6 @@
 package net.mircomacrelli.rss;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import static java.lang.String.format;
@@ -48,18 +49,18 @@ public final class Image {
         this.height = height;
     }
 
-    private static void heightInvariant(final Integer height) {
-        if (height != null) {
-            if (height < 0) {
-                throw new IllegalArgumentException(format("height can't be negative. was %d", height));
-            }
-        }
-    }
-
     private static void widthInvariant(final Integer width) {
         if (width != null) {
             if (width < 0) {
                 throw new IllegalArgumentException(format("width can't be negative. was %d", width));
+            }
+        }
+    }
+
+    private static void heightInvariant(final Integer height) {
+        if (height != null) {
+            if (height < 0) {
+                throw new IllegalArgumentException(format("height can't be negative. was %d", height));
             }
         }
     }
@@ -133,5 +134,46 @@ public final class Image {
 
         sb.append('}');
         return sb.toString();
+    }
+
+    static final class Builder {
+        URL image;
+        URL link;
+        String alt;
+        String description;
+        Integer width;
+        Integer height;
+
+        public void setImage(final String image) throws MalformedURLException {
+            this.image = new URL(image);
+        }
+
+        public void setAlt(final String alt) {
+            this.alt = alt;
+        }
+
+        public void setLink(final String link) throws MalformedURLException {
+            this.link = new URL(link);
+        }
+
+        public void setDescription(final String description) {
+            this.description = description;
+        }
+
+        public void setWidth(final String width) {
+            if (width != null) {
+                this.width = Integer.parseInt(width);
+            }
+        }
+
+        public void setHeight(final String height) {
+            if (height != null) {
+                this.height = Integer.parseInt(height);
+            }
+        }
+
+        public Image build() {
+            return new Image(image, link, alt, description, width, height);
+        }
     }
 }

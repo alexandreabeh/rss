@@ -1,7 +1,9 @@
 package net.mircomacrelli.rss;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Locale;
 
 import static java.lang.String.format;
@@ -45,15 +47,15 @@ public final class Cloud {
         this.protocol = protocol;
     }
 
-    private static void portInvariant(final int port) {
-        if ((port < 0) || (port > 65535)) {
-            throw new IllegalArgumentException(format("port must be between 0 and 65535. was %d", port));
-        }
-    }
-
     private static void procedureNameInvariant(final String procedureName, final Protocol protocol) {
         if ((protocol == Protocol.XML_RPC) && procedureName.isEmpty()) {
             throw new IllegalArgumentException("procedureName cant be empty if protocol il xml-rpc");
+        }
+    }
+
+    private static void portInvariant(final int port) {
+        if ((port < 0) || (port > 65535)) {
+            throw new IllegalArgumentException(format("port must be between 0 and 65535. was %d", port));
         }
     }
 
@@ -134,6 +136,38 @@ public final class Cloud {
         @Override
         public String toString() {
             return name;
+        }
+    }
+
+    static final class Builder {
+        URI domain;
+        int port = -1;
+        Path path;
+        String procedureName;
+        Protocol protocol;
+
+        public void setDomain(final String domain) throws URISyntaxException {
+            this.domain = new URI(domain);
+        }
+
+        public void setPort(final String port) {
+            this.port = Integer.parseInt(port);
+        }
+
+        public void setPath(final String path) {
+            this.path = Paths.get(path);
+        }
+
+        public void setProcedureName(final String procedureName) {
+            this.procedureName = procedureName;
+        }
+
+        public void setProtocol(final String protocol) {
+            this.protocol = Protocol.from(protocol);
+        }
+
+        public Cloud build() {
+            return new Cloud(domain, port, path, procedureName, protocol);
         }
     }
 }
