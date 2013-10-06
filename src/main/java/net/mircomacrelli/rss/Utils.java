@@ -3,6 +3,8 @@ package net.mircomacrelli.rss;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.DateTimeParser;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
@@ -24,20 +26,24 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
 
 final class Utils {
-    private static final DateTimeFormatter[] DATE_FORMATS = {
-            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss Z").withLocale(Locale.ENGLISH).withZoneUTC(),
-            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss z").withLocale(Locale.ENGLISH).withZoneUTC(),
-            DateTimeFormat.forPattern("d MMM yyyy HH:mm:ss Z").withLocale(Locale.ENGLISH).withZoneUTC(),
-            DateTimeFormat.forPattern("d MMM yyyy HH:mm:ss z").withLocale(Locale.ENGLISH).withZoneUTC(),
-            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss").withLocale(Locale.ENGLISH).withZoneUTC(),
-            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm Z").withLocale(Locale.ENGLISH).withZoneUTC(),
-            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm z").withLocale(Locale.ENGLISH).withZoneUTC(),
-            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withLocale(Locale.ENGLISH).withZoneUTC()};
+    private static final DateTimeParser[] DATE_FORMATS = {
+            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss Z").getParser(),
+            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss z").getParser(),
+            DateTimeFormat.forPattern("d MMM yyyy HH:mm:ss Z").getParser(),
+            DateTimeFormat.forPattern("d MMM yyyy HH:mm:ss z").getParser(),
+            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss").getParser(),
+            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm Z").getParser(),
+            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm z").getParser(),
+            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").getParser()};
+    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder().append(null, DATE_FORMATS)
+                                                                                  .toFormatter()
+                                                                                  .withLocale(Locale.ENGLISH)
+                                                                                  .withZoneUTC();
+
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss z")
                                                                        .withLocale(Locale.ENGLISH).withZoneUTC();
 
@@ -145,15 +151,7 @@ final class Utils {
             return null;
         }
 
-        for (final DateTimeFormatter format : DATE_FORMATS) {
-            try {
-                return format.parseDateTime(date);
-            } catch (IllegalArgumentException ignored) {
-                // ignore all the exceptions until there are formats to try
-            }
-        }
-
-        throw new IllegalArgumentException(format("Unparseable date: \"%s\"", date));
+        return PARSER.parseDateTime(date);
     }
 
     public static String formatDate(final DateTime date) {
