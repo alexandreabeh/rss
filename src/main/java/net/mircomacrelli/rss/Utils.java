@@ -146,12 +146,16 @@ final class Utils {
         return values;
     }
 
+    private static final Pattern REPEATED_SPACES = Pattern.compile(" {2,}");
+
     public static DateTime parseDate(final String date) {
-        if (date.trim().isEmpty()) {
+        final String trimmed = date.trim();
+        if (trimmed.isEmpty()) {
             return null;
         }
 
-        return PARSER.parseDateTime(date);
+        final Matcher matcher = REPEATED_SPACES.matcher(trimmed);
+        return PARSER.parseDateTime(matcher.replaceAll(" "));
     }
 
     public static String formatDate(final DateTime date) {
