@@ -9,8 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -25,7 +23,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
 public final class ChannelTest {
@@ -33,7 +31,7 @@ public final class ChannelTest {
     private URL validLink;
     private URL otherLink;
     private Channel channel;
-    private InternetAddress validAddress;
+    private String validAddress;
     private DateTime validDate;
     private Cloud cloud;
     private Locale language;
@@ -45,9 +43,9 @@ public final class ChannelTest {
     private List<Item> items;
 
     @Before
-    public void setup() throws MalformedURLException, AddressException, URISyntaxException {
+    public void setup() throws MalformedURLException, URISyntaxException {
         validLink = new URL("http://mircomacrelli.net");
-        validAddress = new InternetAddress("info@mircomacrelli.net");
+        validAddress = "info@mircomacrelli.net";
         otherLink = new URL("http://www.google.com");
         validDate = new DateTime(1380279886610L);
         categories = new HashSet<>(1);
@@ -195,13 +193,37 @@ public final class ChannelTest {
     }
 
     @Test
-    public void editorEmail() {
-        assertEquals(validAddress, channel.getEditorEmail());
+    public void editor() {
+        assertEquals(validAddress, channel.getEditor());
     }
 
     @Test
-    public void webmasterEmail() {
-        assertEquals(validAddress, channel.getWebmasterEmail());
+    public void editorAsEmail() throws AddressException {
+        assertNotNull(channel.getEditorAsEmailAddress());
+    }
+
+    @Test(expected = AddressException.class)
+    public void ifEditorIsNotAnEmailLaunchAnException() throws AddressException {
+        final Channel chan = new Channel("title", validLink, "desc", null, null, "invalid address", null, null, null,
+                                         null, null, null, null, null, null, null, null, null, null, null);
+        chan.getEditorAsEmailAddress();
+    }
+
+    @Test
+    public void webmaster() {
+        assertEquals(validAddress, channel.getWebmaster());
+    }
+
+    @Test
+    public void webmasterAsEmail() throws AddressException {
+        assertNotNull(channel.getWebmasterAsEmailAddress());
+    }
+
+    @Test(expected = AddressException.class)
+    public void ifWebmasterIsNotAnEmailLaunchAnException() throws AddressException {
+        final Channel chan = new Channel("title", validLink, "desc", null, null, null, "invalid email address", null,
+                                         null, null, null, null, null, null, null, null, null, null, null, null);
+        chan.getWebmasterAsEmailAddress();
     }
 
     @Test
@@ -239,30 +261,6 @@ public final class ChannelTest {
     }
 
     @Test
-    public void editorEmailIsCopiedByCtor() throws UnsupportedEncodingException {
-        validAddress.setPersonal("Mirco Macrelli");
-        assertNull(channel.getEditorEmail().getPersonal());
-    }
-
-    @Test
-    public void editorEmailIsCopiedByGetter() throws UnsupportedEncodingException {
-        channel.getEditorEmail().setPersonal("Mirco Macrelli");
-        assertNull(channel.getEditorEmail().getPersonal());
-    }
-
-    @Test
-    public void webmasterEmailIsCopiedByCtor() throws UnsupportedEncodingException {
-        validAddress.setPersonal("Mirco Macrelli");
-        assertNull(channel.getWebmasterEmail().getPersonal());
-    }
-
-    @Test
-    public void webmasterEmailIsCopiedByGetter() throws UnsupportedEncodingException {
-        channel.getWebmasterEmail().setPersonal("Mirco Macrelli");
-        assertNull(channel.getWebmasterEmail().getPersonal());
-    }
-
-    @Test
     public void categoriesAreCopiedByCtor() {
         categories.clear();
         assertEquals(1, channel.getCategories().size());
@@ -282,7 +280,7 @@ public final class ChannelTest {
     @Test
     public void testToString() {
         assertEquals(
-                "Channel{title='Mirco Macrelli', link='http://mircomacrelli.net', description='Descrizione del feed', language='it_IT', copyright='Copyright (c) 2013 Mirco Macrelli', editorEmail='info@mircomacrelli.net', webmasterEmail='info@mircomacrelli.net', publishDate='Fri, 27 Sep 2013 11:04:46 UTC', buildDate='Fri, 27 Sep 2013 11:04:46 UTC', categories=[Category{location='web'}], generator='Generatore del feed 1.0', documentation='http://mircomacrelli.net', cloud=Cloud{domain='mircomacrelli.net', port=80, path='/subscribe', procedureName='', protocol=HTTP-POST}, timeToLive='60', image=Image{image='http://mircomacrelli.net', alt='logo', link='http://mircomacrelli.net'}, textInput=TextInput{label='Search', description='Search the feed', name='q', scriptUrl='http://mircomacrelli.net'}, skipHours=[13, 14], skipDays=[FRIDAY], items=[Item{title='titolo'}]}",
+                "Channel{title='Mirco Macrelli', link='http://mircomacrelli.net', description='Descrizione del feed', language='it_IT', copyright='Copyright (c) 2013 Mirco Macrelli', editor='info@mircomacrelli.net', webmaster='info@mircomacrelli.net', publishDate='Fri, 27 Sep 2013 11:04:46 UTC', buildDate='Fri, 27 Sep 2013 11:04:46 UTC', categories=[Category{location='web'}], generator='Generatore del feed 1.0', documentation='http://mircomacrelli.net', cloud=Cloud{domain='mircomacrelli.net', port=80, path='/subscribe', procedureName='', protocol=HTTP-POST}, timeToLive='60', image=Image{image='http://mircomacrelli.net', alt='logo', link='http://mircomacrelli.net'}, textInput=TextInput{label='Search', description='Search the feed', name='q', scriptUrl='http://mircomacrelli.net'}, skipHours=[13, 14], skipDays=[FRIDAY], items=[Item{title='titolo'}]}",
                 channel.toString());
     }
 }

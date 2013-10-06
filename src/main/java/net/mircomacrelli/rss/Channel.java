@@ -20,7 +20,6 @@ import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.append;
 import static net.mircomacrelli.rss.Utils.copyEnumSet;
-import static net.mircomacrelli.rss.Utils.copyInternetAddress;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
@@ -39,8 +38,8 @@ public final class Channel {
     private final String description;
     private final Locale language;
     private final String copyright;
-    private final InternetAddress editorEmail;
-    private final InternetAddress webmasterEmail;
+    private final String editor;
+    private final String webmaster;
     private final DateTime publishDate;
     private final DateTime buildDate;
     private final Set<Category> categories;
@@ -63,8 +62,8 @@ public final class Channel {
      * @param description a description of this feed
      * @param language the language of the items
      * @param copyright copyright information for this feed
-     * @param editorEmail email address of the editor
-     * @param webmasterEmail email address of the web master
+     * @param editor email address of the editor
+     * @param webmaster email address of the web master
      * @param publishDate when the feed was published
      * @param buildDate when the feed was built
      * @param categories a set of categories that contains the feed
@@ -79,10 +78,10 @@ public final class Channel {
      * @param items a list with all the items published in the feed
      */
     Channel(final String title, final URL link, final String description, final Locale language, final String copyright,
-            final InternetAddress editorEmail, final InternetAddress webmasterEmail, final DateTime publishDate,
-            final DateTime buildDate, final Set<Category> categories, final String generator, final URL documentation,
-            final Cloud cloud, final Integer timeToLive, final Image image, final TextInput textInput,
-            final Set<Integer> skipHours, final EnumSet<Day> skipDays, final String rating, final List<Item> items) {
+            final String editor, final String webmaster, final DateTime publishDate, final DateTime buildDate,
+            final Set<Category> categories, final String generator, final URL documentation, final Cloud cloud,
+            final Integer timeToLive, final Image image, final TextInput textInput, final Set<Integer> skipHours,
+            final EnumSet<Day> skipDays, final String rating, final List<Item> items) {
         requireNonNull(title);
         requireNonNull(link);
         requireNonNull(description);
@@ -94,8 +93,8 @@ public final class Channel {
         this.description = description;
         this.language = language;
         this.copyright = copyright;
-        this.editorEmail = copyInternetAddress(editorEmail);
-        this.webmasterEmail = copyInternetAddress(webmasterEmail);
+        this.editor = editor;
+        this.webmaster = webmaster;
         this.publishDate = publishDate;
         this.buildDate = buildDate;
         this.categories = copySet(categories);
@@ -159,13 +158,29 @@ public final class Channel {
     }
 
     /** @return the email address of the editor */
-    public InternetAddress getEditorEmail() {
-        return copyInternetAddress(editorEmail);
+    public String getEditor() {
+        return editor;
+    }
+
+    /**
+     * @return return the edit as an email address
+     * @throws AddressException if the content of the tag managingEditor is not a valid email address
+     */
+    public InternetAddress getEditorAsEmailAddress() throws AddressException {
+        return new InternetAddress(editor);
     }
 
     /** @return the email address of the webmaster */
-    public InternetAddress getWebmasterEmail() {
-        return copyInternetAddress(webmasterEmail);
+    public String getWebmaster() {
+        return webmaster;
+    }
+
+    /**
+     * @return return the webmaster as an email address
+     * @throws AddressException if the content of the tag webMaster is not a valid email address
+     */
+    public InternetAddress getWebmasterAsEmailAddress() throws AddressException {
+        return new InternetAddress(webmaster);
     }
 
     /** @return when the feed was published */
@@ -231,7 +246,7 @@ public final class Channel {
 
     @Override
     public int hashCode() {
-        return hash(title, link, description, language, copyright, editorEmail, webmasterEmail, publishDate, buildDate,
+        return hash(title, link, description, language, copyright, editor, webmaster, publishDate, buildDate,
                     categories, generator, documentation, cloud, timeToLive, image, textInput, skipHours, skipDays,
                     rating, items);
     }
@@ -249,8 +264,8 @@ public final class Channel {
         return title.equals(other.title) && link.toString().equals(other.link.toString()) &&
                description.equals(other.description) && Objects.equals(language, other.language) &&
                Objects.equals(copyright, other.copyright) &&
-               Objects.equals(editorEmail, other.editorEmail) &&
-               Objects.equals(webmasterEmail, other.webmasterEmail) && Objects.equals(publishDate, other.publishDate) &&
+               Objects.equals(editor, other.editor) &&
+               Objects.equals(webmaster, other.webmaster) && Objects.equals(publishDate, other.publishDate) &&
                Objects.equals(buildDate, other.buildDate) && Objects.equals(categories, other.categories) &&
                Objects.equals(generator, other.generator) && Objects.equals(documentation, other.documentation) &&
                Objects.equals(cloud, other.cloud) && Objects.equals(timeToLive, other.timeToLive) &&
@@ -270,8 +285,8 @@ public final class Channel {
         append(sb, "description", description);
         append(sb, "language", language);
         append(sb, "copyright", copyright);
-        append(sb, "editorEmail", editorEmail);
-        append(sb, "webmasterEmail", webmasterEmail);
+        append(sb, "editor", editor);
+        append(sb, "webmaster", webmaster);
         append(sb, "publishDate", formatDate(publishDate));
         append(sb, "buildDate", formatDate(buildDate));
         append(sb, "categories", categories, false);
@@ -324,8 +339,8 @@ public final class Channel {
         String description;
         Locale language;
         String copyright;
-        InternetAddress managingEditorEmail;
-        InternetAddress webmasterEmail;
+        String editor;
+        String webmaster;
         DateTime publishDate;
         DateTime buildDate;
         Set<Category> categories;
@@ -341,9 +356,9 @@ public final class Channel {
         List<Item> items;
 
         public Channel build() {
-            return new Channel(title, link, description, language, copyright, managingEditorEmail, webmasterEmail,
-                               publishDate, buildDate, categories, generator, docs, cloud, ttl, image, textInput,
-                               skipHours, skipDays, rating, items);
+            return new Channel(title, link, description, language, copyright, editor, webmaster, publishDate, buildDate,
+                               categories, generator, docs, cloud, ttl, image, textInput, skipHours, skipDays, rating,
+                               items);
         }
 
         public void setTitle(final String title) {
@@ -366,12 +381,12 @@ public final class Channel {
             this.copyright = copyright;
         }
 
-        public void setManagingEditorEmail(final String managingEditorEmail) throws AddressException {
-            this.managingEditorEmail = new InternetAddress(managingEditorEmail);
+        public void setEditor(final String editor) {
+            this.editor = editor;
         }
 
-        public void setWebmasterEmail(final String webmasterEmail) throws AddressException {
-            this.webmasterEmail = new InternetAddress(webmasterEmail);
+        public void setWebmaster(final String webmaster) {
+            this.webmaster = webmaster;
         }
 
         public void setPublishDate(final String publishDate) {

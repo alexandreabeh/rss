@@ -4,7 +4,6 @@ import net.mircomacrelli.rss.Channel.Day;
 import net.mircomacrelli.rss.RSS.Version;
 
 import javax.activation.MimeTypeParseException;
-import javax.mail.internet.AddressException;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -17,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.text.ParseException;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Map;
@@ -53,14 +51,12 @@ public final class RSSFactory {
      * @param is the InputStream
      * @return the RSS
      * @throws XMLStreamException in case of some xml errors
-     * @throws AddressException when some email address are wrong
      * @throws MalformedURLException if some of the links are wrong
      * @throws MimeTypeParseException if the mime type are malformed
-     * @throws ParseException errors during the parsing of the dates
      * @throws URISyntaxException if some of the domain are wrong
      */
-    public RSS parse(final InputStream is) throws XMLStreamException, AddressException, MalformedURLException,
-                                                  MimeTypeParseException, ParseException, URISyntaxException {
+    public RSS parse(final InputStream is) throws XMLStreamException, MalformedURLException, MimeTypeParseException,
+                                                  URISyntaxException {
         final XMLEventReader reader = factory.createXMLEventReader(is);
 
         Charset charset = null;
@@ -97,7 +93,6 @@ public final class RSSFactory {
     }
 
     private static Channel parseChannel(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
-                                                                            AddressException, ParseException,
                                                                             URISyntaxException, MimeTypeParseException {
         final Channel.Builder builder = new Channel.Builder();
 
@@ -134,10 +129,10 @@ public final class RSSFactory {
                         builder.setCopyright(getText(reader));
                         break;
                     case "managingEditor":
-                        builder.setManagingEditorEmail(getText(reader));
+                        builder.setEditor(getText(reader));
                         break;
                     case "webMaster":
-                        builder.setWebmasterEmail(getText(reader));
+                        builder.setWebmaster(getText(reader));
                         break;
                     case "pubDate":
                         builder.setPublishDate(getText(reader));
@@ -226,7 +221,7 @@ public final class RSSFactory {
     }
 
     private static Item parseItem(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
-                                                                      AddressException, MimeTypeParseException {
+                                                                      MimeTypeParseException {
         final Item.Builder builder = new Item.Builder();
 
         while (reader.hasNext()) {
@@ -256,7 +251,7 @@ public final class RSSFactory {
                         builder.setDescription(getText(reader));
                         break;
                     case "author":
-                        builder.setAuthorEmail(getText(reader));
+                        builder.setAuthor(getText(reader));
                         break;
                     case "category":
                         builder.addCategory(parseCategory(reader, element));

@@ -8,7 +8,6 @@ import org.joda.time.format.DateTimeParser;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
-import javax.mail.internet.InternetAddress;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
@@ -25,6 +24,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
@@ -61,10 +62,6 @@ final class Utils {
 
     public static <E extends Enum<E>> EnumSet<E> copyEnumSet(final EnumSet<E> set) {
         return (set == null) ? null : set.clone();
-    }
-
-    public static InternetAddress copyInternetAddress(final InternetAddress source) {
-        return (source == null) ? null : (InternetAddress)source.clone();
     }
 
     public static MimeType copyMimeType(final MimeType original) throws MimeTypeParseException {

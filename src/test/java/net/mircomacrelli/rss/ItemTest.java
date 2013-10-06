@@ -8,8 +8,6 @@ import org.junit.Test;
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,12 +18,11 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 public final class ItemTest {
     private URL validLink;
-    private InternetAddress authorEmail;
+    private String author;
     private Set<Category> categories;
     private UniqueId uniqueId;
     private Source source;
@@ -35,10 +32,10 @@ public final class ItemTest {
     private Item item;
 
     @Before
-    public void setup() throws MalformedURLException, AddressException, MimeTypeParseException {
+    public void setup() throws MalformedURLException, MimeTypeParseException {
         validLink = new URL("http://mircomacrelli.net");
         otherLink = new URL("http://www.google.com");
-        authorEmail = new InternetAddress("info@mircomacrelli.net");
+        author = "info@mircomacrelli.net";
         categories = new HashSet<>(1);
         categories.add(new Category(null, "web"));
         source = new Source("Mirco Macrelli", validLink);
@@ -47,8 +44,8 @@ public final class ItemTest {
         enclosures.add(new Enclosure(otherLink, 1024, new MimeType("audio/mp3")));
         uniqueId = new UniqueId("id12345", false);
         publishDate = new DateTime(1380279886610L);
-        item = new Item(validLink, "Titolo post", "parla di questo e quello", authorEmail, publishDate, categories,
-                        source, validLink, enclosures, uniqueId);
+        item = new Item(validLink, "Titolo post", "parla di questo e quello", author, publishDate, categories, source,
+                        validLink, enclosures, uniqueId);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -73,8 +70,19 @@ public final class ItemTest {
     }
 
     @Test
-    public void authorEmail() {
-        assertEquals(authorEmail, item.getAuthorEmail());
+    public void author() {
+        assertEquals(author, item.getAuthor());
+    }
+
+    @Test
+    public void authorEmail() throws AddressException {
+        assertNotNull(item.getAuthorAsEmailAddress());
+    }
+
+    @Test(expected = AddressException.class)
+    public void ifAuthorIsNotAnEmailThrowAnException() throws AddressException {
+        final Item itm = new Item(null, "title", null, "invalid address", null, null, null, null, null, null);
+        itm.getAuthorAsEmailAddress();
     }
 
     @Test
@@ -118,18 +126,6 @@ public final class ItemTest {
     }
 
     @Test
-    public void authorEmailIsCopiedByCtor() throws UnsupportedEncodingException {
-        authorEmail.setPersonal("Altro nome");
-        assertNull(item.getAuthorEmail().getPersonal());
-    }
-
-    @Test
-    public void authorEmailIsCopiedByGetter() throws UnsupportedEncodingException {
-        item.getAuthorEmail().setPersonal("Mirco Macrelli");
-        assertNull(item.getAuthorEmail().getPersonal());
-    }
-
-    @Test
     public void categoriesAreCopiedByCtor() {
         categories.clear();
         assertEquals(1, item.getCategories().size());
@@ -159,7 +155,7 @@ public final class ItemTest {
     @Test
     public void testToString() {
         assertEquals(
-                "Item{title='Titolo post', link='http://mircomacrelli.net', description='parla di questo e quello', authorEmail='info@mircomacrelli.net', commentsLink='http://mircomacrelli.net', uniqueId=UniqueId{id='id12345', isLink=false}, publishDate='Fri, 27 Sep 2013 11:04:46 UTC', categories=[Category{location='web'}], source=Source{name='Mirco Macrelli', link='http://mircomacrelli.net'}, enclosures=[Enclosure{link='http://mircomacrelli.net', length=10, type=audio/mp3}, Enclosure{link='http://www.google.com', length=1024, type=audio/mp3}]}",
+                "Item{title='Titolo post', link='http://mircomacrelli.net', description='parla di questo e quello', author='info@mircomacrelli.net', commentsLink='http://mircomacrelli.net', uniqueId=UniqueId{id='id12345', isLink=false}, publishDate='Fri, 27 Sep 2013 11:04:46 UTC', categories=[Category{location='web'}], source=Source{name='Mirco Macrelli', link='http://mircomacrelli.net'}, enclosures=[Enclosure{link='http://mircomacrelli.net', length=10, type=audio/mp3}, Enclosure{link='http://www.google.com', length=1024, type=audio/mp3}]}",
                 item.toString());
     }
 }

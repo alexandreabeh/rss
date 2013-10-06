@@ -14,7 +14,6 @@ import java.util.Set;
 
 import static java.util.Objects.hash;
 import static net.mircomacrelli.rss.Utils.append;
-import static net.mircomacrelli.rss.Utils.copyInternetAddress;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
@@ -28,7 +27,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * @version 1.0
  */
 public final class Item {
-    private final InternetAddress authorEmail;
+    private final String author;
     private final String title;
     private final String description;
     private final URL link;
@@ -46,7 +45,7 @@ public final class Item {
      * @param link link to the item
      * @param title title of the item
      * @param description the text describing the item
-     * @param authorEmail the author email
+     * @param author the author email
      * @param publishDate the publication date
      * @param categories a set of categories
      * @param source the original source of the item
@@ -54,12 +53,12 @@ public final class Item {
      * @param enclosures an list with all the attached files
      * @param uniqueId the unique id of the item
      */
-    Item(final URL link, final String title, final String description, final InternetAddress authorEmail,
-         final DateTime publishDate, final Set<Category> categories, final Source source, final URL commentsLink,
-         final List<Enclosure> enclosures, final UniqueId uniqueId) {
+    Item(final URL link, final String title, final String description, final String author, final DateTime publishDate,
+         final Set<Category> categories, final Source source, final URL commentsLink, final List<Enclosure> enclosures,
+         final UniqueId uniqueId) {
         itemInvariant(title, description);
 
-        this.authorEmail = copyInternetAddress(authorEmail);
+        this.author = author;
         this.title = title;
         this.description = description;
         this.link = link;
@@ -78,8 +77,16 @@ public final class Item {
     }
 
     /** @return the email address of the author */
-    public InternetAddress getAuthorEmail() {
-        return copyInternetAddress(authorEmail);
+    public String getAuthor() {
+        return author;
+    }
+
+    /**
+     * @return return the author as an email address
+     * @throws AddressException if the content of the tag author is not a valid email address
+     */
+    public InternetAddress getAuthorAsEmailAddress() throws AddressException {
+        return new InternetAddress(author);
     }
 
     /** @return the title of the item */
@@ -129,7 +136,7 @@ public final class Item {
 
     @Override
     public int hashCode() {
-        return hash(authorEmail, title, description, link, commentsLink, categories, uniqueId, publishDate, source,
+        return hash(author, title, description, link, commentsLink, categories, uniqueId, publishDate, source,
                     enclosures);
     }
 
@@ -143,7 +150,7 @@ public final class Item {
         }
 
         final Item other = (Item)obj;
-        return Objects.equals(authorEmail, other.authorEmail) && Objects.equals(title, other.title) &&
+        return Objects.equals(author, other.author) && Objects.equals(title, other.title) &&
                Objects.equals(description, other.description) && Objects.equals(link, other.link) &&
                Objects.equals(commentsLink, other.commentsLink) && Objects.equals(categories, other.categories) &&
                Objects.equals(uniqueId, other.uniqueId) && Objects.equals(publishDate, other.publishDate) &&
@@ -158,7 +165,7 @@ public final class Item {
         append(sb, "title", title);
         append(sb, "link", link);
         append(sb, "description", description);
-        append(sb, "authorEmail", authorEmail);
+        append(sb, "author", author);
         append(sb, "commentsLink", commentsLink);
         append(sb, "uniqueId", uniqueId, false);
         append(sb, "publishDate", formatDate(publishDate));
@@ -171,7 +178,7 @@ public final class Item {
     }
 
     static final class Builder {
-        InternetAddress authorEmail;
+        String author;
         String title;
         String description;
         URL link;
@@ -183,8 +190,8 @@ public final class Item {
         List<Enclosure> enclosures;
 
         public Item build() {
-            return new Item(link, title, description, authorEmail, publishDate, categories, source, commentsLink,
-                            enclosures, uniqueId);
+            return new Item(link, title, description, author, publishDate, categories, source, commentsLink, enclosures,
+                            uniqueId);
         }
 
         public void setTitle(final String title) {
@@ -199,8 +206,8 @@ public final class Item {
             this.description = description;
         }
 
-        public void setAuthorEmail(final String authorEmail) throws AddressException {
-            this.authorEmail = new InternetAddress(authorEmail);
+        public void setAuthor(final String author) {
+            this.author = author;
         }
 
         public void addCategory(final Category category) {
