@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static java.lang.String.format;
 import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
 import static net.mircomacrelli.rss.Utils.getAttributesValues;
 import static net.mircomacrelli.rss.Utils.getText;
@@ -60,37 +61,64 @@ public final class RSSFactory {
                                                   URISyntaxException {
         final XMLEventReader reader = factory.createXMLEventReader(is);
 
-        Charset charset = null;
-        Version version = null;
-        Channel channel = null;
+        final Charset charset = getCharset(reader);
+        final Version version = getVersion(reader);
+        final Channel channel = getChannel(reader);
 
+        return new RSS(charset, version, channel);
+    }
+
+    private static Channel getChannel(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
+                                                                              URISyntaxException,
+                                                                              MimeTypeParseException {
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();
-
-            if (event.getEventType() == XMLStreamConstants.START_DOCUMENT) {
-                charset = getCharset((StartDocument)event);
-            }
 
             if (event.isStartElement()) {
                 final StartElement element = event.asStartElement();
                 final String name = element.getName().getLocalPart();
 
-                switch (name) {
-                    case "rss":
-                        version = Version.from(getAttributesValues(element).get("version"));
-                        break;
-                    case "channel":
-                        channel = parseChannel(reader);
-                        break;
+                if (name.equals("channel")) {
+                    return parseChannel(reader);
+                } else {
+                    throw new IllegalStateException(format("expecting <channel> and found <%s>", name));
                 }
             }
         }
 
-        return new RSS(charset, version, channel);
+        return null;
     }
 
-    private static Charset getCharset(final StartDocument doc) {
-        return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
+    private static Version getVersion(final XMLEventReader reader) throws XMLStreamException {
+        while (reader.hasNext()) {
+            final XMLEvent event = reader.nextEvent();
+
+            if (event.isStartElement()) {
+                final StartElement element = event.asStartElement();
+                final String name = element.getName().getLocalPart();
+
+                if (name.equals("rss")) {
+                    return Version.from(getAttributesValues(element).get("version"));
+                } else {
+                    throw new IllegalStateException(format("expecting <rss> and found <%s>", name));
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static Charset getCharset(final XMLEventReader reader) throws XMLStreamException {
+        if (reader.hasNext()) {
+            final XMLEvent event = reader.nextEvent();
+
+            if (event.getEventType() == XMLStreamConstants.START_DOCUMENT) {
+                final StartDocument doc = (StartDocument)event;
+                return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
+            }
+        }
+
+        return null;
     }
 
     private static Channel parseChannel(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
