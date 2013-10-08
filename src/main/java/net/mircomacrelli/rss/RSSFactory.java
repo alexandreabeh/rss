@@ -38,6 +38,7 @@ public final class RSSFactory {
 
     RSSFactory() {
         factory = XMLInputFactory.newFactory();
+        factory.setProperty("javax.xml.stream.supportDTD", false);
     }
 
     /** @return a new instance of the factory */
