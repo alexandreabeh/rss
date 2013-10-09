@@ -1,8 +1,0 @@
-<rss version="2.0">
-    <channel>
-        <description>Current headlines from the Dallas Times-Herald newspaper</description>
-        <link>http://dallas.example.com</link>
-        <title>Dallas Times-Herald</title>
-        <pubDate>Sun, 29 Jan 2006 17:17:44</pubDate>
-    </channel>
-</rss>

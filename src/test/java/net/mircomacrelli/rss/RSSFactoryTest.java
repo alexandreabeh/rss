@@ -1,14 +1,11 @@
 package net.mircomacrelli.rss;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
 
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -57,30 +54,6 @@ public final class RSSFactoryTest {
             assertNull(rss.getChannel().getPublishDate());
             assertNull(rss.getChannel().getBuildDate());
             assertNull(rss.getChannel().getItems().iterator().next().getPublishDate());
-        }
-    }
-
-    @Test
-    public void dateWithoutDayName() throws Exception {
-        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-day-name.xml")) {
-            final RSS rss = factory.parse(in);
-            assertEquals(new DateTime(1138510800000L, DateTimeZone.UTC), rss.getChannel().getPublishDate());
-        }
-    }
-
-    @Test
-    public void dateWithoutATimezone() throws Exception {
-        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-timezone.xml")) {
-            final RSS rss = factory.parse(in);
-            assertEquals(new DateTime(1138555064000L, DateTimeZone.UTC), rss.getChannel().getPublishDate());
-        }
-    }
-
-    @Test
-    public void dateWithoutSeconds() throws Exception {
-        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-date-without-seconds.xml")) {
-            final RSS rss = factory.parse(in);
-            assertEquals(new DateTime(1138555020000L, DateTimeZone.UTC), rss.getChannel().getPublishDate());
         }
     }
 
