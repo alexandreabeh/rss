@@ -109,16 +109,8 @@ public final class RSSFactory {
     }
 
     private static Charset getCharset(final XMLEventReader reader) throws XMLStreamException {
-        if (reader.hasNext()) {
-            final XMLEvent event = reader.nextEvent();
-
-            if (event.getEventType() == XMLStreamConstants.START_DOCUMENT) {
-                final StartDocument doc = (StartDocument)event;
-                return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
-            }
-        }
-
-        return null;
+        final StartDocument doc = (StartDocument)reader.nextEvent();
+        return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
     }
 
     private static Channel parseChannel(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
