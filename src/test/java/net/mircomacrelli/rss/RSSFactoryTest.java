@@ -98,4 +98,11 @@ public final class RSSFactoryTest {
             factory.parse(in);
         }
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void rssMustBeTheRootElement() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/root-tag-is-not-rss.xml")) {
+            factory.parse(in);
+        }
+    }
 }
