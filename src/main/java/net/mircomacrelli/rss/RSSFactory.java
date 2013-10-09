@@ -81,12 +81,12 @@ public final class RSSFactory {
                 if (name.equals("channel")) {
                     return parseChannel(reader);
                 } else {
-                    throw new IllegalStateException(format("expecting <channel> and found <%s>", name));
+                    break;
                 }
             }
         }
 
-        return null;
+        throw new IllegalStateException("<channel> not found");
     }
 
     private static Version getVersion(final XMLEventReader reader) throws XMLStreamException {
@@ -100,12 +100,12 @@ public final class RSSFactory {
                 if (name.equals("rss")) {
                     return Version.from(getAttributesValues(element).get("version"));
                 } else {
-                    throw new IllegalStateException(format("expecting <rss> and found <%s>", name));
+                    break;
                 }
             }
         }
 
-        return null;
+        throw new IllegalStateException("<rss> not found");
     }
 
     private static Charset getCharset(final XMLEventReader reader) throws XMLStreamException {
