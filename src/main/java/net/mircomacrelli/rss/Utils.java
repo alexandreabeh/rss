@@ -67,8 +67,7 @@ final class Utils {
                                                                                   .toFormatter()
                                                                                   .withLocale(Locale.ENGLISH)
                                                                                   .withZoneUTC();
-
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss z")
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss z")
                                                                        .withLocale(Locale.ENGLISH).withZoneUTC();
 
     private Utils() {
