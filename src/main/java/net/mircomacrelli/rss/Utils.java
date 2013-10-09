@@ -168,7 +168,7 @@ final class Utils {
     private static final Pattern REPEATED_SPACES = Pattern.compile(" {2,}");
 
     public static DateTime parseDate(final String date) {
-        final String trimmed = date.trim();
+        final String trimmed = date.replace('\n', ' ').trim();
         if (trimmed.isEmpty()) {
             return null;
         }
