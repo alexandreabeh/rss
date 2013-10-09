@@ -32,14 +32,37 @@ import static java.util.Collections.unmodifiableSet;
 
 final class Utils {
     private static final DateTimeParser[] DATE_FORMATS = {
-            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss Z").getParser(),
-            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss z").getParser(),
-            DateTimeFormat.forPattern("d MMM yyyy HH:mm:ss Z").getParser(),
-            DateTimeFormat.forPattern("d MMM yyyy HH:mm:ss z").getParser(),
-            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm:ss").getParser(),
-            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm Z").getParser(),
-            DateTimeFormat.forPattern("EEE, d MMM yyyy HH:mm z").getParser(),
-            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").getParser()};
+            DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss Z").getParser(),
+            DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss z").getParser(),
+            DateTimeFormat.forPattern("dd MM yyyy HH:mm:ss Z").getParser(),
+            DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm z").getParser(),
+            DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss").getParser(),
+            DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ").getParser(),
+            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").getParser(),
+            DateTimeFormat.forPattern("dd/MM/yyyy").getParser(), DateTimeFormat.forPattern("MM/dd/yyyy").getParser(),
+            DateTimeFormat.forPattern("yyyy-MM-dd").getParser(),
+            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.S").getParser(),
+            DateTimeFormat.forPattern("EEE, dd MMM yy HH:mm:ss Z").getParser(),
+            DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mmZ").getParser(),
+            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ssZ").getParser(),
+            DateTimeFormat.forPattern("dd/MM/yyyy HH:mm").getParser(),
+            DateTimeFormat.forPattern("dd.MM.yyyy").getParser(),
+            DateTimeFormat.forPattern("dd MM yyyy HH:mm:ss z").getParser(),
+            DateTimeFormat.forPattern("yyyy.MM.dd HH:mm:ss.S").getParser(),
+            DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.S").getParser(),
+            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm.ss").getParser(),
+            DateTimeFormat.forPattern("dd MMM yyyy HH:mm:ss Z").getParser(),
+            DateTimeFormat.forPattern("MM/dd/yyyy hh:mm:ss a").getParser(),
+            DateTimeFormat.forPattern("dd MMM yyyy HH:mm:ss z").getParser(),
+            DateTimeFormat.forPattern("d-MM-yy").getParser(),
+            DateTimeFormat.forPattern("EEEE, MMMM dd, yyyy HH:mm:ss z").getParser(),
+            DateTimeFormat.forPattern("EEE, yyyy MMM ddHH:mm:ss z").getParser(),
+            DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm Z").getParser(),
+            DateTimeFormat.forPattern("EEE, dd MMM yyyy").getParser(),
+            DateTimeFormat.forPattern("EEE dd MMM yyyy").getParser(),
+            DateTimeFormat.forPattern("EEE MMM dd, yyyy, hh:mm a z").getParser(),
+            DateTimeFormat.forPattern("EEE MMM dd HH:mm:ss z yyyy").getParser(),
+            DateTimeFormat.forPattern("yyyyMMdd").getParser()};
     private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder().append(null, DATE_FORMATS)
                                                                                   .toFormatter()
                                                                                   .withLocale(Locale.ENGLISH)
