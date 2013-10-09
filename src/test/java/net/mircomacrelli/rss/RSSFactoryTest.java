@@ -105,4 +105,11 @@ public final class RSSFactoryTest {
             factory.parse(in);
         }
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void onlyChanCanBeInsideRss() throws Exception {
+        try (InputStream in = RSS.class.getResourceAsStream("/only-channel-can-be-inside-rss.xml")) {
+            factory.parse(in);
+        }
+    }
 }
