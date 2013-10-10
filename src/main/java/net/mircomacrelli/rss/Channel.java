@@ -305,7 +305,6 @@ public final class Channel {
     }
 
     /** Day of the Week */
-    @SuppressWarnings("UnusedDeclaration")
     public enum Day {
         /** Monday */
         MONDAY,

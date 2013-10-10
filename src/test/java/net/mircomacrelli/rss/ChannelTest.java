@@ -283,5 +283,40 @@ public final class ChannelTest {
                 "Channel{title='Mirco Macrelli', link='http://mircomacrelli.net', description='Descrizione del feed', language='it_IT', copyright='Copyright (c) 2013 Mirco Macrelli', editor='info@mircomacrelli.net', webmaster='info@mircomacrelli.net', publishDate='Fri, 27 Sep 2013 11:04:46 UTC', buildDate='Fri, 27 Sep 2013 11:04:46 UTC', categories=[Category{location='web'}], generator='Generatore del feed 1.0', documentation='http://mircomacrelli.net', cloud=Cloud{domain='mircomacrelli.net', port=80, path='/subscribe', procedureName='', protocol=HTTP-POST}, timeToLive='60', image=Image{image='http://mircomacrelli.net', alt='logo', link='http://mircomacrelli.net'}, textInput=TextInput{label='Search', description='Search the feed', name='q', scriptUrl='http://mircomacrelli.net'}, skipHours=[13, 14], skipDays=[FRIDAY], items=[Item{title='titolo'}]}",
                 channel.toString());
     }
+
+    @Test
+    public void fromMonday() {
+        assertEquals(Day.MONDAY, Day.from("Monday"));
+    }
+
+    @Test
+    public void fromTuesday() {
+        assertEquals(Day.MONDAY, Day.from("Monday"));
+    }
+
+    @Test
+    public void fromWednesday() {
+        assertEquals(Day.WEDNESDAY, Day.from("Wednesday"));
+    }
+
+    @Test
+    public void fromThursday() {
+        assertEquals(Day.THURSDAY, Day.from("Thursday"));
+    }
+
+    @Test
+    public void fromFriday() {
+        assertEquals(Day.FRIDAY, Day.from("Friday"));
+    }
+
+    @Test
+    public void fromSaturday() {
+        assertEquals(Day.SATURDAY, Day.from("Saturday"));
+    }
+
+    @Test
+    public void fromSunday() {
+        assertEquals(Day.SUNDAY, Day.from("Sunday"));
+    }
 }
 
