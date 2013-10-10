@@ -109,4 +109,11 @@ public final class ImageTest {
                 "Image{image='http://mircomacrelli.net/image.png', alt='logo', link='http://mircomacrelli.net', description='Il mio logo', width=80, height=80}",
                 image.toString());
     }
+
+    @Test
+    public void testToStringSimple() {
+        assertEquals(
+                "Image{image='http://mircomacrelli.net/image.png', alt='logo', link='http://mircomacrelli.net'}",
+                new Image(validImage, validLink, "logo", null, null, null).toString());
+    }
 }
