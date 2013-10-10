@@ -72,7 +72,6 @@ public final class RSS {
     }
 
     /** RSS Version */
-    @SuppressWarnings("UnusedDeclaration")
     public enum Version {
         /** Version 0.91 */
         RSS_0_91("0.91"),

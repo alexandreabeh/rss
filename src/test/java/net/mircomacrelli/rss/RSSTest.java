@@ -75,4 +75,24 @@ public final class RSSTest {
                 "RSS{version='2.0', charset=UTF-8, channel=Channel{title='titolo', link='http://mircomacrelli.net', description='Mirco Macrelli'}}",
                 rss.toString());
     }
+
+    @Test
+    public void fromRss20() {
+        assertEquals(Version.RSS_2_0, Version.from("2.0"));
+    }
+
+    @Test
+    public void fromRss091() {
+        assertEquals(Version.RSS_0_91, Version.from("0.91"));
+    }
+
+    @Test
+    public void fromRss092() {
+        assertEquals(Version.RSS_0_92, Version.from("0.92"));
+    }
+
+    @Test
+    public void fromRss2IncompleteVersion() {
+        assertEquals(Version.RSS_2_0, Version.from("2"));
+    }
 }
