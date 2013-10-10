@@ -25,7 +25,7 @@ public final class EnclosureTest {
     public void setup() throws MalformedURLException, MimeTypeParseException {
         validLink = new URL("http://mircomacrelli.net/audio.mp3");
         badLink = new URL("ftp://mircomacrelli.net/archive.zip");
-        otherLink = new URL("http://www.google.com");
+        otherLink = new URL("https://www.google.com");
         validMimeType = new MimeType("audio/mp3");
         enclosure = new Enclosure(validLink, 1024, validMimeType);
     }
@@ -75,6 +75,11 @@ public final class EnclosureTest {
     public void typeIsCopiedByGetter() throws MimeTypeParseException {
         enclosure.getType().setSubType("aac");
         assertEquals("mp3", enclosure.getType().getSubType());
+    }
+
+    @Test
+    public void httpsIsAValidProtocol() throws MimeTypeParseException {
+        assertEquals(otherLink, new Enclosure(otherLink, 12, validMimeType).getLink());
     }
 
     @Test
