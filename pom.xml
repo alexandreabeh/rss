@@ -31,7 +31,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/mircomacrelli/rss.git</connection>
-        <developerConnection>scm:git:git://github.com/mircomacrelli/rss.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:mircomacrelli/rss.git</developerConnection>
         <url>https://github.com/mircomacrelli/rss</url>
     </scm>
 
