@@ -108,4 +108,19 @@ public final class CloudTest {
                 "Cloud{domain='mircomacrelli.net', port=80, path='/subscribe', procedureName='subscribe.feed', protocol=XML-RPC}",
                 cloud.toString());
     }
+
+    @Test
+    public void fromHttpPost() {
+        assertEquals(Protocol.HTTP_POST, Protocol.from("http-post"));
+    }
+
+    @Test
+    public void fromXmlRpc() {
+        assertEquals(Protocol.XML_RPC, Protocol.from("xml-rpc"));
+    }
+
+    @Test
+    public void fromSoap() {
+        assertEquals(Protocol.SOAP, Protocol.from("soap"));
+    }
 }
