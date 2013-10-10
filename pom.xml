@@ -13,7 +13,7 @@
 
     <groupId>net.mircomacrelli</groupId>
     <artifactId>rss</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <name>rss</name>
     <description>A small library that I use to parse RSS feeds</description>
