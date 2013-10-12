@@ -19,7 +19,7 @@ The library is available on the maven central repository. Just add this to your 
 </dependency>
 ```
 
-# A small example
+## A small example
 Here's a small example of how to use the library to print all the title from a feed on the internet.
 
 ```java
