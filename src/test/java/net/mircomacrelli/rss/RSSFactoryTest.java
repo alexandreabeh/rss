@@ -58,13 +58,6 @@ public final class RSSFactoryTest {
     }
 
     @Test
-    public void incompleteVersionNumberDoNotCauseError() throws Exception {
-        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-incomplete-version-number.xml")) {
-            assertNotNull(factory.parse(in));
-        }
-    }
-
-    @Test
     public void emptyLinksAreIgnored() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-empty-urls-are-ignored.xml")) {
             assertNotNull(factory.parse(in));
