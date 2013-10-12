@@ -9,6 +9,17 @@ Recently I needed a simple way to parse a lot (a few hundred thousand), of small
 I used maven so, to compile the library from the source, just use the command `mvn package` and after a few seconds you'll have the `jar` in the directory `target/`.
 
 ## How to use it
+The library is available on the maven central repository. Just add this to your dependencies.
+
+```xml
+<dependency>
+    <groupId>net.mircomacrelli</groupId>
+    <artifactId>rss</artifactId>
+    <version>1.2</version>
+</dependency>
+```
+
+# A small example
 Here's a small example of how to use the library to print all the title from a feed on the internet.
 
 ```java
