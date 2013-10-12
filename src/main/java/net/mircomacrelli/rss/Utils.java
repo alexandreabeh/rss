@@ -185,10 +185,10 @@ final class Utils {
         return DATE_FORMAT.print(date);
     }
 
-    public static URL parseURL(final String docs) throws MalformedURLException {
-        if (docs.trim().isEmpty()) {
+    public static URL parseURL(final String url) throws MalformedURLException {
+        if (url.trim().isEmpty()) {
             return null;
         }
-        return new URL(docs);
+        return new URL(url);
     }
 }
