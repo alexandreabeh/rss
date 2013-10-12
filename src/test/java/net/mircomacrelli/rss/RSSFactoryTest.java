@@ -78,13 +78,6 @@ public final class RSSFactoryTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void whenADateCantBeParsedThrowAnException() throws Exception {
-        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-malformed-date.xml")) {
-            factory.parse(in);
-        }
-    }
-
     @Test(expected = IllegalStateException.class)
     public void rssMustBeTheRootElement() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/root-tag-is-not-rss.xml")) {
