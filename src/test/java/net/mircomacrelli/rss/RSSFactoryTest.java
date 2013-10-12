@@ -54,13 +54,6 @@ public final class RSSFactoryTest {
         }
     }
 
-    @Test
-    public void inRSS09124IsMidnight() throws Exception {
-        try (InputStream in = RSS.class.getResourceAsStream("/rss-0.91-24-is-midnight.xml")) {
-            assertThat(factory.parse(in).getChannel().getSkipHours(), contains(0));
-        }
-    }
-
     @Test(expected = IllegalStateException.class)
     public void rssMustBeTheRootElement() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/root-tag-is-not-rss.xml")) {

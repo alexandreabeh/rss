@@ -82,11 +82,13 @@ public final class Channel {
             final Set<Category> categories, final String generator, final URL documentation, final Cloud cloud,
             final Integer timeToLive, final Image image, final TextInput textInput, final Set<Integer> skipHours,
             final EnumSet<Day> skipDays, final String rating, final List<Item> items) {
+        final Set<Integer> correctedSkipHours = correctSkipHours(skipHours);
+
         requireNonNull(title);
         requireNonNull(link);
         requireNonNull(description);
         ttlInvariant(timeToLive);
-        skipHoursInvariant(skipHours);
+        skipHoursInvariant(correctedSkipHours);
 
         this.title = title;
         this.link = link;
@@ -104,10 +106,24 @@ public final class Channel {
         this.timeToLive = timeToLive;
         this.image = image;
         this.textInput = textInput;
-        this.skipHours = copySet(skipHours);
+        this.skipHours = copySet(correctedSkipHours);
         this.skipDays = copyEnumSet(skipDays);
         this.rating = rating;
         this.items = copyList(items);
+    }
+
+    private static Set<Integer> correctSkipHours(final Set<Integer> orig) {
+        if (orig == null) {
+            return null;
+        }
+
+        final Set<Integer> corrected = new HashSet<>(orig);
+        if (corrected.contains(24)) {
+            corrected.remove(24);
+            corrected.add(0);
+        }
+
+        return corrected;
     }
 
     private static void ttlInvariant(final Integer ttl) {

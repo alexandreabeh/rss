@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
@@ -97,9 +99,9 @@ public final class ChannelTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void hourCantBeGreaterThan23() {
+    public void hourCantBeGreaterThan24() {
         new Channel("Mirco Macrelli", validLink, "Descrizione del feed", null, null, null, null, null, null, null, null,
-                    null, null, null, null, null, Collections.singleton(24), null, null, null);
+                    null, null, null, null, null, Collections.singleton(25), null, null, null);
     }
 
     @Test
@@ -269,6 +271,15 @@ public final class ChannelTest {
     @Test(expected = UnsupportedOperationException.class)
     public void categoriesAreUnmodifiable() {
         channel.getCategories().clear();
+    }
+
+    @Test
+    public void inSkipHours24IsReplacedWith0() {
+        final Set<Integer> hours = new HashSet<>(1);
+        hours.add(24);
+        final Channel chan = new Channel("title", validLink, "desc", null, null, null, null, null, null, null, null,
+                                         null, null, null, null, null, hours, null, null, null);
+        assertThat(chan.getSkipHours(), contains(0));
     }
 
     @Test
