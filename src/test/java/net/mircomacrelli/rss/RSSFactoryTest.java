@@ -48,16 +48,6 @@ public final class RSSFactoryTest {
     }
 
     @Test
-    public void emptyDatesAreIgnored() throws Exception {
-        try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-empty-date.xml")) {
-            final RSS rss = factory.parse(in);
-            assertNull(rss.getChannel().getPublishDate());
-            assertNull(rss.getChannel().getBuildDate());
-            assertNull(rss.getChannel().getItems().iterator().next().getPublishDate());
-        }
-    }
-
-    @Test
     public void emptyLinksAreIgnored() throws Exception {
         try (InputStream in = RSS.class.getResourceAsStream("/rss-2.0-empty-urls-are-ignored.xml")) {
             assertNotNull(factory.parse(in));
