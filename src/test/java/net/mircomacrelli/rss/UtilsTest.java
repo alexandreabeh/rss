@@ -162,4 +162,10 @@ public class UtilsTest {
         append(sb, "name", "value", false);
         assertEquals("name=value", sb.toString());
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void canBeWrittenOnlyOnceThrowAnExceptionIfTheValueIsSet() {
+        final String value = "12";
+        canBeWrittenOnlyOnce(value);
+    }
 }

@@ -199,4 +199,10 @@ final class Utils {
         }
         return new URL(url);
     }
+
+    public static void canBeWrittenOnlyOnce(final Object obj) {
+        if (obj != null) {
+            throw new IllegalStateException("field already set");
+        }
+    }
 }
