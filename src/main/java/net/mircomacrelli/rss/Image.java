@@ -6,6 +6,7 @@ import java.net.URL;
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
+import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 
 /**
  * An image that can be displayed with the feed
@@ -144,31 +145,37 @@ public final class Image {
         Integer width;
         Integer height;
 
-        public void setImage(final String image) throws MalformedURLException {
-            this.image = new URL(image);
+        public void setImage(final String val) throws MalformedURLException {
+            canBeWrittenOnlyOnce(image);
+            image = new URL(val);
         }
 
-        public void setAlt(final String alt) {
-            this.alt = alt;
+        public void setAlt(final String val) {
+            canBeWrittenOnlyOnce(alt);
+            alt = val;
         }
 
-        public void setLink(final String link) throws MalformedURLException {
-            this.link = new URL(link);
+        public void setLink(final String val) throws MalformedURLException {
+            canBeWrittenOnlyOnce(link);
+            link = new URL(val);
         }
 
-        public void setDescription(final String description) {
-            this.description = description;
+        public void setDescription(final String val) {
+            canBeWrittenOnlyOnce(description);
+            description = val;
         }
 
-        public void setWidth(final String width) {
-            if (width != null) {
-                this.width = Integer.parseInt(width);
+        public void setWidth(final String val) {
+            if (val != null) {
+                canBeWrittenOnlyOnce(width);
+                width = Integer.parseInt(val);
             }
         }
 
-        public void setHeight(final String height) {
-            if (height != null) {
-                this.height = Integer.parseInt(height);
+        public void setHeight(final String val) {
+            if (val != null) {
+                canBeWrittenOnlyOnce(height);
+                height = Integer.parseInt(val);
             }
         }
 

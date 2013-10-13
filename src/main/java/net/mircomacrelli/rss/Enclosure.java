@@ -8,6 +8,7 @@ import java.net.URL;
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
+import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyMimeType;
 
 /**
@@ -97,19 +98,22 @@ public final class Enclosure {
 
     static final class Builder {
         URL url;
-        long length = -1;
+        Long length;
         MimeType type;
 
-        public void setUrl(final String url) throws MalformedURLException {
-            this.url = new URL(url);
+        public void setUrl(final String val) throws MalformedURLException {
+            canBeWrittenOnlyOnce(url);
+            url = new URL(val);
         }
 
-        public void setLength(final String length) {
-            this.length = Long.valueOf(length);
+        public void setLength(final String val) {
+            canBeWrittenOnlyOnce(length);
+            length = Long.valueOf(val);
         }
 
-        public void setType(final String type) throws MimeTypeParseException {
-            this.type = new MimeType(type);
+        public void setType(final String val) throws MimeTypeParseException {
+            canBeWrittenOnlyOnce(type);
+            type = new MimeType(val);
         }
 
         public Enclosure build() throws MimeTypeParseException {

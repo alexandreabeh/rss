@@ -14,6 +14,7 @@ import java.util.Set;
 
 import static java.util.Objects.hash;
 import static net.mircomacrelli.rss.Utils.append;
+import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
@@ -194,50 +195,58 @@ public final class Item {
                             uniqueId);
         }
 
-        public void setTitle(final String title) {
-            this.title = title;
+        public void setTitle(final String val) {
+            canBeWrittenOnlyOnce(title);
+            title = val;
         }
 
-        public void setLink(final String link) throws MalformedURLException {
-            this.link = new URL(link);
+        public void setLink(final String val) throws MalformedURLException {
+            canBeWrittenOnlyOnce(link);
+            link = new URL(val);
         }
 
-        public void setDescription(final String description) {
-            this.description = description;
+        public void setDescription(final String val) {
+            canBeWrittenOnlyOnce(description);
+            description = val;
         }
 
-        public void setAuthor(final String author) {
-            this.author = author;
+        public void setAuthor(final String val) {
+            canBeWrittenOnlyOnce(author);
+            author = val;
         }
 
-        public void addCategory(final Category category) {
+        public void addCategory(final Category val) {
             if (categories == null) {
                 categories = new HashSet<>(1);
             }
-            categories.add(category);
+            categories.add(val);
         }
 
-        public void setCommentsLink(final String commentsLink) throws MalformedURLException {
-            this.commentsLink = parseURL(commentsLink);
+        public void setCommentsLink(final String val) throws MalformedURLException {
+            canBeWrittenOnlyOnce(commentsLink);
+            commentsLink = parseURL(val);
         }
 
-        public void addEnclosure(final Enclosure enclosure) {
+        public void addEnclosure(final Enclosure val) {
             if (enclosures == null) {
                 enclosures = new ArrayList<>(1);
             }
-            enclosures.add(enclosure);
+            enclosures.add(val);
         }
 
-        public void setUniqueId(final UniqueId uniqueId) {
-            this.uniqueId = uniqueId;
+        public void setUniqueId(final UniqueId val) {
+            canBeWrittenOnlyOnce(uniqueId);
+            uniqueId = val;
         }
 
-        public void setPublishDate(final String publishDate) {
-            this.publishDate = parseDate(publishDate);
+        public void setPublishDate(final String val) {
+            canBeWrittenOnlyOnce(publishDate);
+            publishDate = parseDate(val);
         }
 
-        public void setSource(final Source source) {
-            this.source = source;
+        public void setSource(final Source val) {
+            canBeWrittenOnlyOnce(source);
+            source = val;
         }
     }
 }

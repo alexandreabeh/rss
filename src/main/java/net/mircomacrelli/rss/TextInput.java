@@ -6,6 +6,7 @@ import java.net.URL;
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
+import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 
 /**
  * A text field that could be used for searching the feed or provide feedback
@@ -90,20 +91,24 @@ public final class TextInput {
         String label;
         URL cgiScriptURL;
 
-        public void setName(final String name) {
-            this.name = name;
+        public void setName(final String val) {
+            canBeWrittenOnlyOnce(name);
+            name = val;
         }
 
-        public void setDescription(final String description) {
-            this.description = description;
+        public void setDescription(final String val) {
+            canBeWrittenOnlyOnce(description);
+            description = val;
         }
 
-        public void setLabel(final String label) {
-            this.label = label;
+        public void setLabel(final String val) {
+            canBeWrittenOnlyOnce(label);
+            label = val;
         }
 
-        public void setCgiScriptURL(final String cgiScriptURL) throws MalformedURLException {
-            this.cgiScriptURL = new URL(cgiScriptURL);
+        public void setCgiScriptURL(final String val) throws MalformedURLException {
+            canBeWrittenOnlyOnce(cgiScriptURL);
+            cgiScriptURL = new URL(val);
         }
 
         public TextInput build() {

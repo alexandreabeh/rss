@@ -19,6 +19,7 @@ import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.append;
+import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyEnumSet;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
@@ -376,90 +377,108 @@ public final class Channel {
                                items);
         }
 
-        public void setTitle(final String title) {
-            this.title = title;
+        public void setTitle(final String val) {
+            canBeWrittenOnlyOnce(title);
+            title = val;
         }
 
-        public void setLink(final String link) throws MalformedURLException {
-            this.link = new URL(link);
+        public void setLink(final String val) throws MalformedURLException {
+            canBeWrittenOnlyOnce(link);
+            link = new URL(val);
         }
 
-        public void setDescription(final String description) {
-            this.description = description;
+        public void setDescription(final String val) {
+            canBeWrittenOnlyOnce(description);
+            description = val;
         }
 
-        public void setLanguage(final String language) {
-            this.language = Locale.forLanguageTag(language);
+        public void setLanguage(final String val) {
+            canBeWrittenOnlyOnce(language);
+            language = Locale.forLanguageTag(val);
         }
 
-        public void setCopyright(final String copyright) {
-            this.copyright = copyright;
+        public void setCopyright(final String val) {
+            canBeWrittenOnlyOnce(copyright);
+            copyright = val;
         }
 
-        public void setEditor(final String editor) {
-            this.editor = editor;
+        public void setEditor(final String val) {
+            canBeWrittenOnlyOnce(editor);
+            editor = val;
         }
 
-        public void setWebmaster(final String webmaster) {
-            this.webmaster = webmaster;
+        public void setWebmaster(final String val) {
+            canBeWrittenOnlyOnce(webmaster);
+            webmaster = val;
         }
 
-        public void setPublishDate(final String publishDate) {
-            this.publishDate = parseDate(publishDate);
+        public void setPublishDate(final String val) {
+            canBeWrittenOnlyOnce(publishDate);
+            publishDate = parseDate(val);
         }
 
-        public void setBuildDate(final String buildDate) {
-            this.buildDate = parseDate(buildDate);
+        public void setBuildDate(final String val) {
+            canBeWrittenOnlyOnce(buildDate);
+            buildDate = parseDate(val);
         }
 
-        public void addCategory(final Category category) {
+        public void addCategory(final Category val) {
             if (categories == null) {
                 categories = new HashSet<>(6);
             }
-            categories.add(category);
+            categories.add(val);
         }
 
-        public void setGenerator(final String generator) {
-            this.generator = generator;
+        public void setGenerator(final String val) {
+            canBeWrittenOnlyOnce(generator);
+            generator = val;
         }
 
-        public void setDocs(final String docs) throws MalformedURLException {
-            this.docs = parseURL(docs);
+        public void setDocs(final String val) throws MalformedURLException {
+            canBeWrittenOnlyOnce(docs);
+            docs = parseURL(val);
         }
 
-        public void setCloud(final Cloud cloud) {
-            this.cloud = cloud;
+        public void setCloud(final Cloud val) {
+            canBeWrittenOnlyOnce(cloud);
+            cloud = val;
         }
 
-        public void setTtl(final String ttl) {
-            this.ttl = Integer.parseInt(ttl);
+        public void setTtl(final String val) {
+            canBeWrittenOnlyOnce(ttl);
+            ttl = Integer.parseInt(val);
         }
 
-        public void setImage(final Image image) {
-            this.image = image;
+        public void setImage(final Image val) {
+            canBeWrittenOnlyOnce(image);
+            image = val;
         }
 
-        public void setTextInput(final TextInput textInput) {
-            this.textInput = textInput;
+        public void setTextInput(final TextInput val) {
+            canBeWrittenOnlyOnce(textInput);
+            textInput = val;
         }
 
-        public void setRating(final String rating) {
-            this.rating = rating;
+        public void setRating(final String val) {
+            canBeWrittenOnlyOnce(rating);
+            rating = val;
         }
 
-        public void addItem(final Item item) {
+        public void addItem(final Item val) {
             if (items == null) {
                 items = new ArrayList<>(25);
             }
-            items.add(item);
+            items.add(val);
         }
 
-        public void setSkipDays(final EnumSet<Day> skipDays) {
-            this.skipDays = skipDays.clone();
+        public void setSkipDays(final EnumSet<Day> val) {
+            canBeWrittenOnlyOnce(skipDays);
+            skipDays = val.clone();
         }
 
-        public void setSkipHours(final Set<Integer> skipHours) {
-            this.skipHours = new HashSet<>(skipHours);
+        public void setSkipHours(final Set<Integer> val) {
+            canBeWrittenOnlyOnce(skipHours);
+            skipHours = new HashSet<>(val);
         }
     }
 }

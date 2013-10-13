@@ -9,6 +9,7 @@ import java.util.Locale;
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
+import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 
 /**
  * Information about the Cloud that can be used to subscribe to the push notifications for this feed
@@ -141,29 +142,34 @@ public final class Cloud {
 
     static final class Builder {
         URI domain;
-        int port = -1;
+        Integer port;
         Path path;
         String procedureName;
         Protocol protocol;
 
-        public void setDomain(final String domain) throws URISyntaxException {
-            this.domain = new URI(domain);
+        public void setDomain(final String val) throws URISyntaxException {
+            canBeWrittenOnlyOnce(domain);
+            domain = new URI(val);
         }
 
-        public void setPort(final String port) {
-            this.port = Integer.parseInt(port);
+        public void setPort(final String val) {
+            canBeWrittenOnlyOnce(port);
+            port = Integer.parseInt(val);
         }
 
-        public void setPath(final String path) {
-            this.path = Paths.get(path);
+        public void setPath(final String val) {
+            canBeWrittenOnlyOnce(path);
+            path = Paths.get(val);
         }
 
-        public void setProcedureName(final String procedureName) {
-            this.procedureName = procedureName;
+        public void setProcedureName(final String val) {
+            canBeWrittenOnlyOnce(procedureName);
+            procedureName = val;
         }
 
-        public void setProtocol(final String protocol) {
-            this.protocol = Protocol.from(protocol);
+        public void setProtocol(final String val) {
+            canBeWrittenOnlyOnce(protocol);
+            protocol = Protocol.from(val);
         }
 
         public Cloud build() {
