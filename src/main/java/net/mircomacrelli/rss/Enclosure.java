@@ -10,6 +10,7 @@ import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyMimeType;
+import static net.mircomacrelli.rss.Utils.parseURL;
 
 /**
  * An Enclosure is a way to attach a file to an Item. The file is not embedded in the feed. Only the URL to its actual
@@ -103,7 +104,7 @@ public final class Enclosure {
 
         public void setUrl(final String val) throws MalformedURLException {
             canBeWrittenOnlyOnce(url);
-            url = new URL(val);
+            url = parseURL(val);
         }
 
         public void setLength(final String val) {

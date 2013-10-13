@@ -27,6 +27,7 @@ import static net.mircomacrelli.rss.Utils.getAttributesValues;
 import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.isEndOfTag;
 import static net.mircomacrelli.rss.Utils.isStartOfTag;
+import static net.mircomacrelli.rss.Utils.parseURL;
 
 /**
  * Factory used to Parse a RSS Feed
@@ -298,7 +299,7 @@ public final class RSSFactory {
     private static Source parseSource(final XMLEventReader reader, final StartElement element) throws
                                                                                                XMLStreamException,
                                                                                                MalformedURLException {
-        final URL link = new URL(getAttributesValues(element).get("url"));
+        final URL link = parseURL(getAttributesValues(element).get("url"));
         final String title = getText(reader);
         return new Source(title, link);
     }

@@ -384,7 +384,7 @@ public final class Channel {
 
         public void setLink(final String val) throws MalformedURLException {
             canBeWrittenOnlyOnce(link);
-            link = new URL(val);
+            link = parseURL(val);
         }
 
         public void setDescription(final String val) {

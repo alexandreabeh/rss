@@ -7,6 +7,7 @@ import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
+import static net.mircomacrelli.rss.Utils.parseURL;
 
 /**
  * An image that can be displayed with the feed
@@ -147,7 +148,7 @@ public final class Image {
 
         public void setImage(final String val) throws MalformedURLException {
             canBeWrittenOnlyOnce(image);
-            image = new URL(val);
+            image = parseURL(val);
         }
 
         public void setAlt(final String val) {
@@ -157,7 +158,7 @@ public final class Image {
 
         public void setLink(final String val) throws MalformedURLException {
             canBeWrittenOnlyOnce(link);
-            link = new URL(val);
+            link = parseURL(val);
         }
 
         public void setDescription(final String val) {

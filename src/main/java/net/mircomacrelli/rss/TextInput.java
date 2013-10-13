@@ -7,6 +7,7 @@ import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
+import static net.mircomacrelli.rss.Utils.parseURL;
 
 /**
  * A text field that could be used for searching the feed or provide feedback
@@ -108,7 +109,7 @@ public final class TextInput {
 
         public void setCgiScriptURL(final String val) throws MalformedURLException {
             canBeWrittenOnlyOnce(cgiScriptURL);
-            cgiScriptURL = new URL(val);
+            cgiScriptURL = parseURL(val);
         }
 
         public TextInput build() {
