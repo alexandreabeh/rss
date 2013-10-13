@@ -302,7 +302,7 @@ public final class ChannelTest {
 
     @Test
     public void fromTuesday() {
-        assertEquals(Day.MONDAY, Day.from("Monday"));
+        assertEquals(Day.TUESDAY, Day.from("Tuesday"));
     }
 
     @Test
