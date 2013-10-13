@@ -121,28 +121,28 @@ public class UtilsTest {
 
     @Test
     public void ifFieldIsNullAppendDoesNothing() {
-        StringBuilder sb = new StringBuilder(100);
+        final StringBuilder sb = new StringBuilder(100);
         append(sb, "name", null);
         assertEquals(0, sb.length());
     }
 
     @Test
     public void ifFieldIsAnEmptyCollectionAppendDoesNothing() {
-        StringBuilder sb = new StringBuilder(100);
+        final StringBuilder sb = new StringBuilder(100);
         append(sb, "name", Collections.emptyList());
         assertEquals(0, sb.length());
     }
 
     @Test
     public void ifTheBuilderIsEmptyCommaIsNotAdded() {
-        StringBuilder sb = new StringBuilder(100);
+        final StringBuilder sb = new StringBuilder(100);
         append(sb, "name", "value");
         assertEquals("name='value'", sb.toString());
     }
 
     @Test
     public void ifLastCharIsOpenBracketsCommaIsNotAppended() {
-        StringBuilder sb = new StringBuilder(100);
+        final StringBuilder sb = new StringBuilder(100);
         sb.append('{');
         append(sb, "name", "value");
         assertEquals("{name='value'", sb.toString());
@@ -150,7 +150,7 @@ public class UtilsTest {
 
     @Test
     public void appendAddsAComma() {
-        StringBuilder sb = new StringBuilder(100);
+        final StringBuilder sb = new StringBuilder(100);
         append(sb, "name", "value");
         append(sb, "other", "12");
         assertEquals("name='value', other='12'", sb.toString());
@@ -158,7 +158,7 @@ public class UtilsTest {
 
     @Test
     public void appendAddsQuotesOnlyIfTold() {
-        StringBuilder sb = new StringBuilder(100);
+        final StringBuilder sb = new StringBuilder(100);
         append(sb, "name", "value", false);
         assertEquals("name=value", sb.toString());
     }
