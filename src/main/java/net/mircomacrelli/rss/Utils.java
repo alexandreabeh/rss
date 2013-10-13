@@ -16,6 +16,8 @@ import javax.xml.stream.events.XMLEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -75,15 +77,15 @@ final class Utils {
     }
 
     public static <T> Set<T> copySet(final Set<T> source) {
-        return (source == null) ? null : unmodifiableSet(new HashSet<>(source));
+        return (source == null) ? Collections.<T>emptySet() : unmodifiableSet(new HashSet<>(source));
     }
 
     public static <T> List<T> copyList(final List<T> source) {
-        return (source == null) ? null : unmodifiableList(new ArrayList<>(source));
+        return (source == null) ? Collections.<T>emptyList() : unmodifiableList(new ArrayList<>(source));
     }
 
-    public static <E extends Enum<E>> EnumSet<E> copyEnumSet(final EnumSet<E> set) {
-        return (set == null) ? null : set.clone();
+    public static <E extends Enum<E>> EnumSet<E> copyEnumSet(final EnumSet<E> set, final Class<E> type) {
+        return (set == null) ? EnumSet.noneOf(type) : set.clone();
     }
 
     public static MimeType copyMimeType(final MimeType original) throws MimeTypeParseException {
@@ -96,6 +98,11 @@ final class Utils {
 
     public static void append(final StringBuilder sb, final String fieldName, final Object field, final boolean quote) {
         if (field != null) {
+            if (field instanceof Collection) {
+                if (((Collection)field).isEmpty()) {
+                    return;
+                }
+            }
             if ((sb.length() > 0) && (sb.charAt(sb.length() - 1) != '{')) {
                 sb.append(", ");
             }

@@ -107,7 +107,7 @@ public final class Channel {
         this.image = image;
         this.textInput = textInput;
         this.skipHours = copySet(correctedSkipHours);
-        this.skipDays = copyEnumSet(skipDays);
+        this.skipDays = copyEnumSet(skipDays, Day.class);
         this.rating = rating;
         this.items = copyList(items);
     }
@@ -252,7 +252,7 @@ public final class Channel {
 
     /** @return a set of days that can be skipped when checking the feed for updates */
     public Collection<Day> getSkipDays() {
-        return copyEnumSet(skipDays);
+        return copyEnumSet(skipDays, Day.class);
     }
 
     /** @return the list with all the items published in this feed */
