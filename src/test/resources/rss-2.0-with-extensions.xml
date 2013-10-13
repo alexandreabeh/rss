@@ -4,6 +4,12 @@
         <description>Current headlines from the Dallas Times-Herald newspaper</description>
         <link>http://dallas.example.com</link>
         <title>Dallas Times-Herald</title>
+        <image>
+            <link>http://dallas.example.com</link>
+            <title>Dallas Times-Herald</title>
+            <url>http://dallas.example.com/masthead.gif</url>
+            <description>Read the Dallas Times-Herald</description>
+        </image>
         <item>
             <title>Seventh Heaven! Ryan Hurls Another No Hitter</title>
             <link>http://dallas.example.com/1991/05/02/nolan.htm</link>
