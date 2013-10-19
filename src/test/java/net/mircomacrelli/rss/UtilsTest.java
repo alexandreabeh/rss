@@ -63,20 +63,17 @@ public class UtilsTest {
 
     @Test
     public void dateAreRFC822WithEnglishLocaleAndUTCTimeZone() {
-        final DateTime date = new DateTime(1381603826214L);
-        assertEquals("Sat, 12 Oct 2013 18:50:26 UTC", formatDate(date));
+        assertEquals("Sat, 19 Oct 2013 11:09:03 UTC", formatDate(date));
     }
 
     @Test
     public void dateAreTrimmedBeforeParsing() {
-        final DateTime date = new DateTime(1381603826000L).withZone(DateTimeZone.UTC);
-        assertEquals(date, parseDate("   Sat, 12 Oct 2013 18:50:26 UTC  "));
+        assertEquals(date, parseDate("    Sat, 19 Oct 2013 11:09:03 UTC    "));
     }
 
     @Test
     public void newLinesAreReplacesWithSpacesBeforeTrimming() {
-        final DateTime date = new DateTime(1381603826000L).withZone(DateTimeZone.UTC);
-        assertEquals(date, parseDate("Sat,\n 12 Oct 2013 18:50:26\n UTC"));
+        assertEquals(date, parseDate("Sat,\n\n 19 Oct 2013 11:09:03 \nUTC"));
     }
 
     @Test
@@ -86,8 +83,7 @@ public class UtilsTest {
 
     @Test
     public void whenParsingMultipleSpacesAreIgnored() {
-        final DateTime date = new DateTime(1381603826000L).withZone(DateTimeZone.UTC);
-        assertEquals(date, parseDate("Sat,    12   Oct    2013    18:50:26    UTC"));
+        assertEquals(date, parseDate("Sat,  19     Oct  2013  11:09:03    UTC"));
     }
 
     @Test(expected = UnsupportedOperationException .class)
