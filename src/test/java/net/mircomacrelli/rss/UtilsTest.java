@@ -55,12 +55,14 @@ public class UtilsTest {
 
     @Test
     public void dateAreTrimmedBeforeParsing() {
-        assertNull(parseDate("     "));
+        final DateTime date = new DateTime(1381603826000L).withZone(DateTimeZone.UTC);
+        assertEquals(date, parseDate("   Sat, 12 Oct 2013 18:50:26 UTC  "));
     }
 
     @Test
     public void newLinesAreReplacesWithSpacesBeforeTrimming() {
-        assertNull(parseDate("\n   \n\n\n\n\n"));
+        final DateTime date = new DateTime(1381603826000L).withZone(DateTimeZone.UTC);
+        assertEquals(date, parseDate("Sat,\n 12 Oct 2013 18:50:26\n UTC"));
     }
 
     @Test
