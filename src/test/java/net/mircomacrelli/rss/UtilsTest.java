@@ -3,6 +3,7 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.Channel.Day;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
@@ -27,6 +28,19 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class UtilsTest {
+    private DateTime date;
+
+    private DateTime dateWithoutTime;
+
+    private DateTime dateWithoutSeconds;
+
+    @Before
+    public void setup() {
+        date = new DateTime(1382180943000L).withZone(DateTimeZone.UTC);
+        dateWithoutTime = new DateTime(1382140800000L).withZone(DateTimeZone.UTC);
+        dateWithoutSeconds = new DateTime(1382180940000L).withZone(DateTimeZone.UTC);
+    }
+
     @Test
     public void emptyUrlsAreIgnored() throws MalformedURLException {
         assertNull(parseURL(""));
@@ -169,5 +183,150 @@ public class UtilsTest {
     public void canBeWrittenOnlyOnceThrowAnExceptionIfTheValueIsSet() {
         final String value = "12";
         canBeWrittenOnlyOnce(value);
+    }
+
+    @Test
+    public void testDateFormat1() {
+        assertEquals(date, parseDate("Sat, 19 Oct 2013 11:09:03 +0000"));
+    }
+
+    @Test
+    public void testDateFormat2() {
+        assertEquals(date, parseDate("Sat, 19 Oct 2013 11:09:03 UTC"));
+    }
+
+    @Test
+    public void testDateFormat3() {
+        assertEquals(date, parseDate("19 10 2013 11:09:03 +0000"));
+    }
+
+    @Test
+    public void testDateFormat4() {
+        assertEquals(dateWithoutSeconds, parseDate("Sat, 19 Oct 2013 11:09 UTC"));
+    }
+
+    @Test
+    public void testDateFormat5() {
+        assertEquals(date, parseDate("Sat, 19 Oct 2013 11:09:03"));
+    }
+
+    @Test
+    public void testDateFormat6() {
+        assertEquals(date, parseDate("2013-10-19T11:09:03+0000"));
+    }
+
+    @Test
+    public void testDateFormat7() {
+        assertEquals(date, parseDate("2013-10-19 11:09:03"));
+    }
+
+    @Test
+    public void testDateFormat8() {
+        assertEquals(dateWithoutTime, parseDate("19/10/2013"));
+    }
+
+    @Test
+    public void testDateFormat10() {
+        assertEquals(dateWithoutTime, parseDate("2013-10-19"));
+    }
+
+    @Test
+    public void testDateFormat11() {
+        assertEquals(date, parseDate("2013-10-19 11:09:03.0"));
+    }
+
+    @Test
+    public void testDateFormat13() {
+        assertEquals(dateWithoutSeconds, parseDate("2013-10-19T11:09+0000"));
+    }
+
+    @Test
+    public void testDateFormat14() {
+        assertEquals(date, parseDate("2013-10-19 11:09:03+0000"));
+    }
+
+    @Test
+    public void testDateFormat15() {
+        assertEquals(dateWithoutSeconds, parseDate("19/10/2013 11:09"));
+    }
+
+    @Test
+    public void testDateFormat16() {
+        assertEquals(dateWithoutTime, parseDate("19.10.2013"));
+    }
+
+    @Test
+    public void testDateFormat17() {
+        assertEquals(date, parseDate("19 10 2013 11:09:03 UTC"));
+    }
+
+    @Test
+    public void testDateFormat18() {
+        assertEquals(date, parseDate("2013.10.19 11:09:03.0"));
+    }
+
+    @Test
+    public void testDateFormat19() {
+        assertEquals(date, parseDate("2013-10-19T11:09:03.0"));
+    }
+
+    @Test
+    public void testDateFormat20() {
+        assertEquals(date, parseDate("2013-10-19 11:09.03"));
+    }
+
+    @Test
+    public void testDateFormat21() {
+        assertEquals(date, parseDate("19 Oct 2013 11:09:03 +0000"));
+    }
+
+    @Test
+    public void testDateFormat22() {
+        assertEquals(date, parseDate("10/19/2013 11:09:03 AM"));
+    }
+
+    @Test
+    public void testDateFormat23() {
+        assertEquals(date, parseDate("19 Oct 2013 11:09:03 UTC"));
+    }
+
+    @Test
+    public void testDateFormat25() {
+        assertEquals(date, parseDate("Saturday, October 19, 2013 11:09:03 UTC"));
+    }
+
+    @Test
+    public void testDateFormat26() {
+        assertEquals(date, parseDate("Sat, 2013 Oct 1911:09:03 UTC"));
+    }
+
+    @Test
+    public void testDateFormat27() {
+        assertEquals(dateWithoutSeconds, parseDate("Sat, 19 Oct 2013 11:09 +0000"));
+    }
+
+    @Test
+    public void testDateFormat28() {
+        assertEquals(dateWithoutTime, parseDate("Sat, 19 Oct 2013"));
+    }
+
+    @Test
+    public void testDateFormat29() {
+        assertEquals(dateWithoutTime, parseDate("Sat 19 Oct 2013"));
+    }
+
+    @Test
+    public void testDateFormat30() {
+        assertEquals(dateWithoutSeconds, parseDate("Sat Oct 19, 2013, 11:09 AM UTC"));
+    }
+
+    @Test
+    public void testDateFormat31() {
+        assertEquals(date, parseDate("Sat Oct 19 11:09:03 UTC 2013"));
+    }
+
+    @Test
+    public void testDateFormat32() {
+        assertEquals(dateWithoutTime, parseDate("20131019"));
     }
 }
