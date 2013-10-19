@@ -69,6 +69,7 @@ final class Utils {
                                                                                   .withZoneUTC();
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss z")
                                                                        .withLocale(Locale.ENGLISH).withZoneUTC();
+    private static final Pattern REPEATED_SPACES = Pattern.compile(" {2,}");
 
     private Utils() {
         throw new AssertionError("do not instantiate this class");
@@ -139,6 +140,10 @@ final class Utils {
         return values;
     }
 
+    static boolean isEndOfTag(final XMLEvent event, final String tagName) {
+        return event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(tagName);
+    }
+
     static String getText(final XMLEventReader reader) throws XMLStreamException {
         final XMLEvent event = reader.nextEvent();
 
@@ -153,10 +158,6 @@ final class Utils {
         }
     }
 
-    static boolean isEndOfTag(final XMLEvent event, final String tagName) {
-        return event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(tagName);
-    }
-
     static Map<String, String> getAttributesValues(final StartElement element) {
         final Map<String, String> values = new HashMap<>(4);
 
@@ -169,8 +170,6 @@ final class Utils {
 
         return values;
     }
-
-    private static final Pattern REPEATED_SPACES = Pattern.compile(" {2,}");
 
     public static DateTime parseDate(final String date) {
         final String trimmed = date.replace('\n', ' ').trim();

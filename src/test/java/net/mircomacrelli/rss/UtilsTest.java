@@ -29,9 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 public class UtilsTest {
     private DateTime date;
-
     private DateTime dateWithoutTime;
-
     private DateTime dateWithoutSeconds;
 
     @Before
@@ -86,7 +84,7 @@ public class UtilsTest {
         assertEquals(date, parseDate("Sat,  19     Oct  2013  11:09:03    UTC"));
     }
 
-    @Test(expected = UnsupportedOperationException .class)
+    @Test(expected = UnsupportedOperationException.class)
     public void copySetReturnAnUnmodifiableEmptySetWhenPassedNull() {
         final Set<Integer> set = copySet(null);
         assertTrue(set.isEmpty());

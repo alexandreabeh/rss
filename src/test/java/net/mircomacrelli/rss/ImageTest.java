@@ -112,8 +112,7 @@ public final class ImageTest {
 
     @Test
     public void testToStringSimple() {
-        assertEquals(
-                "Image{image='http://mircomacrelli.net/image.png', alt='logo', link='http://mircomacrelli.net'}",
-                new Image(validImage, validLink, "logo", null, null, null).toString());
+        assertEquals("Image{image='http://mircomacrelli.net/image.png', alt='logo', link='http://mircomacrelli.net'}",
+                     new Image(validImage, validLink, "logo", null, null, null).toString());
     }
 }
