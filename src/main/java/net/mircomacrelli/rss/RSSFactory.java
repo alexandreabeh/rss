@@ -56,8 +56,7 @@ public final class RSSFactory {
      * @throws MimeTypeParseException if the mime type are malformed
      * @throws URISyntaxException if some of the domain are wrong
      */
-    public RSS parse(final InputStream is) throws XMLStreamException, MalformedURLException, MimeTypeParseException,
-                                                  URISyntaxException {
+    public RSS parse(final InputStream is) throws Exception {
         final XMLEventReader reader = factory.createXMLEventReader(is);
 
         final Charset charset = getCharset(reader);
@@ -67,9 +66,7 @@ public final class RSSFactory {
         return new RSS(charset, version, channel);
     }
 
-    private static Channel getChannel(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
-                                                                              URISyntaxException,
-                                                                              MimeTypeParseException {
+    private static Channel getChannel(final XMLEventReader reader) throws Exception {
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();
 
@@ -112,8 +109,7 @@ public final class RSSFactory {
         return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
     }
 
-    private static Channel parseChannel(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
-                                                                            URISyntaxException, MimeTypeParseException {
+    private static Channel parseChannel(final XMLEventReader reader) throws Exception {
         final Channel.Builder builder = new Channel.Builder();
 
         while (reader.hasNext()) {
@@ -127,8 +123,9 @@ public final class RSSFactory {
                 final StartElement element = event.asStartElement();
                 final String name = element.getName().getLocalPart();
 
-                // skip all the extensions
+                // parse the extensions
                 if (!element.getName().getPrefix().isEmpty()) {
+                    builder.passToModuleParser(reader, element);
                     continue;
                 }
 
@@ -236,8 +233,7 @@ public final class RSSFactory {
         return hours;
     }
 
-    private static Item parseItem(final XMLEventReader reader) throws XMLStreamException, MalformedURLException,
-                                                                      MimeTypeParseException {
+    private static Item parseItem(final XMLEventReader reader) throws Exception {
         final Item.Builder builder = new Item.Builder();
 
         while (reader.hasNext()) {
@@ -251,8 +247,9 @@ public final class RSSFactory {
                 final StartElement element = event.asStartElement();
                 final String name = element.getName().getLocalPart();
 
-                // skip all the extensions
+                // parse the extensions
                 if (!element.getName().getPrefix().isEmpty()) {
+                    builder.passToModuleParser(reader, element);
                     continue;
                 }
 
