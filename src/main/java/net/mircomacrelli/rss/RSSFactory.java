@@ -56,7 +56,7 @@ public final class RSSFactory {
      * @throws MimeTypeParseException if the mime type are malformed
      * @throws URISyntaxException if some of the domain are wrong
      */
-    public RSS parse(final InputStream is) throws Exception, XMLStreamException {
+    public RSS parse(final InputStream is) throws Exception {
         final XMLEventReader reader = factory.createXMLEventReader(is);
 
         final Charset charset = getCharset(reader);
@@ -66,8 +66,7 @@ public final class RSSFactory {
         return new RSS(charset, version, channel);
     }
 
-    private static Channel getChannel(final XMLEventReader reader) throws Exception, IllegalStateException,
-                                                                          XMLStreamException {
+    private static Channel getChannel(final XMLEventReader reader) throws Exception {
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();
 
@@ -110,8 +109,7 @@ public final class RSSFactory {
         return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
     }
 
-    private static Channel parseChannel(final XMLEventReader reader) throws Exception, MalformedURLException,
-                                                                            URISyntaxException, XMLStreamException {
+    private static Channel parseChannel(final XMLEventReader reader) throws Exception {
         final Channel.Builder builder = new Channel.Builder();
 
         while (reader.hasNext()) {
@@ -235,8 +233,7 @@ public final class RSSFactory {
         return hours;
     }
 
-    private static Item parseItem(final XMLEventReader reader) throws Exception, MalformedURLException,
-                                                                      XMLStreamException, MimeTypeParseException {
+    private static Item parseItem(final XMLEventReader reader) throws Exception {
         final Item.Builder builder = new Item.Builder();
 
         while (reader.hasNext()) {
