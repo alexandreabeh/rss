@@ -15,11 +15,29 @@ public class SyndicationTest {
     private int frequency;
     private Period period;
 
+    private Syndication syndication;
+
     @Before
     public void setup() {
         date = new DateTime(1382454319798L).withZone(DateTimeZone.UTC);
         frequency = 2;
         period = Period.DAILY;
+        syndication = new Syndication(period, frequency, date);
+    }
+
+    @Test
+    public void period() {
+        assertEquals(period, syndication.getPeriod());
+    }
+
+    @Test
+    public void frequency() {
+        assertEquals(frequency, syndication.getFrequency());
+    }
+
+    @Test
+    public void base() {
+        assertEquals(date, syndication.getBase());
     }
 
     @Test
