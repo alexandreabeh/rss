@@ -480,5 +480,10 @@ public final class Channel extends ExtensibleElement {
             canBeWrittenOnlyOnce(skipHours);
             skipHours = new HashSet<>(val);
         }
+
+        @Override
+        boolean canContainModule(final Class<? extends Module> clazz) {
+            return true;
+        }
     }
 }

@@ -248,5 +248,10 @@ public final class Item extends ExtensibleElement {
             canBeWrittenOnlyOnce(source);
             source = val;
         }
+
+        @Override
+        boolean canContainModule(final Class<? extends Module> clazz) {
+            return clazz.equals(CreativeCommons.class);
+        }
     }
 }
