@@ -11,6 +11,7 @@ import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
+import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.parseDate;
 
@@ -75,7 +76,7 @@ public final class Syndication implements Module {
 
     @Override
     public String toString() {
-        return format("Syndication{period=%s, frequency=%d, base='%s'}", period, frequency, base);
+        return format("Syndication{period=%s, frequency=%d, base='%s'}", period, frequency, formatDate(base));
     }
 
     @Override
