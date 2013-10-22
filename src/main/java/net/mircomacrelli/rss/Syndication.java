@@ -6,7 +6,6 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import java.util.Locale;
-import java.util.Objects;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
