@@ -14,29 +14,52 @@ import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.parseDate;
 
+/**
+ * Implementation of the Syndication Module
+ *
+ * @author Mirco Macrelli
+ * @version 1.0
+ */
 public final class Syndication implements Module {
+    /**
+     * Type of periods
+     */
     public enum Period {
+        /** Hourly */
         HOURLY,
+        /** Daily */
         DAILY,
+        /** Weekly */
         WEEKLY,
+        /** Monthly */
         MONTHLY,
+        /** Yearly */
         YEARLY
     }
 
     private final Period period;
 
+    /**
+     * @return the period to used with frequency
+     */
     public Period getPeriod() {
         return period;
     }
 
     private final int frequency;
 
+    /**
+     * @return a positive number used with period to know when a feed should be checked
+     */
     public int getFrequency() {
         return frequency;
     }
 
     private final DateTime base;
 
+    /**
+     * @return the date and time that should be used as a base for update
+     */
     public DateTime getBase() {
         return base;
     }
