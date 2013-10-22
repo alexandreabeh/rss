@@ -34,7 +34,16 @@ public final class Syndication implements Module {
         /** Monthly */
         MONTHLY,
         /** Yearly */
-        YEARLY
+        YEARLY;
+
+        /**
+         * Parse a string and return the corresponding Period
+         * @param value the string to parse
+         * @return the Period
+         */
+        public static Period from(final String value) {
+            return valueOf(value.toUpperCase(Locale.ENGLISH));
+        }
     }
 
     private final Period period;
@@ -117,7 +126,7 @@ public final class Syndication implements Module {
             switch (name) {
                 case "updatePeriod":
                     canBeWrittenOnlyOnce(period);
-                    period = Period.valueOf(getText(reader).toUpperCase(Locale.ENGLISH));
+                    period = Period.from(getText(reader));
                     break;
                 case "updateFrequency":
                     canBeWrittenOnlyOnce(frequency);
