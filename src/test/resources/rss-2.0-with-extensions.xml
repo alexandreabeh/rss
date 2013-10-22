@@ -1,4 +1,5 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
      xmlns:creativeCommons="http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html">
     <channel>
         <atom:link href="http://mircomacrelli.net" rel="self" type="application/rss+xml"/>
@@ -6,6 +7,9 @@
         <link>http://dallas.example.com</link>
         <title>Dallas Times-Herald</title>
         <creativeCommons:license>http://www.creativecommons.org/licenses/by-nc/1.0</creativeCommons:license>
+        <sy:updatePeriod>hourly</sy:updatePeriod>
+        <sy:updateFrequency>2</sy:updateFrequency>
+        <sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>
         <image>
             <link>http://dallas.example.com</link>
             <title>Dallas Times-Herald</title>

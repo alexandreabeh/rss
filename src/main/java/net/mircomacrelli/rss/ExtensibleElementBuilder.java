@@ -44,7 +44,9 @@ abstract class ExtensibleElementBuilder {
         }
     }
 
-    public final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
+    public final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception,
+                                                                                                         IllegalAccessException,
+                                                                                                         InstantiationException {
         final Class<? extends Module> clazz = getModuleFromURI(element.getName().getNamespaceURI());
 
         // only process known modules
