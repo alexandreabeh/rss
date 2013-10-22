@@ -18,8 +18,8 @@ import static net.mircomacrelli.rss.Utils.parseURL;
 /**
  * Implementation of the Creative Commons module
  *
- * @version 1.0
  * @author Mirco Macrelli
+ * @version 1.0
  */
 public final class CreativeCommons implements Module {
     private final List<URL> licenses;
@@ -29,9 +29,7 @@ public final class CreativeCommons implements Module {
         this.licenses = copyList(licenses);
     }
 
-    /**
-     * @return the list with the URL of the licenses
-     */
+    /** @return the list with the URL of the licenses */
     public List<URL> getLicenses() {
         return licenses;
     }
