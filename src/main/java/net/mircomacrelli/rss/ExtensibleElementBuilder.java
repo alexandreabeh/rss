@@ -40,9 +40,8 @@ abstract class ExtensibleElementBuilder {
                 return Syndication.Builder.class;
             case "net.mircomacrelli.rss.CreativeCommons":
                 return CreativeCommons.Builder.class;
-            default:
-                return null;
         }
+        throw new AssertionError("missing module builder");
     }
 
     abstract boolean canContainModule(Class<? extends Module> clazz);
