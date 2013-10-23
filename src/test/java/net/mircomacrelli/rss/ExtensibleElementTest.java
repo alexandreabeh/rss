@@ -68,4 +68,14 @@ public class ExtensibleElementTest {
         element.addModule(CreativeCommons.class, creativeCommons);
         assertEquals(creativeCommons, element.getModule(CreativeCommons.class));
     }
+
+    @Test
+    public void getModulesReturnAnEmptyMapIfNoModules() {
+        assertTrue(element.getModules().isEmpty());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void getModulesReturnAnUnmodifiableMap() {
+        element.getModules().clear();
+    }
 }

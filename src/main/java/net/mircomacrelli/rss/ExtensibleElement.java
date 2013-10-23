@@ -4,6 +4,7 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static java.util.Collections.unmodifiableMap;
 import static java.util.Objects.requireNonNull;
 
 abstract class ExtensibleElement {
@@ -27,5 +28,9 @@ abstract class ExtensibleElement {
         requireNonNull(clazz);
         requireNonNull(module);
         modules.put(clazz, module);
+    }
+
+    final Map<Class<? extends Module>, Module> getModules() {
+        return unmodifiableMap(modules);
     }
 }
