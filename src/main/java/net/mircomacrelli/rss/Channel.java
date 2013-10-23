@@ -33,7 +33,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * @author Mirco Macrelli
  * @version 1.0
  */
-public final class Channel {
+public final class Channel extends ExtensibleElement {
     private final String title;
     private final URL link;
     private final String description;
@@ -349,7 +349,7 @@ public final class Channel {
         }
     }
 
-    static final class Builder {
+    static final class Builder extends ExtensibleElementBuilder {
         String title;
         URL link;
         String description;
@@ -372,9 +372,9 @@ public final class Channel {
         List<Item> items;
 
         public Channel build() {
-            return new Channel(title, link, description, language, copyright, editor, webmaster, publishDate, buildDate,
-                               categories, generator, docs, cloud, ttl, image, textInput, skipHours, skipDays, rating,
-                               items);
+            return extend(new Channel(title, link, description, language, copyright, editor, webmaster, publishDate,
+                                      buildDate, categories, generator, docs, cloud, ttl, image, textInput, skipHours,
+                                      skipDays, rating, items));
         }
 
         public void setTitle(final String val) {
@@ -479,6 +479,11 @@ public final class Channel {
         public void setSkipHours(final Set<Integer> val) {
             canBeWrittenOnlyOnce(skipHours);
             skipHours = new HashSet<>(val);
+        }
+
+        @Override
+        boolean canContainModule(final Class<? extends Module> clazz) {
+            return true;
         }
     }
 }

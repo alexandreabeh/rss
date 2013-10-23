@@ -27,7 +27,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * @author Mirco Macrelli
  * @version 1.0
  */
-public final class Item {
+public final class Item extends ExtensibleElement {
     private final String author;
     private final String title;
     private final String description;
@@ -178,7 +178,7 @@ public final class Item {
         return sb.toString();
     }
 
-    static final class Builder {
+    static final class Builder extends ExtensibleElementBuilder {
         String author;
         String title;
         String description;
@@ -191,8 +191,8 @@ public final class Item {
         List<Enclosure> enclosures;
 
         public Item build() {
-            return new Item(link, title, description, author, publishDate, categories, source, commentsLink, enclosures,
-                            uniqueId);
+            return extend(new Item(link, title, description, author, publishDate, categories, source, commentsLink,
+                                   enclosures, uniqueId));
         }
 
         public void setTitle(final String val) {
@@ -247,6 +247,11 @@ public final class Item {
         public void setSource(final Source val) {
             canBeWrittenOnlyOnce(source);
             source = val;
+        }
+
+        @Override
+        boolean canContainModule(final Class<? extends Module> clazz) {
+            return clazz.equals(CreativeCommons.class);
         }
     }
 }

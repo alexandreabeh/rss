@@ -27,7 +27,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public class UtilsTest {
+public final class UtilsTest {
     private DateTime date;
     private DateTime dateWithoutTime;
     private DateTime dateWithoutSeconds;
