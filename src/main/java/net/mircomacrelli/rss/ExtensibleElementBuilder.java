@@ -60,7 +60,7 @@ abstract class ExtensibleElementBuilder {
 
             ModuleBuilder builder = modules.get(clazz);
             if (builder == null) {
-                builder = getBuilderForModule(clazz).getConstructor().newInstance();
+                builder = (ModuleBuilder)getBuilderForModule(clazz).getDeclaredConstructors()[0].newInstance();
                 modules.put(clazz, builder);
             }
 
