@@ -2,11 +2,15 @@ package net.mircomacrelli.rss;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.Collections.unmodifiableSet;
+import static java.util.Objects.requireNonNull;
 
 abstract class ExtensibleElementBuilder {
     private final Map<Class<? extends Module>, ModuleBuilder> modules;
@@ -44,7 +48,37 @@ abstract class ExtensibleElementBuilder {
         throw new AssertionError("missing module builder");
     }
 
-    abstract boolean canContainModule(Class<? extends Module> clazz);
+    private static void requireModuleAnnotation(final Class<? extends Module> clazz) {
+        for (final Class<?> iface : clazz.getInterfaces()) {
+            if (iface.equals(Module.class)) {
+                return;
+            }
+        }
+        throw new IllegalArgumentException(format("the class %s does not implements the Module interface",
+                                                  clazz.getSimpleName()));
+    }
+
+    @SafeVarargs
+    protected static Set<Class<? extends Module>> asUnmodifiableSet(final Class<? extends Module> module,
+                                                                    final Class<? extends Module>... others) {
+        requireNonNull(module);
+        requireModuleAnnotation(module);
+
+        final Set<Class<? extends Module>> set = new HashSet<>(1);
+        set.add(module);
+
+        if (others != null) {
+            for (final Class<? extends Module> mod : others) {
+                requireNonNull(mod);
+                requireModuleAnnotation(mod);
+                set.add(mod);
+            }
+        }
+
+        return unmodifiableSet(set);
+    }
+
+    abstract Set<Class<? extends Module>> getAllowedModules();
 
     public final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
         final String uri = element.getName().getNamespaceURI();
@@ -53,7 +87,7 @@ abstract class ExtensibleElementBuilder {
         // only process known modules
         if (clazz != null) {
             // check if this module can be here
-            if (!canContainModule(clazz)) {
+            if (!getAllowedModules().contains(clazz)) {
                 throw new IllegalStateException(format("the module %s can't be here", clazz.getSimpleName()));
             }
 

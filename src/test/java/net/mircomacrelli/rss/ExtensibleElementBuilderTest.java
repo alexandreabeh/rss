@@ -9,21 +9,22 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.StringReader;
+import java.util.Set;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ExtensibleElementBuilderTest {
-    public static final class MockElement extends ExtensibleElement {
-        public static final class MockBuilder extends ExtensibleElementBuilder {
+    static final class MockElement extends ExtensibleElement {
+        static final class MockBuilder extends ExtensibleElementBuilder {
             public MockElement build() {
                 return extend(new MockElement());
             }
 
             @Override
-            boolean canContainModule(final Class<? extends Module> clazz) {
-                return clazz.equals(CreativeCommons.class);
+            Set<Class<? extends Module>> getAllowedModules() {
+                return asUnmodifiableSet(CreativeCommons.class);
             }
         }
     }
