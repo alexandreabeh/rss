@@ -249,7 +249,7 @@ public final class Item extends ExtensibleElement {
             source = val;
         }
 
-        private static final Set<Class<? extends Module>> ALLOWED_MODULES = asUnmodifiableSet(CreativeCommons.class);
+        private static final Set<Class<? extends Module>> ALLOWED_MODULES = allowedModules(CreativeCommons.class);
 
         @Override
         Set<Class<? extends Module>> getAllowedModules() {

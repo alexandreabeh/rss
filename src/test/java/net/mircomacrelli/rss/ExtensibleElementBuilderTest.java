@@ -24,7 +24,7 @@ public class ExtensibleElementBuilderTest {
 
             @Override
             Set<Class<? extends Module>> getAllowedModules() {
-                return asUnmodifiableSet(CreativeCommons.class);
+                return allowedModules(CreativeCommons.class);
             }
         }
     }

@@ -481,8 +481,8 @@ public final class Channel extends ExtensibleElement {
             skipHours = new HashSet<>(val);
         }
 
-        private static final Set<Class<? extends Module>> ALLOWED_MODULES = asUnmodifiableSet(CreativeCommons.class,
-                                                                                              Syndication.class);
+        private static final Set<Class<? extends Module>> ALLOWED_MODULES = allowedModules(CreativeCommons.class,
+                                                                                           Syndication.class);
 
         @Override
         Set<Class<? extends Module>> getAllowedModules() {

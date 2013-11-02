@@ -59,8 +59,8 @@ abstract class ExtensibleElementBuilder {
     }
 
     @SafeVarargs
-    protected static Set<Class<? extends Module>> asUnmodifiableSet(final Class<? extends Module> module,
-                                                                    final Class<? extends Module>... others) {
+    protected static Set<Class<? extends Module>> allowedModules(final Class<? extends Module> module,
+                                                                 final Class<? extends Module>... others) {
         requireNonNull(module);
         requireModuleAnnotation(module);
 
