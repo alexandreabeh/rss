@@ -2,6 +2,7 @@ package net.mircomacrelli.rss;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
@@ -114,7 +115,7 @@ public final class Syndication implements Module {
         Integer frequency;
 
         public Builder(final DateTimeFormatter parser) {
-            super(parser);
+            super(ISODateTimeFormat.dateTimeParser());
         }
 
         @Override
