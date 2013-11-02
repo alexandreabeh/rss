@@ -6,12 +6,19 @@ import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.activation.MimeType;
+import javax.activation.MimeTypeParseException;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static net.mircomacrelli.rss.Utils.RFC822_DATE_FORMAT;
@@ -22,16 +29,22 @@ import static net.mircomacrelli.rss.Utils.copyEnumSet;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
+import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
+import static net.mircomacrelli.rss.Utils.getAttributesValues;
+import static net.mircomacrelli.rss.Utils.getText;
+import static net.mircomacrelli.rss.Utils.isEndOfTag;
+import static net.mircomacrelli.rss.Utils.isStartOfTag;
 import static net.mircomacrelli.rss.Utils.parseDate;
 import static net.mircomacrelli.rss.Utils.parseURL;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public final class UtilsTest {
+public final class UtilsTest extends XmlTestBase {
     private DateTime date;
 
     @Before
@@ -130,6 +143,13 @@ public final class UtilsTest {
     }
 
     @Test
+    public void appendCollection() {
+        final StringBuilder sb = new StringBuilder(100);
+        append(sb, "list", Arrays.asList(12, 14), false);
+        assertEquals("list=[12, 14]", sb.toString());
+    }
+
+    @Test
     public void ifFieldIsNullAppendDoesNothing() {
         final StringBuilder sb = new StringBuilder(100);
         append(sb, "name", null);
@@ -224,5 +244,111 @@ public final class UtilsTest {
         final Set<Class<? extends Module>> modules = allowedModules(CreativeCommons.class, Syndication.class);
         assertTrue(modules.contains(CreativeCommons.class));
         assertTrue(modules.contains(Syndication.class));
+    }
+
+    @Test
+    public void isStartOfTagCheckIfIsStartTagEvent() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag>testo</tag>");
+        reader.nextEvent();
+        assertFalse(isStartOfTag(reader.nextEvent(), "tag"));
+    }
+
+    @Test
+    public void isStartOfTagCheckTheTagName() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag>testo</tag>");
+        assertFalse(isStartOfTag(reader.nextEvent(), "other"));
+    }
+
+    @Test
+    public void isReallyTheStartOfTag() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag>testo</tag>");
+        assertTrue(isStartOfTag(reader.nextEvent(), "tag"));
+    }
+
+    @Test
+    public void isEndOfTagCheckIfIsEndOfTagEvent() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag>testo</tag>");
+        assertFalse(isEndOfTag(reader.nextEvent(), "tag"));
+    }
+
+    @Test
+    public void isEndOfTagCheckTheTagName() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag>testo</tag>");
+        reader.nextEvent();
+        reader.nextEvent();
+        assertFalse(isEndOfTag(reader.nextEvent(), "other"));
+    }
+
+    @Test
+    public void isReallyTheEndOfTag() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag>testo</tag>");
+        reader.nextEvent();
+        reader.nextEvent();
+        assertTrue(isEndOfTag(reader.nextEvent(), "tag"));
+    }
+
+    @Test
+    public void getTextReturnTheImmediateNextTextEvent() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag>testo completo</tag>");
+        reader.nextEvent();
+        assertEquals("testo completo", getText(reader));
+    }
+
+    @Test
+    public void getTextReturnEmptyStringOnEmptyTags() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag/>");
+        reader.nextEvent();
+        assertEquals("", getText(reader));
+    }
+
+    @Test
+    public void getTextReturnEmptyStringOnEmptyTagTwo() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag></tag>");
+        reader.nextEvent();
+        assertEquals("", getText(reader));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void getTextThrowAnExceptionIfCantFindText() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag><other>sdfs</other></tag>");
+        reader.nextEvent();
+        getText(reader);
+    }
+
+    @Test
+    public void getAttributesReturnAnEmptyMapWhenThereAreNone() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag>testo</tag>");
+        assertTrue(getAttributesValues((StartElement)reader.nextEvent()).isEmpty());
+    }
+
+    @Test
+    public void getAttributesOnTagThatHasTwo() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag a=\"1\" b=\"2\">testo</tag>");
+        assertEquals(2, getAttributesValues((StartElement)reader.nextEvent()).size());
+    }
+
+    @Test
+    public void copyMimeType() throws MimeTypeParseException {
+        final MimeType mime = new MimeType("application", "javascript");
+        assertTrue(mime.match(Utils.copyMimeType(mime)));
+    }
+
+    @Test
+    public void getTagsReturnAnEmptyMapWhenNoChildTagsAreFound() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag>\n\n\n</tag>");
+        reader.nextEvent();
+        assertTrue(getAllTagsValuesInside(reader, "tag").isEmpty());
+    }
+
+    @Test
+    public void getTagsReturnMapsWithTwoValues() throws XMLStreamException {
+        final XMLEventReader reader = parseString("<tag><a>uno</a><b>due</b></tag>");
+        reader.nextEvent();
+        final Map<String, String> tags = getAllTagsValuesInside(reader, "tag");
+
+        assertTrue(tags.keySet().contains("a"));
+        assertTrue(tags.keySet().contains("b"));
+        assertTrue(tags.values().contains("uno"));
+        assertTrue(tags.values().contains("due"));
     }
 }
