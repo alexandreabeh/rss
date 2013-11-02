@@ -24,6 +24,8 @@ import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.parseDate;
 import static net.mircomacrelli.rss.Utils.parseURL;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
@@ -210,5 +212,17 @@ public final class UtilsTest {
     @Test(expected = UnsupportedOperationException.class)
     public void allowedModulesReturnUnmodifiableSet() {
         allowedModules(Syndication.class).clear();
+    }
+
+    @Test
+    public void allowOneModule() {
+        assertTrue(allowedModules(CreativeCommons.class).contains(CreativeCommons.class));
+    }
+
+    @Test
+    public void allowTwoModules() {
+        final Set<Class<? extends Module>> modules = allowedModules(CreativeCommons.class, Syndication.class);
+        assertTrue(modules.contains(CreativeCommons.class));
+        assertTrue(modules.contains(Syndication.class));
     }
 }
