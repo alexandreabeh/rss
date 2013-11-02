@@ -19,6 +19,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
+import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
 import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyEnumSet;

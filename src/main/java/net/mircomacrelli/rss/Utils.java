@@ -27,8 +27,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
+import static java.util.Objects.requireNonNull;
 
 final class Utils {
     public static final DateTimeFormatter RFC822_DATE_FORMAT = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss Z")
@@ -165,5 +167,35 @@ final class Utils {
         if (obj != null) {
             throw new IllegalStateException("field already set");
         }
+    }
+
+    private static void requireModuleInterface(final Class<? extends Module> module) {
+        for (final Class<?> clazz : module.getInterfaces()) {
+            if (clazz.equals(Module.class)) {
+                return;
+            }
+        }
+        throw new IllegalArgumentException(
+                format("the class %s does not implements the Module interface", module.getSimpleName()));
+    }
+
+    @SafeVarargs
+    public static Set<Class<? extends Module>> allowedModules(final Class<? extends Module> module,
+                                                                 final Class<? extends Module>... others) {
+        requireNonNull(module);
+        requireModuleInterface(module);
+
+        final Set<Class<? extends Module>> set = new HashSet<>(1);
+        set.add(module);
+
+        if (others != null) {
+            for (final Class<? extends Module> mod : others) {
+                requireNonNull(mod);
+                requireModuleInterface(mod);
+                set.add(mod);
+            }
+        }
+
+        return unmodifiableSet(set);
     }
 }

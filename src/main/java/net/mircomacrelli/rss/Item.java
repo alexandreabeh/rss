@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import static java.util.Objects.hash;
+import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
 import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyList;

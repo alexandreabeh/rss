@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.mircomacrelli.rss.Utils.RFC822_DATE_FORMAT;
+import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
 import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyEnumSet;
@@ -174,5 +175,40 @@ public final class UtilsTest {
     public void canBeWrittenOnlyOnceThrowAnExceptionIfTheValueIsSet() {
         final String value = "12";
         canBeWrittenOnlyOnce(value);
+    }
+
+    @Test
+    public void canBeWrittenOnlyOnceDoesNothingIfNull() {
+        canBeWrittenOnlyOnce(null);
+        assertTrue(true);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void firstModuleCantBeNull() {
+        allowedModules(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void firstModuleMustImplementModule() {
+        final Class<?> stringClazz = String.class;
+        final Class<? extends Module> clazz = (Class<? extends Module>) stringClazz;
+        allowedModules(clazz);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void othersModulesCantBeNull() {
+        allowedModules(CreativeCommons.class, Syndication.class, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void othersModulesMustImplementModule() {
+        final Class<?> stringClazz = String.class;
+        final Class<? extends Module> clazz = (Class<? extends Module>) stringClazz;
+        allowedModules(CreativeCommons.class, Syndication.class, clazz);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void allowedModulesReturnUnmodifiableSet() {
+        allowedModules(Syndication.class).clear();
     }
 }

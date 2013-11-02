@@ -30,36 +30,6 @@ abstract class ExtensibleElementBuilder extends BuilderBase {
         return element;
     }
 
-    private static void requireModuleInterface(final Class<? extends Module> module) {
-        for (final Class<?> clazz : module.getInterfaces()) {
-            if (clazz.equals(Module.class)) {
-                return;
-            }
-        }
-        throw new IllegalArgumentException(
-                format("the class %s does not implements the Module interface", module.getSimpleName()));
-    }
-
-    @SafeVarargs
-    protected static Set<Class<? extends Module>> allowedModules(final Class<? extends Module> module,
-                                                                 final Class<? extends Module>... others) {
-        requireNonNull(module);
-        requireModuleInterface(module);
-
-        final Set<Class<? extends Module>> set = new HashSet<>(1);
-        set.add(module);
-
-        if (others != null) {
-            for (final Class<? extends Module> mod : others) {
-                requireNonNull(mod);
-                requireModuleInterface(mod);
-                set.add(mod);
-            }
-        }
-
-        return unmodifiableSet(set);
-    }
-
     abstract Set<Class<? extends Module>> getAllowedModules();
 
     public final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
