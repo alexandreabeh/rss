@@ -2,6 +2,7 @@ package net.mircomacrelli.rss;
 
 import net.mircomacrelli.rss.Channel.Day;
 import net.mircomacrelli.rss.RSS.Version;
+import org.joda.time.format.DateTimeFormatter;
 
 import javax.activation.MimeTypeParseException;
 import javax.xml.stream.XMLEventReader;
@@ -36,14 +37,25 @@ import static net.mircomacrelli.rss.Utils.parseURL;
 public final class RSSFactory {
     private final XMLInputFactory factory;
 
-    RSSFactory() {
+    private final DateTimeFormatter parser;
+
+    RSSFactory(final DateTimeFormatter parser) {
         factory = XMLInputFactory.newFactory();
         factory.setProperty("javax.xml.stream.supportDTD", false);
+        this.parser = parser == null ? Utils.RFC822_DATE_FORMAT : parser;
     }
 
     /** @return a new instance of the factory */
     public static RSSFactory newFactory() {
-        return new RSSFactory();
+        return new RSSFactory(null);
+    }
+
+    /**
+     * @param parser the parser used for the dates
+     * @return a new instance of the factory
+     */
+    public static RSSFactory newFactory(final DateTimeFormatter parser) {
+        return new RSSFactory(parser);
     }
 
     /**
@@ -66,7 +78,7 @@ public final class RSSFactory {
         return new RSS(charset, version, channel);
     }
 
-    private static Channel getChannel(final XMLEventReader reader) throws Exception {
+    private Channel getChannel(final XMLEventReader reader) throws Exception {
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();
 
@@ -109,8 +121,8 @@ public final class RSSFactory {
         return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
     }
 
-    private static Channel parseChannel(final XMLEventReader reader) throws Exception {
-        final Channel.Builder builder = new Channel.Builder();
+    private Channel parseChannel(final XMLEventReader reader) throws Exception {
+        final Channel.Builder builder = new Channel.Builder(parser);
 
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();
@@ -233,8 +245,8 @@ public final class RSSFactory {
         return hours;
     }
 
-    private static Item parseItem(final XMLEventReader reader) throws Exception {
-        final Item.Builder builder = new Item.Builder();
+    private Item parseItem(final XMLEventReader reader) throws Exception {
+        final Item.Builder builder = new Item.Builder(parser);
 
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();

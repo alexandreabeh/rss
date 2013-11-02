@@ -3,8 +3,6 @@ package net.mircomacrelli.rss;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
-import org.joda.time.format.DateTimeParser;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
@@ -33,42 +31,9 @@ import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
 
 final class Utils {
-    private static final DateTimeParser[] DATE_FORMATS = {
-            DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss Z").getParser(),
-            DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss z").getParser(),
-            DateTimeFormat.forPattern("dd MM yyyy HH:mm:ss Z").getParser(),
-            DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm z").getParser(),
-            DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss").getParser(),
-            DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ").getParser(),
-            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").getParser(),
-            DateTimeFormat.forPattern("dd/MM/yyyy").getParser(),
-            DateTimeFormat.forPattern("yyyy-MM-dd").getParser(),
-            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.S").getParser(),
-            DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mmZ").getParser(),
-            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ssZ").getParser(),
-            DateTimeFormat.forPattern("dd/MM/yyyy HH:mm").getParser(),
-            DateTimeFormat.forPattern("dd.MM.yyyy").getParser(),
-            DateTimeFormat.forPattern("dd MM yyyy HH:mm:ss z").getParser(),
-            DateTimeFormat.forPattern("yyyy.MM.dd HH:mm:ss.S").getParser(),
-            DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.S").getParser(),
-            DateTimeFormat.forPattern("yyyy-MM-dd HH:mm.ss").getParser(),
-            DateTimeFormat.forPattern("dd MMM yyyy HH:mm:ss Z").getParser(),
-            DateTimeFormat.forPattern("MM/dd/yyyy hh:mm:ss a").getParser(),
-            DateTimeFormat.forPattern("dd MMM yyyy HH:mm:ss z").getParser(),
-            DateTimeFormat.forPattern("EEEE, MMMM dd, yyyy HH:mm:ss z").getParser(),
-            DateTimeFormat.forPattern("EEE, yyyy MMM ddHH:mm:ss z").getParser(),
-            DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm Z").getParser(),
-            DateTimeFormat.forPattern("EEE, dd MMM yyyy").getParser(),
-            DateTimeFormat.forPattern("EEE dd MMM yyyy").getParser(),
-            DateTimeFormat.forPattern("EEE MMM dd, yyyy, hh:mm a z").getParser(),
-            DateTimeFormat.forPattern("EEE MMM dd HH:mm:ss z yyyy").getParser(),
-            DateTimeFormat.forPattern("yyyyMMdd").getParser()};
-    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder().append(null, DATE_FORMATS)
-                                                                                  .toFormatter()
-                                                                                  .withLocale(Locale.ENGLISH)
-                                                                                  .withZoneUTC();
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss z")
-                                                                       .withLocale(Locale.ENGLISH).withZoneUTC();
+    public static final DateTimeFormatter RFC822_DATE_FORMAT = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss Z")
+                                                                             .withLocale(Locale.ENGLISH).withZoneUTC();
+
     private static final Pattern REPEATED_SPACES = Pattern.compile(" {2,}");
 
     private Utils() {
@@ -171,14 +136,14 @@ final class Utils {
         return values;
     }
 
-    public static DateTime parseDate(final String date) {
+    public static DateTime parseDate(final String date, final DateTimeFormatter parser) {
         final String trimmed = date.replace('\n', ' ').trim();
         if (trimmed.isEmpty()) {
             return null;
         }
 
         final Matcher matcher = REPEATED_SPACES.matcher(trimmed);
-        return PARSER.parseDateTime(matcher.replaceAll(" "));
+        return parser.parseDateTime(matcher.replaceAll(" "));
     }
 
     public static String formatDate(final DateTime date) {
@@ -186,7 +151,7 @@ final class Utils {
             return null;
         }
 
-        return DATE_FORMAT.print(date);
+        return RFC822_DATE_FORMAT.print(date);
     }
 
     public static URL parseURL(final String url) throws MalformedURLException {

@@ -1,6 +1,7 @@
 package net.mircomacrelli.rss;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -190,6 +191,10 @@ public final class Item extends ExtensibleElement {
         Source source;
         List<Enclosure> enclosures;
 
+        Builder(final DateTimeFormatter parser) {
+            super(parser);
+        }
+
         public Item build() {
             return extend(new Item(link, title, description, author, publishDate, categories, source, commentsLink,
                                    enclosures, uniqueId));
@@ -241,7 +246,7 @@ public final class Item extends ExtensibleElement {
 
         public void setPublishDate(final String val) {
             canBeWrittenOnlyOnce(publishDate);
-            publishDate = parseDate(val);
+            publishDate = parseDate(val, parser);
         }
 
         public void setSource(final Source val) {

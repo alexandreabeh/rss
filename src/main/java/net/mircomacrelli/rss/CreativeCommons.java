@@ -1,5 +1,7 @@
 package net.mircomacrelli.rss;
 
+import org.joda.time.format.DateTimeFormatter;
+
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
@@ -57,8 +59,12 @@ public final class CreativeCommons implements Module {
         return format("CreativeCommons{licenses=%s}", licenses);
     }
 
-    static final class Builder implements ModuleBuilder {
+    static final class Builder extends ModuleBuilder {
         List<URL> licenses;
+
+        public Builder(final DateTimeFormatter parser) {
+            super(parser);
+        }
 
         @Override
         public void parse(final XMLEventReader reader, final StartElement element) throws MalformedURLException,

@@ -3,7 +3,8 @@ package net.mircomacrelli.rss;
 import static java.lang.String.format;
 
 enum ModuleInformation {
-    CREATIVE_COMMONS("http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html", CreativeCommons.class, CreativeCommons.Builder.class),
+    CREATIVE_COMMONS("http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html", CreativeCommons.class,
+                     CreativeCommons.Builder.class),
     SYNDICATION("http://purl.org/rss/1.0/modules/syndication/", Syndication.class, Syndication.Builder.class);
 
     private final String uri;

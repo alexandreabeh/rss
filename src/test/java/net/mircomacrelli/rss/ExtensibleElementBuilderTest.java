@@ -1,6 +1,7 @@
 package net.mircomacrelli.rss;
 
 import net.mircomacrelli.rss.ExtensibleElementBuilderTest.MockElement.MockBuilder;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
 
 import javax.xml.stream.XMLEventReader;
@@ -17,6 +18,10 @@ import static org.junit.Assert.assertTrue;
 public class ExtensibleElementBuilderTest {
     static final class MockElement extends ExtensibleElement {
         static final class MockBuilder extends ExtensibleElementBuilder {
+            MockBuilder(final DateTimeFormatter parser) {
+                super(parser);
+            }
+
             public MockElement build() {
                 return extend(new MockElement());
             }
@@ -34,7 +39,8 @@ public class ExtensibleElementBuilderTest {
         return factory.createXMLEventReader(new StringReader(xml));
     }
 
-    private static StartElement getFirstElementOf(final XMLEventReader reader, final String name) throws XMLStreamException {
+    private static StartElement getFirstElementOf(final XMLEventReader reader, final String name) throws
+                                                                                                  XMLStreamException {
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();
             if (event.isStartElement()) {
@@ -50,15 +56,15 @@ public class ExtensibleElementBuilderTest {
     private static MockBuilder parse(final String xml, final String name) throws Exception {
         final XMLEventReader reader = getReader(xml);
         final StartElement element = getFirstElementOf(reader, name);
-        final MockBuilder builder = new MockBuilder();
+        final MockBuilder builder = new MockBuilder(null);
         builder.passToModuleParser(reader, element);
         return builder;
     }
 
     @Test
     public void unknownModulesAreIgnored() throws Exception {
-        final String xml = "<rss xmlns:unk=\"http://mircomacrelli.net/unknown-module\">"+
-                           "<unk:tag>value</unk:tag>"+
+        final String xml = "<rss xmlns:unk=\"http://mircomacrelli.net/unknown-module\">" +
+                           "<unk:tag>value</unk:tag>" +
                            "</rss>";
 
         assertTrue(parse(xml, "tag").build().getModules().isEmpty());
@@ -66,16 +72,16 @@ public class ExtensibleElementBuilderTest {
 
     @Test(expected = IllegalStateException.class)
     public void throwExceptionWhenModuleIsNotAllowed() throws Exception {
-        final String xml = "<rss xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\">"+
-                           "<sy:period>hourly</sy:period>"+
+        final String xml = "<rss xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\">" +
+                           "<sy:period>hourly</sy:period>" +
                            "</rss>";
         parse(xml, "period");
     }
 
     @Test
     public void moduleIsBuiltCorrectly() throws Exception {
-        final String xml = "<rss xmlns:cc=\"http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html\">"+
-                           "<cc:license>http://www.google.it</cc:license>"+
+        final String xml = "<rss xmlns:cc=\"http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html\">" +
+                           "<cc:license>http://www.google.it</cc:license>" +
                            "</rss>";
         assertNotNull(parse(xml, "license").build().getModule(CreativeCommons.class));
     }

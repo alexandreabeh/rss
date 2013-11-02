@@ -1,5 +1,7 @@
 package net.mircomacrelli.rss;
 
+import org.joda.time.format.DateTimeFormatter;
+
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 import java.util.HashSet;
@@ -12,10 +14,11 @@ import static java.lang.String.format;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.requireNonNull;
 
-abstract class ExtensibleElementBuilder {
+abstract class ExtensibleElementBuilder extends BuilderBase {
     private final Map<Class<? extends Module>, ModuleBuilder> modules;
 
-    ExtensibleElementBuilder() {
+    protected ExtensibleElementBuilder(final DateTimeFormatter parser) {
+        super(parser);
         modules = new IdentityHashMap<>();
     }
 
@@ -27,21 +30,21 @@ abstract class ExtensibleElementBuilder {
         return element;
     }
 
-    private static void requireModuleAnnotation(final Class<? extends Module> module) {
+    private static void requireModuleInterface(final Class<? extends Module> module) {
         for (final Class<?> clazz : module.getInterfaces()) {
             if (clazz.equals(Module.class)) {
                 return;
             }
         }
-        throw new IllegalArgumentException(format("the class %s does not implements the Module interface",
-                                                  module.getSimpleName()));
+        throw new IllegalArgumentException(
+                format("the class %s does not implements the Module interface", module.getSimpleName()));
     }
 
     @SafeVarargs
     protected static Set<Class<? extends Module>> allowedModules(final Class<? extends Module> module,
                                                                  final Class<? extends Module>... others) {
         requireNonNull(module);
-        requireModuleAnnotation(module);
+        requireModuleInterface(module);
 
         final Set<Class<? extends Module>> set = new HashSet<>(1);
         set.add(module);
@@ -49,7 +52,7 @@ abstract class ExtensibleElementBuilder {
         if (others != null) {
             for (final Class<? extends Module> mod : others) {
                 requireNonNull(mod);
-                requireModuleAnnotation(mod);
+                requireModuleInterface(mod);
                 set.add(mod);
             }
         }
@@ -71,7 +74,7 @@ abstract class ExtensibleElementBuilder {
 
             ModuleBuilder builder = modules.get(module);
             if (builder == null) {
-                builder = (ModuleBuilder)info.getBuilder().getDeclaredConstructors()[0].newInstance();
+                builder = info.getBuilder().getConstructor(DateTimeFormatter.class).newInstance(parser);
                 modules.put(module, builder);
             }
 

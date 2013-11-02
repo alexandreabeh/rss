@@ -1,6 +1,7 @@
 package net.mircomacrelli.rss;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
@@ -22,9 +23,7 @@ import static net.mircomacrelli.rss.Utils.parseDate;
  * @version 1.0
  */
 public final class Syndication implements Module {
-    /**
-     * Type of periods
-     */
+    /** Type of periods */
     public enum Period {
         /** Hourly */
         HOURLY,
@@ -39,6 +38,7 @@ public final class Syndication implements Module {
 
         /**
          * Parse a string and return the corresponding Period
+         *
          * @param value the string to parse
          * @return the Period
          */
@@ -49,27 +49,21 @@ public final class Syndication implements Module {
 
     private final Period period;
 
-    /**
-     * @return the period to used with frequency
-     */
+    /** @return the period to used with frequency */
     public Period getPeriod() {
         return period;
     }
 
     private final int frequency;
 
-    /**
-     * @return a positive number used with period to know when a feed should be checked
-     */
+    /** @return a positive number used with period to know when a feed should be checked */
     public int getFrequency() {
         return frequency;
     }
 
     private final DateTime base;
 
-    /**
-     * @return the date and time that should be used as a base for update
-     */
+    /** @return the date and time that should be used as a base for update */
     public DateTime getBase() {
         return base;
     }
@@ -114,10 +108,14 @@ public final class Syndication implements Module {
         }
     }
 
-    static final class Builder implements ModuleBuilder {
+    static final class Builder extends ModuleBuilder {
         Period period;
         DateTime base;
         Integer frequency;
+
+        public Builder(final DateTimeFormatter parser) {
+            super(parser);
+        }
 
         @Override
         public void parse(final XMLEventReader reader, final StartElement element) throws IllegalArgumentException,
@@ -135,7 +133,7 @@ public final class Syndication implements Module {
                     break;
                 case "updateBase":
                     canBeWrittenOnlyOnce(base);
-                    base = parseDate(getText(reader));
+                    base = parseDate(getText(reader), parser);
                     break;
             }
         }

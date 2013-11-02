@@ -92,7 +92,7 @@ public class SyndicationTest {
 
     @Test
     public void testToString() {
-        assertEquals("Syndication{period=DAILY, frequency=2, base='Tue, 22 Oct 2013 15:05:19 UTC'}",
+        assertEquals("Syndication{period=DAILY, frequency=2, base='Tue, 22 Oct 2013 15:05:19 +0000'}",
                      new Syndication(period, frequency, date).toString());
     }
 }
