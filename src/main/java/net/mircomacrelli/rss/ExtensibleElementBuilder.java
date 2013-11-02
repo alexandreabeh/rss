@@ -60,9 +60,8 @@ abstract class ExtensibleElementBuilder {
     abstract Set<Class<? extends Module>> getAllowedModules();
 
     public final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
-        final String uri = element.getName().getNamespaceURI();
         try {
-            final ModuleInformation info = ModuleInformation.fromUri(uri);
+            final ModuleInformation info = ModuleInformation.fromUri(element.getName().getNamespaceURI());
             final Class<? extends Module> module = info.getModule();
 
             // check if this module can be here
