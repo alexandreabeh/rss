@@ -27,14 +27,14 @@ abstract class ExtensibleElementBuilder {
         return element;
     }
 
-    private static void requireModuleAnnotation(final Class<? extends Module> clazz) {
-        for (final Class<?> iface : clazz.getInterfaces()) {
-            if (iface.equals(Module.class)) {
+    private static void requireModuleAnnotation(final Class<? extends Module> module) {
+        for (final Class<?> clazz : module.getInterfaces()) {
+            if (clazz.equals(Module.class)) {
                 return;
             }
         }
         throw new IllegalArgumentException(format("the class %s does not implements the Module interface",
-                                                  clazz.getSimpleName()));
+                                                  module.getSimpleName()));
     }
 
     @SafeVarargs
