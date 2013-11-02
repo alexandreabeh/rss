@@ -185,7 +185,7 @@ final class Utils {
         requireNonNull(module);
         requireModuleInterface(module);
 
-        final Set<Class<? extends Module>> set = new HashSet<>(1);
+        final Set<Class<? extends Module>> set = new HashSet<>(1 + others.length);
         set.add(module);
 
         if (others != null) {
