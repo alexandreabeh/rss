@@ -1,7 +1,6 @@
 package net.mircomacrelli.rss;
 
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;

@@ -11,7 +11,6 @@ import javax.xml.stream.events.XMLEvent;
 import java.io.StringReader;
 import java.util.Set;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
