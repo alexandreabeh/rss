@@ -1,7 +1,0 @@
-<rss version="2.0">
-    <channel>
-        <description><tag>Test</tag></description>
-        <link>http://dallas.example.com</link>
-        <title>Dallas Times-Herald</title>
-    </channel>
-</rss>
