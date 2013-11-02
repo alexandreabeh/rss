@@ -27,27 +27,6 @@ abstract class ExtensibleElementBuilder {
         return element;
     }
 
-    private static Class<? extends Module> getModuleFromURI(final String uri) {
-        switch (uri) {
-            case "http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html":
-                return CreativeCommons.class;
-            case "http://purl.org/rss/1.0/modules/syndication/":
-                return Syndication.class;
-            default:
-                return null;
-        }
-    }
-
-    private static Class<? extends ModuleBuilder> getBuilderForModule(final Class<? extends Module> clazz) {
-        switch (clazz.getName()) {
-            case "net.mircomacrelli.rss.Syndication":
-                return Syndication.Builder.class;
-            case "net.mircomacrelli.rss.CreativeCommons":
-                return CreativeCommons.Builder.class;
-        }
-        throw new AssertionError("missing module builder");
-    }
-
     private static void requireModuleAnnotation(final Class<? extends Module> clazz) {
         for (final Class<?> iface : clazz.getInterfaces()) {
             if (iface.equals(Module.class)) {
@@ -82,22 +61,24 @@ abstract class ExtensibleElementBuilder {
 
     public final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
         final String uri = element.getName().getNamespaceURI();
-        final Class<? extends Module> clazz = getModuleFromURI(uri);
+        try {
+            final ModuleInformation info = ModuleInformation.fromUri(uri);
+            final Class<? extends Module> module = info.getModule();
 
-        // only process known modules
-        if (clazz != null) {
             // check if this module can be here
-            if (!getAllowedModules().contains(clazz)) {
-                throw new IllegalStateException(format("the module %s can't be here", clazz.getSimpleName()));
+            if (!getAllowedModules().contains(module)) {
+                throw new IllegalStateException(format("the module %s can't be here", module));
             }
 
-            ModuleBuilder builder = modules.get(clazz);
+            ModuleBuilder builder = modules.get(module);
             if (builder == null) {
-                builder = (ModuleBuilder)getBuilderForModule(clazz).getDeclaredConstructors()[0].newInstance();
-                modules.put(clazz, builder);
+                builder = (ModuleBuilder)info.getBuilder().getDeclaredConstructors()[0].newInstance();
+                modules.put(module, builder);
             }
 
             builder.parse(reader, element);
+        } catch (IllegalArgumentException ignored) {
+            // ignore all the unknown modules
         }
     }
 }
