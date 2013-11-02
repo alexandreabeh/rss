@@ -188,12 +188,10 @@ final class Utils {
         final Set<Class<? extends Module>> set = new HashSet<>(1 + others.length);
         set.add(module);
 
-        if (others != null) {
-            for (final Class<? extends Module> mod : others) {
-                requireNonNull(mod);
-                requireModuleInterface(mod);
-                set.add(mod);
-            }
+        for (final Class<? extends Module> mod : others) {
+            requireNonNull(mod);
+            requireModuleInterface(mod);
+            set.add(mod);
         }
 
         return unmodifiableSet(set);
