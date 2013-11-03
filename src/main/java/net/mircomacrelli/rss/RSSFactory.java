@@ -36,7 +36,6 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  */
 public final class RSSFactory {
     private final XMLInputFactory factory;
-
     private final DateTimeFormatter parser;
 
     RSSFactory(final DateTimeFormatter parser) {
@@ -95,30 +94,6 @@ public final class RSSFactory {
         }
 
         throw new IllegalStateException("<channel> not found");
-    }
-
-    private static Version getVersion(final XMLEventReader reader) throws XMLStreamException {
-        while (reader.hasNext()) {
-            final XMLEvent event = reader.nextEvent();
-
-            if (event.isStartElement()) {
-                final StartElement element = event.asStartElement();
-                final String name = element.getName().getLocalPart();
-
-                if (name.equals("rss")) {
-                    return Version.from(getAttributesValues(element).get("version"));
-                } else {
-                    break;
-                }
-            }
-        }
-
-        throw new IllegalStateException("<rss> not found");
-    }
-
-    private static Charset getCharset(final XMLEventReader reader) throws XMLStreamException {
-        final StartDocument doc = (StartDocument)reader.nextEvent();
-        return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
     }
 
     private Channel parseChannel(final XMLEventReader reader) throws Exception {
@@ -380,5 +355,29 @@ public final class RSSFactory {
         builder.setProtocol(attributes.get("protocol"));
 
         return builder.build();
+    }
+
+    private static Version getVersion(final XMLEventReader reader) throws XMLStreamException {
+        while (reader.hasNext()) {
+            final XMLEvent event = reader.nextEvent();
+
+            if (event.isStartElement()) {
+                final StartElement element = event.asStartElement();
+                final String name = element.getName().getLocalPart();
+
+                if (name.equals("rss")) {
+                    return Version.from(getAttributesValues(element).get("version"));
+                } else {
+                    break;
+                }
+            }
+        }
+
+        throw new IllegalStateException("<rss> not found");
+    }
+
+    private static Charset getCharset(final XMLEventReader reader) throws XMLStreamException {
+        final StartDocument doc = (StartDocument)reader.nextEvent();
+        return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
     }
 }

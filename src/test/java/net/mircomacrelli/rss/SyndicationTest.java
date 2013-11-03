@@ -14,7 +14,6 @@ public class SyndicationTest {
     private DateTime date;
     private int frequency;
     private Period period;
-
     private Syndication syndication;
 
     @Before

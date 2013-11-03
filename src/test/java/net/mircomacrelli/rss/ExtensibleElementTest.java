@@ -13,12 +13,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class ExtensibleElementTest {
-    private static class MockElement extends ExtensibleElement {
-
-    }
-
     private MockElement element;
-
     private CreativeCommons creativeCommons;
 
     @Before
@@ -77,5 +72,9 @@ public class ExtensibleElementTest {
     @Test(expected = UnsupportedOperationException.class)
     public void getModulesReturnAnUnmodifiableMap() {
         element.getModules().clear();
+    }
+
+    private static class MockElement extends ExtensibleElement {
+
     }
 }

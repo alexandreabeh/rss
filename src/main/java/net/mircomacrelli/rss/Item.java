@@ -181,6 +181,7 @@ public final class Item extends ExtensibleElement {
     }
 
     static final class Builder extends ExtensibleElementBuilder {
+        private static final Set<Class<? extends Module>> ALLOWED_MODULES = allowedModules(CreativeCommons.class);
         String author;
         String title;
         String description;
@@ -254,8 +255,6 @@ public final class Item extends ExtensibleElement {
             canBeWrittenOnlyOnce(source);
             source = val;
         }
-
-        private static final Set<Class<? extends Module>> ALLOWED_MODULES = allowedModules(CreativeCommons.class);
 
         @Override
         Set<Class<? extends Module>> getAllowedModules() {

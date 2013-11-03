@@ -24,45 +24,36 @@ import static net.mircomacrelli.rss.Utils.parseDate;
  * @version 1.0
  */
 public final class Syndication implements Module {
-    /** Type of periods */
-    public enum Period {
-        /** Hourly */
-        HOURLY,
-        /** Daily */
-        DAILY,
-        /** Weekly */
-        WEEKLY,
-        /** Monthly */
-        MONTHLY,
-        /** Yearly */
-        YEARLY;
+    private final Period period;
+    private final int frequency;
+    private final DateTime base;
 
-        /**
-         * Parse a string and return the corresponding Period
-         *
-         * @param value the string to parse
-         * @return the Period
-         */
-        public static Period from(final String value) {
-            return valueOf(value.toUpperCase(Locale.ENGLISH));
-        }
+    Syndication(final Period period, final Integer frequency, final DateTime base) {
+        requireNonNull(period);
+        requireNonNull(base);
+        requireNonNull(frequency);
+        frequencyInvariant(frequency);
+
+        this.period = period;
+        this.frequency = frequency;
+        this.base = base;
     }
 
-    private final Period period;
+    private static void frequencyInvariant(final int frequency) {
+        if (frequency < 1) {
+            throw new IllegalArgumentException(format("frequency must be positive. was %d", frequency));
+        }
+    }
 
     /** @return the period to used with frequency */
     public Period getPeriod() {
         return period;
     }
 
-    private final int frequency;
-
     /** @return a positive number used with period to know when a feed should be checked */
     public int getFrequency() {
         return frequency;
     }
-
-    private final DateTime base;
 
     /** @return the date and time that should be used as a base for update */
     public DateTime getBase() {
@@ -92,20 +83,27 @@ public final class Syndication implements Module {
         return (period == other.period) && (frequency == other.frequency) && base.equals(other.base);
     }
 
-    Syndication(final Period period, final Integer frequency, final DateTime base) {
-        requireNonNull(period);
-        requireNonNull(base);
-        requireNonNull(frequency);
-        frequencyInvariant(frequency);
+    /** Type of periods */
+    public enum Period {
+        /** Hourly */
+        HOURLY,
+        /** Daily */
+        DAILY,
+        /** Weekly */
+        WEEKLY,
+        /** Monthly */
+        MONTHLY,
+        /** Yearly */
+        YEARLY;
 
-        this.period = period;
-        this.frequency = frequency;
-        this.base = base;
-    }
-
-    private static void frequencyInvariant(final int frequency) {
-        if (frequency < 1) {
-            throw new IllegalArgumentException(format("frequency must be positive. was %d", frequency));
+        /**
+         * Parse a string and return the corresponding Period
+         *
+         * @param value the string to parse
+         * @return the Period
+         */
+        public static Period from(final String value) {
+            return valueOf(value.toUpperCase(Locale.ENGLISH));
         }
     }
 

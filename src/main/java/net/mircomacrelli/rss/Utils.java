@@ -35,7 +35,6 @@ import static java.util.Objects.requireNonNull;
 final class Utils {
     public static final DateTimeFormatter RFC822_DATE_FORMAT = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss Z")
                                                                              .withLocale(Locale.ENGLISH).withZoneUTC();
-
     private static final Pattern REPEATED_SPACES = Pattern.compile(" {2,}");
 
     private Utils() {
@@ -169,16 +168,6 @@ final class Utils {
         }
     }
 
-    private static void requireModuleInterface(final Class<? extends Module> module) {
-        for (final Class<?> clazz : module.getInterfaces()) {
-            if (clazz.equals(Module.class)) {
-                return;
-            }
-        }
-        throw new IllegalArgumentException(
-                format("the class %s does not implements the Module interface", module.getSimpleName()));
-    }
-
     @SafeVarargs
     public static Set<Class<? extends Module>> allowedModules(final Class<? extends Module> module,
                                                                  final Class<? extends Module>... others) {
@@ -195,5 +184,15 @@ final class Utils {
         }
 
         return unmodifiableSet(set);
+    }
+
+    private static void requireModuleInterface(final Class<? extends Module> module) {
+        for (final Class<?> clazz : module.getInterfaces()) {
+            if (clazz.equals(Module.class)) {
+                return;
+            }
+        }
+        throw new IllegalArgumentException(
+                format("the class %s does not implements the Module interface", module.getSimpleName()));
     }
 }

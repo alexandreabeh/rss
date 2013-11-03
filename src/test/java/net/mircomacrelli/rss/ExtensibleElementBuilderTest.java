@@ -17,27 +17,21 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ExtensibleElementBuilderTest {
-    static final class MockElement extends ExtensibleElement {
-        static final class MockBuilder extends ExtensibleElementBuilder {
-            MockBuilder(final DateTimeFormatter parser) {
-                super(parser);
-            }
+    @Test
+    public void unknownModulesAreIgnored() throws Exception {
+        final String xml = "<rss xmlns:unk=\"http://mircomacrelli.net/unknown-module\">" +
+                           "<unk:tag>value</unk:tag>" +
+                           "</rss>";
 
-            public MockElement build() {
-                return extend(new MockElement());
-            }
-
-            @Override
-            Set<Class<? extends Module>> getAllowedModules() {
-                return allowedModules(CreativeCommons.class);
-            }
-        }
+        assertTrue(parse(xml, "tag").build().getModules().isEmpty());
     }
 
-    private static XMLEventReader getReader(final String xml) throws XMLStreamException {
-        final XMLInputFactory factory = XMLInputFactory.newFactory();
-        factory.setProperty("javax.xml.stream.supportDTD", false);
-        return factory.createXMLEventReader(new StringReader(xml));
+    private static MockBuilder parse(final String xml, final String name) throws Exception {
+        final XMLEventReader reader = getReader(xml);
+        final StartElement element = getFirstElementOf(reader, name);
+        final MockBuilder builder = new MockBuilder(null);
+        builder.passToModuleParser(reader, element);
+        return builder;
     }
 
     private static StartElement getFirstElementOf(final XMLEventReader reader, final String name) throws
@@ -54,21 +48,10 @@ public class ExtensibleElementBuilderTest {
         return null;
     }
 
-    private static MockBuilder parse(final String xml, final String name) throws Exception {
-        final XMLEventReader reader = getReader(xml);
-        final StartElement element = getFirstElementOf(reader, name);
-        final MockBuilder builder = new MockBuilder(null);
-        builder.passToModuleParser(reader, element);
-        return builder;
-    }
-
-    @Test
-    public void unknownModulesAreIgnored() throws Exception {
-        final String xml = "<rss xmlns:unk=\"http://mircomacrelli.net/unknown-module\">" +
-                           "<unk:tag>value</unk:tag>" +
-                           "</rss>";
-
-        assertTrue(parse(xml, "tag").build().getModules().isEmpty());
+    private static XMLEventReader getReader(final String xml) throws XMLStreamException {
+        final XMLInputFactory factory = XMLInputFactory.newFactory();
+        factory.setProperty("javax.xml.stream.supportDTD", false);
+        return factory.createXMLEventReader(new StringReader(xml));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -85,5 +68,22 @@ public class ExtensibleElementBuilderTest {
                            "<cc:license>http://www.google.it</cc:license>" +
                            "</rss>";
         assertNotNull(parse(xml, "license").build().getModule(CreativeCommons.class));
+    }
+
+    static final class MockElement extends ExtensibleElement {
+        static final class MockBuilder extends ExtensibleElementBuilder {
+            MockBuilder(final DateTimeFormatter parser) {
+                super(parser);
+            }
+
+            public MockElement build() {
+                return extend(new MockElement());
+            }
+
+            @Override
+            Set<Class<? extends Module>> getAllowedModules() {
+                return allowedModules(CreativeCommons.class);
+            }
+        }
     }
 }

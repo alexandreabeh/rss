@@ -48,15 +48,15 @@ public final class Cloud {
         this.protocol = protocol;
     }
 
-    private static void portInvariant(final int port) {
-        if ((port < 0) || (port > 65535)) {
-            throw new IllegalArgumentException(format("port must be between 0 and 65535. was %d", port));
-        }
-    }
-
     private static void procedureNameInvariant(final String procedureName, final Protocol protocol) {
         if ((protocol == Protocol.XML_RPC) && procedureName.isEmpty()) {
             throw new IllegalArgumentException("procedureName cant be empty if protocol il xml-rpc");
+        }
+    }
+
+    private static void portInvariant(final int port) {
+        if ((port < 0) || (port > 65535)) {
+            throw new IllegalArgumentException(format("port must be between 0 and 65535. was %d", port));
         }
     }
 

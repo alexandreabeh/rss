@@ -27,8 +27,6 @@ abstract class ExtensibleElementBuilder extends BuilderBase {
         return element;
     }
 
-    abstract Set<Class<? extends Module>> getAllowedModules();
-
     public final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
         try {
             final ModuleInformation info = ModuleInformation.fromUri(element.getName().getNamespaceURI());
@@ -50,4 +48,6 @@ abstract class ExtensibleElementBuilder extends BuilderBase {
             // ignore all the unknown modules
         }
     }
+
+    abstract Set<Class<? extends Module>> getAllowedModules();
 }

@@ -51,18 +51,18 @@ public final class Image {
         this.height = height;
     }
 
-    private static void heightInvariant(final Integer height) {
-        if (height != null) {
-            if (height < 0) {
-                throw new IllegalArgumentException(format("height can't be negative. was %d", height));
-            }
-        }
-    }
-
     private static void widthInvariant(final Integer width) {
         if (width != null) {
             if (width < 0) {
                 throw new IllegalArgumentException(format("width can't be negative. was %d", width));
+            }
+        }
+    }
+
+    private static void heightInvariant(final Integer height) {
+        if (height != null) {
+            if (height < 0) {
+                throw new IllegalArgumentException(format("height can't be negative. was %d", height));
             }
         }
     }
