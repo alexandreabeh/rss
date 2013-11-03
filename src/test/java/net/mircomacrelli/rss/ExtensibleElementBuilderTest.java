@@ -10,7 +10,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.StringReader;
-import java.net.MalformedURLException;
 import java.util.Set;
 
 import static net.mircomacrelli.rss.Utils.allowedModules;

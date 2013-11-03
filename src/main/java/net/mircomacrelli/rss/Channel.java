@@ -1,6 +1,5 @@
 package net.mircomacrelli.rss;
 
-import net.mircomacrelli.rss.Item.Builder;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -10,7 +9,6 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -395,7 +393,7 @@ public final class Channel extends ExtensibleElement {
         }
 
         @Override
-        void handleTag(XMLEventReader reader, StartElement element) throws Exception {
+        void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
             final String name = element.getName().getLocalPart();
             switch (name) {
                 case "title":

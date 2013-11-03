@@ -1,7 +1,6 @@
 package net.mircomacrelli.rss;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import javax.xml.stream.XMLEventReader;

@@ -36,8 +36,6 @@ import static net.mircomacrelli.rss.Utils.isEndOfTag;
 import static net.mircomacrelli.rss.Utils.isStartOfTag;
 import static net.mircomacrelli.rss.Utils.parseDate;
 import static net.mircomacrelli.rss.Utils.parseURL;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -202,7 +200,6 @@ public final class UtilsTest extends XmlTestBase {
     @Test
     public void canBeWrittenOnlyOnceDoesNothingIfNull() {
         canBeWrittenOnlyOnce(null);
-        assertTrue(true);
     }
 
     @Test(expected = NullPointerException.class)
@@ -213,6 +210,7 @@ public final class UtilsTest extends XmlTestBase {
     @Test(expected = IllegalArgumentException.class)
     public void firstModuleMustImplementModule() {
         final Class<?> stringClazz = String.class;
+        @SuppressWarnings("unchecked")
         final Class<? extends Module> clazz = (Class<? extends Module>) stringClazz;
         allowedModules(clazz);
     }
@@ -225,6 +223,7 @@ public final class UtilsTest extends XmlTestBase {
     @Test(expected = IllegalArgumentException.class)
     public void othersModulesMustImplementModule() {
         final Class<?> stringClazz = String.class;
+        @SuppressWarnings("unchecked")
         final Class<? extends Module> clazz = (Class<? extends Module>) stringClazz;
         allowedModules(CreativeCommons.class, Syndication.class, clazz);
     }

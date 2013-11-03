@@ -3,10 +3,8 @@ package net.mircomacrelli.rss;
 import org.joda.time.format.DateTimeFormatter;
 
 import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-import java.net.MalformedURLException;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Map.Entry;

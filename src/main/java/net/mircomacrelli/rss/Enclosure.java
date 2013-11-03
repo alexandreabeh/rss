@@ -4,14 +4,12 @@ import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
-import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyMimeType;
 import static net.mircomacrelli.rss.Utils.getAttributesValues;
 import static net.mircomacrelli.rss.Utils.parseURL;
