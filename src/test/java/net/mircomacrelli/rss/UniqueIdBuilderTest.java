@@ -11,14 +11,11 @@ import java.net.MalformedURLException;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class UniqueIdBuilderTest extends XmlTestBase {
+public class UniqueIdBuilderTest extends BuilderBaseTestBase<UniqueId, Builder> {
 
-    private static Builder parse(final String xml) throws Exception {
-        final XMLEventReader reader = parseString(xml);
-        final StartElement element = getElement(reader);
-        final Builder builder = new Builder();
-        builder.parse(reader, element);
-        return builder;
+    @Override
+    Builder newBuilder() {
+        return new Builder();
     }
 
     @Test
