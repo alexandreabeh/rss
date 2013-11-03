@@ -4,15 +4,12 @@ import org.joda.time.format.DateTimeFormatter;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
-import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import static java.lang.String.format;
-import static java.util.Collections.unmodifiableSet;
-import static java.util.Objects.requireNonNull;
 
 abstract class ExtensibleElementBuilder extends BuilderBase {
     private final Map<Class<? extends Module>, ModuleBuilder> modules;
