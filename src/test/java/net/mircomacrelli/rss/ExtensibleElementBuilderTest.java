@@ -10,6 +10,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.StringReader;
+import java.net.MalformedURLException;
 import java.util.Set;
 
 import static net.mircomacrelli.rss.Utils.allowedModules;
@@ -71,13 +72,18 @@ public class ExtensibleElementBuilderTest {
     }
 
     static final class MockElement extends ExtensibleElement {
-        static final class MockBuilder extends ExtensibleElementBuilder {
+        static final class MockBuilder extends ExtensibleElementBuilder<MockElement> {
             MockBuilder(final DateTimeFormatter parser) {
                 super(parser);
             }
 
-            public MockElement build() {
-                return extend(new MockElement());
+            @Override
+            MockElement buildElement() {
+                return new MockElement();
+            }
+
+            @Override
+            void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
             }
 
             @Override

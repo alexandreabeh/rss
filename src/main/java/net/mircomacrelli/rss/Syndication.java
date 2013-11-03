@@ -112,7 +112,7 @@ public final class Syndication implements Module {
         DateTime base;
         Integer frequency;
 
-        public Builder(final DateTimeFormatter parser) {
+        public Builder() {
             super(ISODateTimeFormat.dateTimeParser());
         }
 

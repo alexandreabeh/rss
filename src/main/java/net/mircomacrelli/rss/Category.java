@@ -1,9 +1,15 @@
 package net.mircomacrelli.rss;
 
+import org.joda.time.format.DateTimeFormatter;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.events.StartElement;
 import java.util.Objects;
 
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
+import static net.mircomacrelli.rss.Utils.getAttributesValues;
+import static net.mircomacrelli.rss.Utils.getText;
 
 /**
  * One category of an Item
@@ -71,5 +77,21 @@ public final class Category {
     /** @return true if the category has a domain set */
     public boolean hasDomain() {
         return domain != null;
+    }
+
+    static final class Builder extends BuilderBase<Category> {
+        String domain;
+        String location;
+
+        @Override
+        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+            domain = getAttributesValues(element).get("domain");
+            location = getText(reader);
+        }
+
+        @Override
+        public Category build() {
+            return new Category(domain, location);
+        }
     }
 }

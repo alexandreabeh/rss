@@ -1,12 +1,16 @@
 package net.mircomacrelli.rss;
 
-import java.net.MalformedURLException;
+import org.joda.time.format.DateTimeFormatter;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.events.StartElement;
 import java.net.URL;
+import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
-import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
+import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
 import static net.mircomacrelli.rss.Utils.parseURL;
 
 /**
@@ -86,32 +90,23 @@ public final class TextInput {
                       scriptUrl);
     }
 
-    static final class Builder {
+    static final class Builder extends BuilderBase<TextInput> {
         String name;
         String description;
         String label;
         URL cgiScriptURL;
 
-        public void setName(final String val) {
-            canBeWrittenOnlyOnce(name);
-            name = val;
+        @Override
+        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+            final Map<String, String> values = getAllTagsValuesInside(reader, "textInput");
+
+            label = values.get("title");
+            description = values.get("description");
+            name = values.get("name");
+            cgiScriptURL = parseURL(values.get("link"));
         }
 
-        public void setDescription(final String val) {
-            canBeWrittenOnlyOnce(description);
-            description = val;
-        }
-
-        public void setLabel(final String val) {
-            canBeWrittenOnlyOnce(label);
-            label = val;
-        }
-
-        public void setCgiScriptURL(final String val) throws MalformedURLException {
-            canBeWrittenOnlyOnce(cgiScriptURL);
-            cgiScriptURL = parseURL(val);
-        }
-
+        @Override
         public TextInput build() {
             return new TextInput(name, description, label, cgiScriptURL);
         }

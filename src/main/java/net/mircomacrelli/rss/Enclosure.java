@@ -2,14 +2,18 @@ package net.mircomacrelli.rss;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.events.StartElement;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyMimeType;
+import static net.mircomacrelli.rss.Utils.getAttributesValues;
 import static net.mircomacrelli.rss.Utils.parseURL;
 
 /**
@@ -31,7 +35,7 @@ public final class Enclosure {
      * @param length the length of the file. in bytes
      * @param type MIME Type of the linked file
      */
-    Enclosure(final URL link, final long length, final MimeType type) throws MimeTypeParseException {
+    Enclosure(final URL link, final long length, final MimeType type) {
         requireNonNull(link);
         requireNonNull(type);
         lengthInvariant(length);
@@ -97,27 +101,22 @@ public final class Enclosure {
         return format("Enclosure{link='%s', length=%d, type=%s}", link, length, type);
     }
 
-    static final class Builder {
+    static final class Builder extends BuilderBase<Enclosure> {
         URL url;
         Long length;
         MimeType type;
 
-        public void setUrl(final String val) throws MalformedURLException {
-            canBeWrittenOnlyOnce(url);
-            url = parseURL(val);
+        @Override
+        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+            final Map<String, String> attributes = getAttributesValues(element);
+
+            url = parseURL(attributes.get("url"));
+            length = Long.parseLong(attributes.get("length"));
+            type = new MimeType(attributes.get("type"));
         }
 
-        public void setLength(final String val) {
-            canBeWrittenOnlyOnce(length);
-            length = Long.valueOf(val);
-        }
-
-        public void setType(final String val) throws MimeTypeParseException {
-            canBeWrittenOnlyOnce(type);
-            type = new MimeType(val);
-        }
-
-        public Enclosure build() throws MimeTypeParseException {
+        @Override
+        public Enclosure build() {
             return new Enclosure(url, length, type);
         }
     }

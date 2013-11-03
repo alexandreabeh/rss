@@ -1,10 +1,17 @@
 package net.mircomacrelli.rss;
 
+import org.joda.time.format.DateTimeFormatter;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.events.StartElement;
 import java.net.URL;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
+import static net.mircomacrelli.rss.Utils.getAttributesValues;
+import static net.mircomacrelli.rss.Utils.getText;
+import static net.mircomacrelli.rss.Utils.parseURL;
 
 /**
  * Link to the original feed that first published the Item
@@ -61,5 +68,21 @@ public final class Source {
     @Override
     public String toString() {
         return format("Source{name='%s', link='%s'}", name, link);
+    }
+
+    static final class Builder extends BuilderBase<Source> {
+        URL link;
+        String title;
+
+        @Override
+        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+            link = parseURL(getAttributesValues(element).get("url"));
+            title = getText(reader);
+        }
+
+        @Override
+        public Source build() {
+            return new Source(title, link);
+        }
     }
 }

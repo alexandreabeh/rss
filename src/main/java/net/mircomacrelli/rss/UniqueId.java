@@ -1,11 +1,18 @@
 package net.mircomacrelli.rss;
 
+import org.joda.time.format.DateTimeFormatter;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.events.StartElement;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
+import static net.mircomacrelli.rss.Utils.getAttributesValues;
+import static net.mircomacrelli.rss.Utils.getText;
 
 /**
  * Unique Identifier of an Item
@@ -71,5 +78,24 @@ public final class UniqueId {
     @Override
     public String toString() {
         return format("UniqueId{id='%s', isLink=%s}", id, isLink);
+    }
+
+    static final class Builder extends BuilderBase<UniqueId> {
+        boolean isLink;
+        String id;
+
+        @Override
+        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+            final Map<String, String> attributes = getAttributesValues(element);
+            if (attributes.containsKey("isPermaLink")) {
+                isLink = Boolean.parseBoolean(attributes.get("isPermaLink"));
+            }
+            id = getText(reader);
+        }
+
+        @Override
+        public UniqueId build() throws MalformedURLException {
+            return new UniqueId(id, isLink);
+        }
     }
 }

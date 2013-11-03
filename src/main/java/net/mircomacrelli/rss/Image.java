@@ -1,12 +1,16 @@
 package net.mircomacrelli.rss;
 
-import java.net.MalformedURLException;
+import org.joda.time.format.DateTimeFormatter;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.events.StartElement;
 import java.net.URL;
+import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
-import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
+import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
 import static net.mircomacrelli.rss.Utils.parseURL;
 
 /**
@@ -138,7 +142,7 @@ public final class Image {
         return sb.toString();
     }
 
-    static final class Builder {
+    static final class Builder extends BuilderBase<Image> {
         URL image;
         URL link;
         String alt;
@@ -146,40 +150,19 @@ public final class Image {
         Integer width;
         Integer height;
 
-        public void setImage(final String val) throws MalformedURLException {
-            canBeWrittenOnlyOnce(image);
-            image = parseURL(val);
+        @Override
+        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+            final Map<String, String> values = getAllTagsValuesInside(reader, "image");
+
+            image = parseURL(values.get("url"));
+            alt = values.get("title");
+            link = parseURL(values.get("link"));
+            description = values.get("description");
+            width = Integer.parseInt(values.get("width"));
+            height = Integer.parseInt(values.get("height"));
         }
 
-        public void setAlt(final String val) {
-            canBeWrittenOnlyOnce(alt);
-            alt = val;
-        }
-
-        public void setLink(final String val) throws MalformedURLException {
-            canBeWrittenOnlyOnce(link);
-            link = parseURL(val);
-        }
-
-        public void setDescription(final String val) {
-            canBeWrittenOnlyOnce(description);
-            description = val;
-        }
-
-        public void setWidth(final String val) {
-            if (val != null) {
-                canBeWrittenOnlyOnce(width);
-                width = Integer.parseInt(val);
-            }
-        }
-
-        public void setHeight(final String val) {
-            if (val != null) {
-                canBeWrittenOnlyOnce(height);
-                height = Integer.parseInt(val);
-            }
-        }
-
+        @Override
         public Image build() {
             return new Image(image, link, alt, description, width, height);
         }

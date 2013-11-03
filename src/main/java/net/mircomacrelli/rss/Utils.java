@@ -53,8 +53,12 @@ final class Utils {
         return (set == null) ? EnumSet.noneOf(type) : set.clone();
     }
 
-    public static MimeType copyMimeType(final MimeType original) throws MimeTypeParseException {
-        return new MimeType(original.getPrimaryType(), original.getSubType());
+    public static MimeType copyMimeType(final MimeType original) {
+        try {
+            return new MimeType(original.getPrimaryType(), original.getSubType());
+        } catch (MimeTypeParseException ignored) {
+            throw new AssertionError("can not happen");
+        }
     }
 
     public static void append(final StringBuilder sb, final String fieldName, final Object field) {

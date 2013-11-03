@@ -5,7 +5,8 @@ import org.joda.time.format.DateTimeFormatter;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import java.net.MalformedURLException;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.events.StartElement;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
+import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.parseDate;
 import static net.mircomacrelli.rss.Utils.parseURL;
 
@@ -180,7 +182,7 @@ public final class Item extends ExtensibleElement {
         return sb.toString();
     }
 
-    static final class Builder extends ExtensibleElementBuilder {
+    static final class Builder extends ExtensibleElementBuilder<Item> {
         private static final Set<Class<? extends Module>> ALLOWED_MODULES = allowedModules(CreativeCommons.class);
         String author;
         String title;
@@ -197,63 +199,85 @@ public final class Item extends ExtensibleElement {
             super(parser);
         }
 
-        public Item build() {
-            return extend(new Item(link, title, description, author, publishDate, categories, source, commentsLink,
-                                   enclosures, uniqueId));
+        @Override
+        Item buildElement() {
+            return new Item(link, title, description, author, publishDate, categories, source, commentsLink,
+                            enclosures, uniqueId);
         }
 
-        public void setTitle(final String val) {
-            canBeWrittenOnlyOnce(title);
-            title = val;
-        }
-
-        public void setLink(final String val) throws MalformedURLException {
-            canBeWrittenOnlyOnce(link);
-            link = parseURL(val);
-        }
-
-        public void setDescription(final String val) {
-            canBeWrittenOnlyOnce(description);
-            description = val;
-        }
-
-        public void setAuthor(final String val) {
-            canBeWrittenOnlyOnce(author);
-            author = val;
-        }
-
-        public void addCategory(final Category val) {
-            if (categories == null) {
-                categories = new HashSet<>(1);
+        @Override
+        void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
+            final String name = element.getName().getLocalPart();
+            switch (name) {
+                case "title":
+                    canBeWrittenOnlyOnce(title);
+                    title = getText(reader);
+                    break;
+                case "link":
+                    canBeWrittenOnlyOnce(link);
+                    link = parseURL(getText(reader));
+                    break;
+                case "description":
+                    canBeWrittenOnlyOnce(description);
+                    description = getText(reader);
+                    break;
+                case "author":
+                    canBeWrittenOnlyOnce(author);
+                    author = getText(reader);
+                    break;
+                case "category":
+                    if (categories == null) {
+                        categories = new HashSet<>(1);
+                    }
+                    categories.add(parseCategory(reader, element));
+                    break;
+                case "comments":
+                    canBeWrittenOnlyOnce(commentsLink);
+                    commentsLink = parseURL(getText(reader));
+                    break;
+                case "enclosure":
+                    if (enclosures == null) {
+                        enclosures = new ArrayList<>(1);
+                    }
+                    enclosures.add(parseEnclosure(reader, element));
+                    break;
+                case "guid":
+                    canBeWrittenOnlyOnce(uniqueId);
+                    uniqueId = parseUniqueId(reader, element);
+                    break;
+                case "pubDate":
+                    canBeWrittenOnlyOnce(publishDate);
+                    publishDate = parseDate(getText(reader), parser);
+                    break;
+                case "source":
+                    canBeWrittenOnlyOnce(source);
+                    source = parseSource(reader, element);
+                    break;
             }
-            categories.add(val);
         }
 
-        public void setCommentsLink(final String val) throws MalformedURLException {
-            canBeWrittenOnlyOnce(commentsLink);
-            commentsLink = parseURL(val);
+        private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws Exception {
+            final Category.Builder builder = new Category.Builder();
+            builder.parse(reader, element);
+            return builder.build();
         }
 
-        public void addEnclosure(final Enclosure val) {
-            if (enclosures == null) {
-                enclosures = new ArrayList<>(1);
-            }
-            enclosures.add(val);
+        private static UniqueId parseUniqueId(final XMLEventReader reader, final StartElement element) throws Exception {
+            final UniqueId.Builder builder = new UniqueId.Builder();
+            builder.parse(reader, element);
+            return builder.build();
         }
 
-        public void setUniqueId(final UniqueId val) {
-            canBeWrittenOnlyOnce(uniqueId);
-            uniqueId = val;
+        private static Enclosure parseEnclosure(final XMLEventReader reader, final StartElement element) throws Exception {
+            final Enclosure.Builder builder = new Enclosure.Builder();
+            builder.parse(reader, element);
+            return builder.build();
         }
 
-        public void setPublishDate(final String val) {
-            canBeWrittenOnlyOnce(publishDate);
-            publishDate = parseDate(val, parser);
-        }
-
-        public void setSource(final Source val) {
-            canBeWrittenOnlyOnce(source);
-            source = val;
+        private static Source parseSource(final XMLEventReader reader, final StartElement element) throws Exception {
+            final Source.Builder builder = new Source.Builder();
+            builder.parse(reader, element);
+            return builder.build();
         }
 
         @Override

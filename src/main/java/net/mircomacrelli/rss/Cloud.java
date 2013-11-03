@@ -1,15 +1,21 @@
 package net.mircomacrelli.rss;
 
+import org.joda.time.format.DateTimeFormatter;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.events.StartElement;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
+import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
+import static net.mircomacrelli.rss.Utils.getAttributesValues;
 
 /**
  * Information about the Cloud that can be used to subscribe to the push notifications for this feed
@@ -140,38 +146,25 @@ public final class Cloud {
         }
     }
 
-    static final class Builder {
+    static final class Builder extends BuilderBase<Cloud> {
         URI domain;
         Integer port;
         Path path;
         String procedureName;
         Protocol protocol;
 
-        public void setDomain(final String val) throws URISyntaxException {
-            canBeWrittenOnlyOnce(domain);
-            domain = new URI(val);
+        @Override
+        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+            final Map<String, String> attributes = getAttributesValues(element);
+
+            domain = new URI(attributes.get("domain"));
+            path = Paths.get(attributes.get("path"));
+            procedureName = attributes.get("registerProcedure");
+            port = Integer.parseInt(attributes.get("port"));
+            protocol = Protocol.from(attributes.get("protocol"));
         }
 
-        public void setPort(final String val) {
-            canBeWrittenOnlyOnce(port);
-            port = Integer.parseInt(val);
-        }
-
-        public void setPath(final String val) {
-            canBeWrittenOnlyOnce(path);
-            path = Paths.get(val);
-        }
-
-        public void setProcedureName(final String val) {
-            canBeWrittenOnlyOnce(procedureName);
-            procedureName = val;
-        }
-
-        public void setProtocol(final String val) {
-            canBeWrittenOnlyOnce(protocol);
-            protocol = Protocol.from(val);
-        }
-
+        @Override
         public Cloud build() {
             return new Cloud(domain, port, path, procedureName, protocol);
         }

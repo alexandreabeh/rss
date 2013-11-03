@@ -62,8 +62,8 @@ public final class CreativeCommons implements Module {
     static final class Builder extends ModuleBuilder {
         List<URL> licenses;
 
-        public Builder(final DateTimeFormatter parser) {
-            super(parser);
+        public Builder() {
+            super(null);
         }
 
         @Override

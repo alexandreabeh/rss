@@ -1,10 +1,15 @@
 package net.mircomacrelli.rss;
 
+import net.mircomacrelli.rss.Item.Builder;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,6 +31,9 @@ import static net.mircomacrelli.rss.Utils.copyEnumSet;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
+import static net.mircomacrelli.rss.Utils.getText;
+import static net.mircomacrelli.rss.Utils.isEndOfTag;
+import static net.mircomacrelli.rss.Utils.isStartOfTag;
 import static net.mircomacrelli.rss.Utils.parseDate;
 import static net.mircomacrelli.rss.Utils.parseURL;
 
@@ -351,7 +359,7 @@ public final class Channel extends ExtensibleElement {
         }
     }
 
-    static final class Builder extends ExtensibleElementBuilder {
+    static final class Builder extends ExtensibleElementBuilder<Channel> {
         private static final Set<Class<? extends Module>> ALLOWED_MODULES = allowedModules(CreativeCommons.class,
                                                                                            Syndication.class);
         String title;
@@ -379,77 +387,161 @@ public final class Channel extends ExtensibleElement {
             super(parser);
         }
 
-        public Channel build() {
-            return extend(new Channel(title, link, description, language, copyright, editor, webmaster, publishDate,
-                                      buildDate, categories, generator, docs, cloud, ttl, image, textInput, skipHours,
-                                      skipDays, rating, items));
+        @Override
+        Channel buildElement() {
+            return new Channel(title, link, description, language, copyright, editor, webmaster, publishDate,
+                               buildDate, categories, generator, docs, cloud, ttl, image, textInput, skipHours,
+                               skipDays, rating, items);
         }
 
-        public void setTitle(final String val) {
-            canBeWrittenOnlyOnce(title);
-            title = val;
-        }
-
-        public void setLink(final String val) throws MalformedURLException {
-            canBeWrittenOnlyOnce(link);
-            link = parseURL(val);
-        }
-
-        public void setDescription(final String val) {
-            canBeWrittenOnlyOnce(description);
-            description = val;
-        }
-
-        public void setLanguage(final String val) {
-            canBeWrittenOnlyOnce(language);
-            language = Locale.forLanguageTag(val);
-        }
-
-        public void setCopyright(final String val) {
-            canBeWrittenOnlyOnce(copyright);
-            copyright = val;
-        }
-
-        public void setEditor(final String val) {
-            canBeWrittenOnlyOnce(editor);
-            editor = val;
-        }
-
-        public void setWebmaster(final String val) {
-            canBeWrittenOnlyOnce(webmaster);
-            webmaster = val;
-        }
-
-        public void setPublishDate(final String val) {
-            canBeWrittenOnlyOnce(publishDate);
-            publishDate = parseDate(val, parser);
-        }
-
-        public void setBuildDate(final String val) {
-            canBeWrittenOnlyOnce(buildDate);
-            buildDate = parseDate(val, parser);
-        }
-
-        public void addCategory(final Category val) {
-            if (categories == null) {
-                categories = new HashSet<>(6);
+        @Override
+        void handleTag(XMLEventReader reader, StartElement element) throws Exception {
+            final String name = element.getName().getLocalPart();
+            switch (name) {
+                case "title":
+                    canBeWrittenOnlyOnce(title);
+                    title = getText(reader);
+                    break;
+                case "link":
+                    canBeWrittenOnlyOnce(link);
+                    link = parseURL(getText(reader));
+                    break;
+                case "description":
+                    canBeWrittenOnlyOnce(description);
+                    description = getText(reader);
+                    break;
+                case "language":
+                    canBeWrittenOnlyOnce(language);
+                    language = Locale.forLanguageTag(getText(reader));
+                    break;
+                case "copyright":
+                    canBeWrittenOnlyOnce(copyright);
+                    copyright = getText(reader);
+                    break;
+                case "managingEditor":
+                    canBeWrittenOnlyOnce(editor);
+                    editor = getText(reader);
+                    break;
+                case "webMaster":
+                    canBeWrittenOnlyOnce(webmaster);
+                    webmaster = getText(reader);
+                    break;
+                case "pubDate":
+                    canBeWrittenOnlyOnce(publishDate);
+                    publishDate = parseDate(getText(reader), parser);
+                    break;
+                case "lastBuildDate":
+                    canBeWrittenOnlyOnce(buildDate);
+                    buildDate = parseDate(getText(reader), parser);
+                    break;
+                case "category":
+                    if (categories == null) {
+                        categories = new HashSet<>(6);
+                    }
+                    categories.add(parseCategory(reader, element));
+                    break;
+                case "generator":
+                    canBeWrittenOnlyOnce(generator);
+                    generator = getText(reader);
+                    break;
+                case "docs":
+                    canBeWrittenOnlyOnce(docs);
+                    docs = parseURL(getText(reader));
+                    break;
+                case "cloud":
+                    canBeWrittenOnlyOnce(cloud);
+                    cloud = parseCloud(element);
+                    break;
+                case "ttl":
+                    setTtl(getText(reader));
+                    break;
+                case "image":
+                    canBeWrittenOnlyOnce(image);
+                    image = parseImage(reader);
+                    break;
+                case "textInput":
+                    canBeWrittenOnlyOnce(textInput);
+                    textInput = parseTextInput(reader);
+                    break;
+                case "rating":
+                    canBeWrittenOnlyOnce(rating);
+                    rating = getText(reader);
+                    break;
+                case "item":
+                    if (items == null) {
+                        items = new ArrayList<>(25);
+                    }
+                    items.add(parseItem(reader, parser));
+                    break;
+                case "skipDays":
+                    canBeWrittenOnlyOnce(skipDays);
+                    skipDays = parseSkipDays(reader);
+                    break;
+                case "skipHours":
+                    canBeWrittenOnlyOnce(skipHours);
+                    skipHours = parseSkipHours(reader);
+                    break;
             }
-            categories.add(val);
         }
 
-        public void setGenerator(final String val) {
-            canBeWrittenOnlyOnce(generator);
-            generator = val;
+        private static Image parseImage(final XMLEventReader reader) throws Exception {
+            final Image.Builder builder = new Image.Builder();
+            builder.parse(reader, null);
+            return builder.build();
         }
 
-        public void setDocs(final String val) throws MalformedURLException {
-            canBeWrittenOnlyOnce(docs);
-            docs = parseURL(val);
+        private static Cloud parseCloud(final StartElement element) throws Exception {
+            final Cloud.Builder builder = new Cloud.Builder();
+            builder.parse(null, element);
+            return builder.build();
         }
 
-        public void setCloud(final Cloud val) {
-            canBeWrittenOnlyOnce(cloud);
-            cloud = val;
+        private static TextInput parseTextInput(final XMLEventReader reader) throws Exception {
+            final TextInput.Builder builder = new TextInput.Builder();
+            builder.parse(reader, null);
+            return builder.build();
+        }
+
+        private static EnumSet<Day> parseSkipDays(final XMLEventReader reader) throws XMLStreamException {
+            final EnumSet<Day> days = EnumSet.noneOf(Day.class);
+
+            while (reader.hasNext()) {
+                final XMLEvent event = reader.nextEvent();
+
+                if (isEndOfTag(event, "skipDays")) {
+                    break;
+                }
+
+                if (isStartOfTag(event, "day")) {
+                    days.add(Day.from(getText(reader)));
+                }
+            }
+
+            return days;
+        }
+
+        private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws Exception {
+            final Category.Builder builder = new Category.Builder();
+            builder.parse(reader, element);
+            return builder.build();
+        }
+
+        private static Set<Integer> parseSkipHours(final XMLEventReader reader) throws XMLStreamException {
+            final Set<Integer> hours = new HashSet<>(24);
+
+            while (reader.hasNext()) {
+                final XMLEvent event = reader.nextEvent();
+
+                if (isEndOfTag(event, "skipHours")) {
+                    break;
+                }
+
+                if (isStartOfTag(event, "hour")) {
+                    hours.add(Integer.parseInt(getText(reader)));
+                }
+            }
+
+            return hours;
         }
 
         public void setTtl(final String val) {
@@ -457,36 +549,10 @@ public final class Channel extends ExtensibleElement {
             ttl = Integer.parseInt(val);
         }
 
-        public void setImage(final Image val) {
-            canBeWrittenOnlyOnce(image);
-            image = val;
-        }
-
-        public void setTextInput(final TextInput val) {
-            canBeWrittenOnlyOnce(textInput);
-            textInput = val;
-        }
-
-        public void setRating(final String val) {
-            canBeWrittenOnlyOnce(rating);
-            rating = val;
-        }
-
-        public void addItem(final Item val) {
-            if (items == null) {
-                items = new ArrayList<>(25);
-            }
-            items.add(val);
-        }
-
-        public void setSkipDays(final EnumSet<Day> val) {
-            canBeWrittenOnlyOnce(skipDays);
-            skipDays = val.clone();
-        }
-
-        public void setSkipHours(final Set<Integer> val) {
-            canBeWrittenOnlyOnce(skipHours);
-            skipHours = new HashSet<>(val);
+        private static Item parseItem(final XMLEventReader reader, final DateTimeFormatter parser) throws Exception {
+            final Item.Builder builder = new Item.Builder(parser);
+            builder.parse(reader, null);
+            return builder.build();
         }
 
         @Override
