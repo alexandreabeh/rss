@@ -79,7 +79,7 @@ public final class UniqueId {
     }
 
     static final class Builder extends BuilderBase<UniqueId> {
-        boolean isLink;
+        boolean isLink = true;
         String id;
 
         @Override
