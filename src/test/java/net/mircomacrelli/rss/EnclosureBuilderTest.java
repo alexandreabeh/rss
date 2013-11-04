@@ -6,6 +6,8 @@ import org.junit.Test;
 import javax.activation.MimeTypeParseException;
 import java.net.MalformedURLException;
 
+import static org.junit.Assert.assertNotNull;
+
 public class EnclosureBuilderTest extends BuilderBaseTestBase<Enclosure, Builder> {
     @Override
     Builder newBuilder() {
@@ -25,5 +27,11 @@ public class EnclosureBuilderTest extends BuilderBaseTestBase<Enclosure, Builder
     @Test(expected = MimeTypeParseException.class)
     public void typeMustBeAValidMimeType() throws Exception {
         parse("<enclosure url=\"http://mircomacrelli.net/file.mp3\" length=\"12\" type=\"uhm/not/a/mime\"/>");
+    }
+
+    @Test
+    public void validEnclosure() throws Exception {
+        final Builder builder = parse("<enclosure url=\"http://mircomacrelli.net/file.mp3\" length=\"12\" type=\"audio/mp3\"/>");
+        assertNotNull(builder.build());
     }
 }
