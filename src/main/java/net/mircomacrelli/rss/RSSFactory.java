@@ -27,6 +27,13 @@ public final class RSSFactory {
     private final XMLInputFactory factory;
     private final DateTimeFormatter parser;
 
+    /**
+     * @return the datetimeformatter used in this factory
+     */
+    public DateTimeFormatter getDateTimeFormatter() {
+        return parser;
+    }
+
     RSSFactory(final DateTimeFormatter parser) {
         factory = XMLInputFactory.newFactory();
         factory.setProperty("javax.xml.stream.supportDTD", false);

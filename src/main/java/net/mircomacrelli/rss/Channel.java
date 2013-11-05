@@ -451,7 +451,8 @@ public final class Channel extends ExtensibleElement {
                     cloud = parseCloud(element);
                     break;
                 case "ttl":
-                    setTtl(getText(reader));
+                    canBeWrittenOnlyOnce(ttl);
+                    ttl = Integer.parseInt(getText(reader));
                     break;
                 case "image":
                     canBeWrittenOnlyOnce(image);
@@ -510,7 +511,7 @@ public final class Channel extends ExtensibleElement {
                     break;
                 }
 
-                if (isStartOfTag(event, "day")) {
+                if (isStartOfTag(event, "Day")) {
                     days.add(Day.from(getText(reader)));
                 }
             }
@@ -534,17 +535,12 @@ public final class Channel extends ExtensibleElement {
                     break;
                 }
 
-                if (isStartOfTag(event, "hour")) {
+                if (isStartOfTag(event, "Hour")) {
                     hours.add(Integer.parseInt(getText(reader)));
                 }
             }
 
             return hours;
-        }
-
-        public void setTtl(final String val) {
-            canBeWrittenOnlyOnce(ttl);
-            ttl = Integer.parseInt(val);
         }
 
         private static Item parseItem(final XMLEventReader reader, final DateTimeFormatter parser) throws Exception {
