@@ -121,23 +121,6 @@ public final class Channel extends ExtensibleElement {
         this.items = copyList(items);
     }
 
-    private static void skipHoursInvariant(final Set<Integer> skipHours) {
-        if (skipHours != null) {
-            for (final Integer hour : skipHours) {
-                if ((hour < 0) || (hour > 23)) {
-                    throw new IllegalArgumentException(
-                            format("skipHours can contain only values from 0 to 23. was: %s", skipHours));
-                }
-            }
-        }
-    }
-
-    private static void ttlInvariant(final Integer ttl) {
-        if ((ttl != null) && (ttl < 0)) {
-            throw new IllegalArgumentException(format("timeToLive can't be negative. was %d", ttl));
-        }
-    }
-
     private static Set<Integer> correctSkipHours(final Set<Integer> orig) {
         if (orig == null) {
             return null;
@@ -150,6 +133,23 @@ public final class Channel extends ExtensibleElement {
         }
 
         return corrected;
+    }
+
+    private static void ttlInvariant(final Integer ttl) {
+        if ((ttl != null) && (ttl < 0)) {
+            throw new IllegalArgumentException(format("timeToLive can't be negative. was %d", ttl));
+        }
+    }
+
+    private static void skipHoursInvariant(final Set<Integer> skipHours) {
+        if (skipHours != null) {
+            for (final Integer hour : skipHours) {
+                if ((hour < 0) || (hour > 23)) {
+                    throw new IllegalArgumentException(
+                            format("skipHours can contain only values from 0 to 23. was: %s", skipHours));
+                }
+            }
+        }
     }
 
     /** @return the string containing the PICS rating of the channel */
@@ -387,9 +387,9 @@ public final class Channel extends ExtensibleElement {
 
         @Override
         Channel buildElement() {
-            return new Channel(title, link, description, language, copyright, editor, webmaster, publishDate,
-                               buildDate, categories, generator, docs, cloud, ttl, image, textInput, skipHours,
-                               skipDays, rating, items);
+            return new Channel(title, link, description, language, copyright, editor, webmaster, publishDate, buildDate,
+                               categories, generator, docs, cloud, ttl, image, textInput, skipHours, skipDays, rating,
+                               items);
         }
 
         @Override
@@ -483,45 +483,9 @@ public final class Channel extends ExtensibleElement {
             }
         }
 
-        private static Image parseImage(final XMLEventReader reader) throws Exception {
-            final Image.Builder builder = new Image.Builder();
+        private static Item parseItem(final XMLEventReader reader, final DateTimeFormatter parser) throws Exception {
+            final Item.Builder builder = new Item.Builder(parser);
             builder.parse(reader, null);
-            return builder.build();
-        }
-
-        private static Cloud parseCloud(final StartElement element) throws Exception {
-            final Cloud.Builder builder = new Cloud.Builder();
-            builder.parse(null, element);
-            return builder.build();
-        }
-
-        private static TextInput parseTextInput(final XMLEventReader reader) throws Exception {
-            final TextInput.Builder builder = new TextInput.Builder();
-            builder.parse(reader, null);
-            return builder.build();
-        }
-
-        private static EnumSet<Day> parseSkipDays(final XMLEventReader reader) throws XMLStreamException {
-            final EnumSet<Day> days = EnumSet.noneOf(Day.class);
-
-            while (true) {
-                final XMLEvent event = reader.nextEvent();
-
-                if (isEndOfTag(event, "skipDays")) {
-                    break;
-                }
-
-                if (isStartOfTag(event, "Day")) {
-                    days.add(Day.from(getText(reader)));
-                }
-            }
-
-            return days;
-        }
-
-        private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws Exception {
-            final Category.Builder builder = new Category.Builder();
-            builder.parse(reader, element);
             return builder.build();
         }
 
@@ -543,8 +507,45 @@ public final class Channel extends ExtensibleElement {
             return hours;
         }
 
-        private static Item parseItem(final XMLEventReader reader, final DateTimeFormatter parser) throws Exception {
-            final Item.Builder builder = new Item.Builder(parser);
+        private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws
+                                                                                                       Exception {
+            final Category.Builder builder = new Category.Builder();
+            builder.parse(reader, element);
+            return builder.build();
+        }
+
+        private static EnumSet<Day> parseSkipDays(final XMLEventReader reader) throws XMLStreamException {
+            final EnumSet<Day> days = EnumSet.noneOf(Day.class);
+
+            while (true) {
+                final XMLEvent event = reader.nextEvent();
+
+                if (isEndOfTag(event, "skipDays")) {
+                    break;
+                }
+
+                if (isStartOfTag(event, "Day")) {
+                    days.add(Day.from(getText(reader)));
+                }
+            }
+
+            return days;
+        }
+
+        private static TextInput parseTextInput(final XMLEventReader reader) throws Exception {
+            final TextInput.Builder builder = new TextInput.Builder();
+            builder.parse(reader, null);
+            return builder.build();
+        }
+
+        private static Cloud parseCloud(final StartElement element) throws Exception {
+            final Cloud.Builder builder = new Cloud.Builder();
+            builder.parse(null, element);
+            return builder.build();
+        }
+
+        private static Image parseImage(final XMLEventReader reader) throws Exception {
+            final Image.Builder builder = new Image.Builder();
             builder.parse(reader, null);
             return builder.build();
         }

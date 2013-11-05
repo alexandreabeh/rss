@@ -1,7 +1,6 @@
 package net.mircomacrelli.rss;
 
 import javax.activation.MimeType;
-import javax.activation.MimeTypeParseException;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 import java.net.URL;
@@ -44,15 +43,15 @@ public final class Enclosure {
         this.type = copyMimeType(type);
     }
 
-    private static void lengthInvariant(final long length) {
-        if (length < 0) {
-            throw new IllegalArgumentException(format("length can't be negative. was %d", length));
-        }
-    }
-
     private static void linkInvariant(final URL link) {
         if (!(link.getProtocol().equals("http") || link.getProtocol().equals("https"))) {
             throw new IllegalArgumentException(format("only HTTP URLs are allowed. was %s", link.getProtocol()));
+        }
+    }
+
+    private static void lengthInvariant(final long length) {
+        if (length < 0) {
+            throw new IllegalArgumentException(format("length can't be negative. was %d", length));
         }
     }
 
@@ -66,11 +65,8 @@ public final class Enclosure {
         return length;
     }
 
-    /**
-     * @return a copy of the MIME Type
-     * @throws MimeTypeParseException this should never happen
-     */
-    public MimeType getType() throws MimeTypeParseException {
+    /** @return a copy of the MIME Type */
+    public MimeType getType() {
         return copyMimeType(type);
     }
 

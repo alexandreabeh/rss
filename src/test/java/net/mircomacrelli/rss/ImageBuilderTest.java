@@ -64,13 +64,13 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
     @Test
     public void validImage() throws Exception {
         final Builder builder = parse("<image>" +
-                                "<link>http://www.google.it</link>" +
-                                "<title>titolo</title>" +
-                                "<url>http://www.google.it/logo.gif</url>" +
-                                "<description>descrizione</description>" +
-                                "<width>90</width>" +
-                                "<height>90</height>" +
-                                "</image>");
+                                      "<link>http://www.google.it</link>" +
+                                      "<title>titolo</title>" +
+                                      "<url>http://www.google.it/logo.gif</url>" +
+                                      "<description>descrizione</description>" +
+                                      "<width>90</width>" +
+                                      "<height>90</height>" +
+                                      "</image>");
         assertNotNull(builder.build());
     }
 }

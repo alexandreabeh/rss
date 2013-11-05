@@ -5,15 +5,14 @@ import org.junit.Test;
 
 import java.net.MalformedURLException;
 
-import static net.mircomacrelli.rss.Utils.RFC822_DATE_FORMAT;
+import static net.mircomacrelli.rss.Utils.PARSER;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
     @Override
     Builder newBuilder() {
-        return new Builder(RFC822_DATE_FORMAT);
+        return new Builder(PARSER);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -222,12 +221,29 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
     }
 
     @Test
+
+    public void channelWithExtensions() throws Exception {
+        final Builder builder = parse("<channel " +
+                                      "xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\" " +
+                                      "xmlns:cc=\"http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html\">" +
+                                      "<title>titolo</title>" +
+                                      "<description>descrizione</description>" +
+                                      "<link>http://mircomacrelli.net</link>" +
+                                      "<cc:license>http://mircomacrelli.net/license</cc:license>" +
+                                      "<sy:updatePeriod>weekly</sy:updatePeriod>" +
+                                      "<sy:updateFrequency>1</sy:updateFrequency>" +
+                                      "<sy:updateBase>2013-12-21T12:21:00+0000</sy:updateBase>" +
+                                      "</channel>");
+        assertEquals(2, builder.build().getModules().size());
+    }
+
+    @Test
     public void channelAllowCreativeCommonsModule() {
-        assertTrue(new Builder(RFC822_DATE_FORMAT).getAllowedModules().contains(CreativeCommons.class));
+        assertTrue(new Builder(PARSER).getAllowedModules().contains(CreativeCommons.class));
     }
 
     @Test
     public void channelAllowSyndicationModule() {
-        assertTrue(new Builder(RFC822_DATE_FORMAT).getAllowedModules().contains(Syndication.class));
+        assertTrue(new Builder(PARSER).getAllowedModules().contains(Syndication.class));
     }
 }

@@ -11,13 +11,13 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 import static net.mircomacrelli.rss.RSSFactory.newFactory;
-import static net.mircomacrelli.rss.Utils.RFC822_DATE_FORMAT;
+import static net.mircomacrelli.rss.Utils.PARSER;
 import static org.junit.Assert.assertEquals;
 
 public class RSSFactoryTest {
     @Test
     public void normalFactoryUsesTheStandardParser() {
-        assertEquals(RFC822_DATE_FORMAT, newFactory().getDateTimeFormatter());
+        assertEquals(PARSER, newFactory().getDateTimeFormatter());
     }
 
     @Test

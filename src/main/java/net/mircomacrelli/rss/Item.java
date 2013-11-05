@@ -201,8 +201,8 @@ public final class Item extends ExtensibleElement {
 
         @Override
         Item buildElement() {
-            return new Item(link, title, description, author, publishDate, categories, source, commentsLink,
-                            enclosures, uniqueId);
+            return new Item(link, title, description, author, publishDate, categories, source, commentsLink, enclosures,
+                            uniqueId);
         }
 
         @Override
@@ -256,26 +256,29 @@ public final class Item extends ExtensibleElement {
             }
         }
 
-        private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws Exception {
-            final Category.Builder builder = new Category.Builder();
+        private static Source parseSource(final XMLEventReader reader, final StartElement element) throws Exception {
+            final Source.Builder builder = new Source.Builder();
             builder.parse(reader, element);
             return builder.build();
         }
 
-        private static UniqueId parseUniqueId(final XMLEventReader reader, final StartElement element) throws Exception {
-            final UniqueId.Builder builder = new UniqueId.Builder();
-            builder.parse(reader, element);
-            return builder.build();
-        }
-
-        private static Enclosure parseEnclosure(final XMLEventReader reader, final StartElement element) throws Exception {
+        private static Enclosure parseEnclosure(final XMLEventReader reader, final StartElement element) throws
+                                                                                                         Exception {
             final Enclosure.Builder builder = new Enclosure.Builder();
             builder.parse(reader, element);
             return builder.build();
         }
 
-        private static Source parseSource(final XMLEventReader reader, final StartElement element) throws Exception {
-            final Source.Builder builder = new Source.Builder();
+        private static UniqueId parseUniqueId(final XMLEventReader reader, final StartElement element) throws
+                                                                                                       Exception {
+            final UniqueId.Builder builder = new UniqueId.Builder();
+            builder.parse(reader, element);
+            return builder.build();
+        }
+
+        private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws
+                                                                                                       Exception {
+            final Category.Builder builder = new Category.Builder();
             builder.parse(reader, element);
             return builder.build();
         }

@@ -3,7 +3,7 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.Item.Builder;
 import org.junit.Test;
 
-import static net.mircomacrelli.rss.Utils.RFC822_DATE_FORMAT;
+import static net.mircomacrelli.rss.Utils.PARSER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -97,11 +97,11 @@ public class ItemBuilderTest extends BuilderBaseTestBase<Item, Builder> {
 
     @Override
     Builder newBuilder() {
-        return new Builder(RFC822_DATE_FORMAT);
+        return new Builder(PARSER);
     }
 
     @Test
     public void itemAllowCreativeCommonsModule() {
-        assertTrue(new Builder(RFC822_DATE_FORMAT).getAllowedModules().contains(CreativeCommons.class));
+        assertTrue(new Builder(PARSER).getAllowedModules().contains(CreativeCommons.class));
     }
 }

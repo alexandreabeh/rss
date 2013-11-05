@@ -16,10 +16,10 @@ public class CloudBuilderTest extends BuilderBaseTestBase<Cloud, Builder> {
         parse("<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"80\" protocol=\"random\" registerProcedure=\"\" />");
     }
 
-
     @Test
     public void goodCloudTag() throws Exception {
-        final Builder builder = parse("<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"80\" protocol=\"http-post\" registerProcedure=\"\" />");
+        final Builder builder = parse(
+                "<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"80\" protocol=\"http-post\" registerProcedure=\"\" />");
         assertNotNull(builder.build());
     }
 

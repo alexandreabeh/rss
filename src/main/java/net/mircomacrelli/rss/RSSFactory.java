@@ -27,17 +27,10 @@ public final class RSSFactory {
     private final XMLInputFactory factory;
     private final DateTimeFormatter parser;
 
-    /**
-     * @return the datetimeformatter used in this factory
-     */
-    public DateTimeFormatter getDateTimeFormatter() {
-        return parser;
-    }
-
     RSSFactory(final DateTimeFormatter parser) {
         factory = XMLInputFactory.newFactory();
         factory.setProperty("javax.xml.stream.supportDTD", false);
-        this.parser = parser == null ? Utils.RFC822_DATE_FORMAT : parser;
+        this.parser = parser == null ? Utils.PARSER : parser;
     }
 
     /** @return a new instance of the factory */
@@ -51,6 +44,11 @@ public final class RSSFactory {
      */
     public static RSSFactory newFactory(final DateTimeFormatter parser) {
         return new RSSFactory(parser);
+    }
+
+    /** @return the datetimeformatter used in this factory */
+    public DateTimeFormatter getDateTimeFormatter() {
+        return parser;
     }
 
     /**
@@ -73,25 +71,9 @@ public final class RSSFactory {
         return new RSS(charset, version, channel);
     }
 
-    private Channel getChannel(final XMLEventReader reader) throws Exception {
-        while (reader.hasNext()) {
-            final XMLEvent event = reader.nextEvent();
-
-            if (event.isStartElement()) {
-                final StartElement element = event.asStartElement();
-                final String name = element.getName().getLocalPart();
-
-                if (name.equals("channel")) {
-                    final Channel.Builder builder = new Channel.Builder(parser);
-                    builder.parse(reader, null);
-                    return builder.build();
-                } else {
-                    break;
-                }
-            }
-        }
-
-        throw new IllegalStateException("<channel> not found");
+    private static Charset getCharset(final XMLEventReader reader) throws XMLStreamException {
+        final StartDocument doc = (StartDocument)reader.nextEvent();
+        return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
     }
 
     private static Version getVersion(final XMLEventReader reader) throws XMLStreamException {
@@ -113,8 +95,24 @@ public final class RSSFactory {
         throw new IllegalStateException("<rss> not found");
     }
 
-    private static Charset getCharset(final XMLEventReader reader) throws XMLStreamException {
-        final StartDocument doc = (StartDocument)reader.nextEvent();
-        return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
+    private Channel getChannel(final XMLEventReader reader) throws Exception {
+        while (reader.hasNext()) {
+            final XMLEvent event = reader.nextEvent();
+
+            if (event.isStartElement()) {
+                final StartElement element = event.asStartElement();
+                final String name = element.getName().getLocalPart();
+
+                if (name.equals("channel")) {
+                    final Channel.Builder builder = new Channel.Builder(parser);
+                    builder.parse(reader, null);
+                    return builder.build();
+                } else {
+                    break;
+                }
+            }
+        }
+
+        throw new IllegalStateException("<channel> not found");
     }
 }

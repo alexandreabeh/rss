@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static net.mircomacrelli.rss.Utils.RFC822_DATE_FORMAT;
+import static net.mircomacrelli.rss.Utils.PARSER;
 import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
 import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
@@ -77,22 +77,22 @@ public final class UtilsTest extends XmlTestBase {
 
     @Test
     public void dateAreTrimmedBeforeParsing() {
-        assertEquals(date, parseDate("    Sat, 19 Oct 2013 11:09:03 +0000    ", RFC822_DATE_FORMAT));
+        assertEquals(date, parseDate("    Sat, 19 Oct 2013 11:09:03 +0000    ", PARSER));
     }
 
     @Test
     public void newLinesAreReplacesWithSpacesBeforeTrimming() {
-        assertEquals(date, parseDate("Sat,\n\n 19 Oct 2013 11:09:03 \n+0000", RFC822_DATE_FORMAT));
+        assertEquals(date, parseDate("Sat,\n\n 19 Oct 2013 11:09:03 \n+0000", PARSER));
     }
 
     @Test
     public void emptyDatesReturnNull() {
-        assertNull(parseDate("", RFC822_DATE_FORMAT));
+        assertNull(parseDate("", PARSER));
     }
 
     @Test
     public void whenParsingMultipleSpacesAreIgnored() {
-        assertEquals(date, parseDate("Sat,  19     Oct  2013  11:09:03    +0000", RFC822_DATE_FORMAT));
+        assertEquals(date, parseDate("Sat,  19     Oct  2013  11:09:03    +0000", PARSER));
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -211,7 +211,7 @@ public final class UtilsTest extends XmlTestBase {
     public void firstModuleMustImplementModule() {
         final Class<?> stringClazz = String.class;
         @SuppressWarnings("unchecked")
-        final Class<? extends Module> clazz = (Class<? extends Module>) stringClazz;
+        final Class<? extends Module> clazz = (Class<? extends Module>)stringClazz;
         allowedModules(clazz);
     }
 
@@ -224,7 +224,7 @@ public final class UtilsTest extends XmlTestBase {
     public void othersModulesMustImplementModule() {
         final Class<?> stringClazz = String.class;
         @SuppressWarnings("unchecked")
-        final Class<? extends Module> clazz = (Class<? extends Module>) stringClazz;
+        final Class<? extends Module> clazz = (Class<? extends Module>)stringClazz;
         allowedModules(CreativeCommons.class, Syndication.class, clazz);
     }
 

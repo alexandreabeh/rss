@@ -3,6 +3,8 @@ package net.mircomacrelli.rss;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.DateTimeParser;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
@@ -33,8 +35,13 @@ import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.requireNonNull;
 
 final class Utils {
+    public static final DateTimeFormatter ISO8601_DATE_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ")
+                                                                              .withLocale(Locale.ENGLISH).withZoneUTC();
     public static final DateTimeFormatter RFC822_DATE_FORMAT = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss Z")
                                                                              .withLocale(Locale.ENGLISH).withZoneUTC();
+    public static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder()
+            .append(null, new DateTimeParser[]{ISO8601_DATE_FORMAT.getParser(), RFC822_DATE_FORMAT.getParser()})
+            .toFormatter().withLocale(Locale.ENGLISH).withZoneUTC();
     private static final Pattern REPEATED_SPACES = Pattern.compile(" {2,}");
 
     private Utils() {
@@ -110,10 +117,6 @@ final class Utils {
         return values;
     }
 
-    static boolean isEndOfTag(final XMLEvent event, final String tagName) {
-        return event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(tagName);
-    }
-
     static String getText(final XMLEventReader reader) throws XMLStreamException {
         final XMLEvent event = reader.nextEvent();
 
@@ -126,6 +129,10 @@ final class Utils {
         } else {
             throw new IllegalStateException("text not found");
         }
+    }
+
+    static boolean isEndOfTag(final XMLEvent event, final String tagName) {
+        return event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(tagName);
     }
 
     static Map<String, String> getAttributesValues(final StartElement element) {
@@ -174,7 +181,7 @@ final class Utils {
 
     @SafeVarargs
     public static Set<Class<? extends Module>> allowedModules(final Class<? extends Module> module,
-                                                                 final Class<? extends Module>... others) {
+                                                              final Class<? extends Module>... others) {
         requireNonNull(module);
         requireModuleInterface(module);
 

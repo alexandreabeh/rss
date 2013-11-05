@@ -3,9 +3,6 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.UniqueId.Builder;
 import org.junit.Test;
 
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.events.StartElement;
-
 import java.net.MalformedURLException;
 
 import static org.junit.Assert.assertFalse;

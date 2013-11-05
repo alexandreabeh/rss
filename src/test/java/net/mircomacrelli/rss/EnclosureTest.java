@@ -31,22 +31,22 @@ public final class EnclosureTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void linkIsRequired() throws MimeTypeParseException {
+    public void linkIsRequired() {
         new Enclosure(null, 1024, validMimeType);
     }
 
     @Test(expected = NullPointerException.class)
-    public void typeIsRequired() throws MimeTypeParseException {
+    public void typeIsRequired() {
         new Enclosure(validLink, 1024, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void lengthCantBeNegative() throws MimeTypeParseException {
+    public void lengthCantBeNegative() {
         new Enclosure(validLink, -1, validMimeType);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void onlyHTTPLinkArePermitted() throws MimeTypeParseException {
+    public void onlyHTTPLinkArePermitted() {
         new Enclosure(badLink, 1024, validMimeType);
     }
 
@@ -61,7 +61,7 @@ public final class EnclosureTest {
     }
 
     @Test
-    public void type() throws MimeTypeParseException {
+    public void type() {
         assertTrue(validMimeType.match(enclosure.getType()));
     }
 
@@ -78,7 +78,7 @@ public final class EnclosureTest {
     }
 
     @Test
-    public void httpsIsAValidProtocol() throws MimeTypeParseException {
+    public void httpsIsAValidProtocol() {
         assertEquals(otherLink, new Enclosure(otherLink, 12, validMimeType).getLink());
     }
 

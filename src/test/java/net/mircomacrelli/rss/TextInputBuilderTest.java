@@ -23,15 +23,14 @@ public class TextInputBuilderTest extends BuilderBaseTestBase<TextInput, Builder
               "</textInput>");
     }
 
-
     @Test
     public void validTextInput() throws Exception {
         final Builder builder = parse("<textInput>" +
-                                "<description>descrizione</description>" +
-                                "<link>http://www.google.it</link>" +
-                                "<name>nome</name>" +
-                                "<title>titolo</title>" +
-                                "</textInput>");
+                                      "<description>descrizione</description>" +
+                                      "<link>http://www.google.it</link>" +
+                                      "<name>nome</name>" +
+                                      "<title>titolo</title>" +
+                                      "</textInput>");
         assertNotNull(builder.build());
     }
 }

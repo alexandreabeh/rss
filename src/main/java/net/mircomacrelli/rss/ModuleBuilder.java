@@ -6,8 +6,4 @@ abstract class ModuleBuilder extends BuilderBase<Module> {
     protected ModuleBuilder(final DateTimeFormatter parser) {
         super(parser);
     }
-
-    protected  ModuleBuilder() {
-        this(null);
-    }
 }

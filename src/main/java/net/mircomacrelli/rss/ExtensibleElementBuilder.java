@@ -31,29 +31,31 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
     }
 
     public final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
+        final ModuleInformation info;
         try {
-            final ModuleInformation info = ModuleInformation.fromUri(element.getName().getNamespaceURI());
-            final Class<? extends Module> module = info.getModule();
-
-            // check if this module can be here
-            if (!getAllowedModules().contains(module)) {
-                throw new IllegalStateException(format("the module %s can't be here", module));
-            }
-
-            ModuleBuilder builder = modules.get(module);
-            if (builder == null) {
-                try {
-                    builder = info.getBuilder().getConstructor(DateTimeFormatter.class).newInstance(parser);
-                } catch (NoSuchMethodException ignored) {
-                    builder = info.getBuilder().getConstructor().newInstance();
-                }
-                modules.put(module, builder);
-            }
-
-            builder.parse(reader, element);
+            info = ModuleInformation.fromUri(element.getName().getNamespaceURI());
         } catch (IllegalArgumentException ignored) {
-            // ignore all the unknown modules
+            return; // ignore all the unknown modules
         }
+
+        final Class<? extends Module> module = info.getModule();
+
+        // check if this module can be here
+        if (!getAllowedModules().contains(module)) {
+            throw new IllegalStateException(format("the module %s can't be here", module));
+        }
+
+        ModuleBuilder builder = modules.get(module);
+        if (builder == null) {
+            try {
+                builder = info.getBuilder().getConstructor(DateTimeFormatter.class).newInstance(parser);
+            } catch (NoSuchMethodException ignored) {
+                builder = info.getBuilder().getConstructor().newInstance();
+            }
+            modules.put(module, builder);
+        }
+
+        builder.parse(reader, element);
     }
 
     final String tagName;
