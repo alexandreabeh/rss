@@ -82,7 +82,9 @@ public final class RSSFactory {
                 final String name = element.getName().getLocalPart();
 
                 if (name.equals("channel")) {
-                    return parseChannel(reader);
+                    final Channel.Builder builder = new Channel.Builder(parser);
+                    builder.parse(reader, null);
+                    return builder.build();
                 } else {
                     break;
                 }
@@ -90,12 +92,6 @@ public final class RSSFactory {
         }
 
         throw new IllegalStateException("<channel> not found");
-    }
-
-    private Channel parseChannel(final XMLEventReader reader) throws Exception {
-        final Channel.Builder builder = new Channel.Builder(parser);
-        builder.parse(reader, null);
-        return builder.build();
     }
 
     private static Version getVersion(final XMLEventReader reader) throws XMLStreamException {

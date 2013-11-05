@@ -196,7 +196,7 @@ public final class Item extends ExtensibleElement {
         List<Enclosure> enclosures;
 
         Builder(final DateTimeFormatter parser) {
-            super(parser);
+            super("item", parser);
         }
 
         @Override

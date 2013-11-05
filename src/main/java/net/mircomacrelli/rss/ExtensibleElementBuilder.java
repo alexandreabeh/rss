@@ -16,8 +16,9 @@ import static net.mircomacrelli.rss.Utils.isEndOfTag;
 abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends BuilderBase<T> {
     private final Map<Class<? extends Module>, ModuleBuilder> modules;
 
-    protected ExtensibleElementBuilder(final DateTimeFormatter parser) {
+    protected ExtensibleElementBuilder(final String tagName, final DateTimeFormatter parser) {
         super(parser);
+        this.tagName = tagName;
         modules = new IdentityHashMap<>();
     }
 
@@ -55,6 +56,8 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         }
     }
 
+    final String tagName;
+
     abstract T buildElement();
 
     abstract void handleTag(XMLEventReader reader, StartElement element) throws Exception;
@@ -65,24 +68,24 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
     }
 
     @Override
-    public final void parse(final XMLEventReader reader, final StartElement e) throws Exception {
+    public final void parse(final XMLEventReader reader, final StartElement ignored) throws Exception {
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();
 
-            if (isEndOfTag(event, "item")) {
+            if (isEndOfTag(event, tagName)) {
                 break;
             }
 
             if (event.isStartElement()) {
-                final StartElement el = event.asStartElement();
+                final StartElement element = event.asStartElement();
 
                 // parse the extensions
-                if (!el.getName().getPrefix().isEmpty()) {
-                    passToModuleParser(reader, el);
+                if (!element.getName().getPrefix().isEmpty()) {
+                    passToModuleParser(reader, element);
                     continue;
                 }
 
-                handleTag(reader, el);
+                handleTag(reader, element);
             }
         }
     }

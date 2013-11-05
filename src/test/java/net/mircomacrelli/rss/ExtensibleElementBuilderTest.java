@@ -73,7 +73,7 @@ public class ExtensibleElementBuilderTest {
     static final class MockElement extends ExtensibleElement {
         static final class MockBuilder extends ExtensibleElementBuilder<MockElement> {
             MockBuilder(final DateTimeFormatter parser) {
-                super(parser);
+                super("mock", parser);
             }
 
             @Override

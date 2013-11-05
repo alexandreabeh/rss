@@ -382,7 +382,7 @@ public final class Channel extends ExtensibleElement {
         List<Item> items;
 
         Builder(final DateTimeFormatter parser) {
-            super(parser);
+            super("channel", parser);
         }
 
         @Override
