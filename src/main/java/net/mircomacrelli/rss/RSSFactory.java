@@ -95,7 +95,7 @@ public final class RSSFactory {
     }
 
     private static Version getVersion(final XMLEventReader reader) throws XMLStreamException {
-        while (reader.hasNext()) {
+        while (true) {
             final XMLEvent event = reader.nextEvent();
 
             if (event.isStartElement()) {

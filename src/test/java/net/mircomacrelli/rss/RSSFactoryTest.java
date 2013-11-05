@@ -103,6 +103,15 @@ public class RSSFactoryTest {
         assertEquals("first", feed.getChannel().getTitle());
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void rssCanContainOnlyChannel() throws Exception {
+        newFactory().parse(toInputStream("<rss version=\"2.0\">" +
+                                         "<tag>" +
+                                         "<!-- some other content -->" +
+                                         "</tag>" +
+                                         "</rss>"));
+    }
+
     private static InputStream toInputStream(final String arg) throws UnsupportedEncodingException {
         return new ByteArrayInputStream(arg.getBytes("UTF-8"));
     }

@@ -94,7 +94,7 @@ final class Utils {
                                                                                                                   XMLStreamException {
         final Map<String, String> values = new HashMap<>(5);
 
-        while (reader.hasNext()) {
+        while (true) {
             final XMLEvent event = reader.nextEvent();
 
             if (isEndOfTag(event, containerTagName)) {

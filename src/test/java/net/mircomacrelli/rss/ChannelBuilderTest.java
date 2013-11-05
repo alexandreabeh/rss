@@ -55,13 +55,6 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
               "</channel>");
     }
 
-    @Test
-    public void languageMustBeValid() throws Exception {
-        parse("<channel>" +
-              "<language>nonsochecosasia</language>" +
-              "</channel>");
-    }
-
     @Test(expected = IllegalStateException.class)
     public void onlyOneCopyright() throws Exception {
         parse("<channel>" +
@@ -215,7 +208,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
     @Test(expected = IllegalStateException.class)
     public void onlyOneSkipDays() throws Exception {
         parse("<channel>" +
-              "<skipDays><Day>Saturday</Day></skipDays>" +
+              "<skipDays><Day>Saturday</Day><Day>Sunday</Day></skipDays>" +
               "<skipDays><Day>Sunday</Day></skipDays>" +
               "</channel>");
     }
@@ -224,7 +217,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
     public void onlyOneSkipHours() throws Exception {
         parse("<channel>" +
               "<skipHours><Hour>5</Hour></skipHours>" +
-              "<skipHours><Hour>6</Hour></skipHours>" +
+              "<skipHours><Hour>6</Hour><Hour>4</Hour></skipHours>" +
               "</channel>");
     }
 

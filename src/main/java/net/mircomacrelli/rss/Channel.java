@@ -504,7 +504,7 @@ public final class Channel extends ExtensibleElement {
         private static EnumSet<Day> parseSkipDays(final XMLEventReader reader) throws XMLStreamException {
             final EnumSet<Day> days = EnumSet.noneOf(Day.class);
 
-            while (reader.hasNext()) {
+            while (true) {
                 final XMLEvent event = reader.nextEvent();
 
                 if (isEndOfTag(event, "skipDays")) {
@@ -528,7 +528,7 @@ public final class Channel extends ExtensibleElement {
         private static Set<Integer> parseSkipHours(final XMLEventReader reader) throws XMLStreamException {
             final Set<Integer> hours = new HashSet<>(24);
 
-            while (reader.hasNext()) {
+            while (true) {
                 final XMLEvent event = reader.nextEvent();
 
                 if (isEndOfTag(event, "skipHours")) {
