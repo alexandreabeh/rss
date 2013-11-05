@@ -69,7 +69,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
 
     @Override
     public final void parse(final XMLEventReader reader, final StartElement ignored) throws Exception {
-        while (reader.hasNext()) {
+        while (true) {
             final XMLEvent event = reader.nextEvent();
 
             if (isEndOfTag(event, tagName)) {
