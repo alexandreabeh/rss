@@ -31,10 +31,8 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
     }
 
     public final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
-        final ModuleInformation info;
-        try {
-            info = ModuleInformation.fromUri(element.getName().getNamespaceURI());
-        } catch (IllegalArgumentException ignored) {
+        final ModuleInformation info = ModuleInformation.fromUri(element.getName().getNamespaceURI());
+        if (info == null) {
             return; // ignore all the unknown modules
         }
 

@@ -1,5 +1,8 @@
 package net.mircomacrelli.rss;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static java.lang.String.format;
 
 enum ModuleInformation {
@@ -17,13 +20,17 @@ enum ModuleInformation {
         this.builder = builder;
     }
 
-    public static ModuleInformation fromUri(final String uri) {
+    private static final Map<String,ModuleInformation> MODULES;
+
+    static {
+        MODULES = new HashMap<>(2);
         for (final ModuleInformation module : ModuleInformation.values()) {
-            if (module.uri.equals(uri)) {
-                return module;
-            }
+            MODULES.put(module.uri, module);
         }
-        throw new IllegalArgumentException(format("no module found for the uri \"%s\"", uri));
+    }
+
+    public static ModuleInformation fromUri(final String uri) {
+        return MODULES.get(uri);
     }
 
     public Class<? extends Module> getModule() {
