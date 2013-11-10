@@ -46,7 +46,7 @@ public final class RSSFactory {
         return new RSSFactory(parser);
     }
 
-    /** @return the datetimeformatter used in this factory */
+    /** @return the DateTimeFormatter used in this factory */
     public DateTimeFormatter getDateTimeFormatter() {
         return parser;
     }
