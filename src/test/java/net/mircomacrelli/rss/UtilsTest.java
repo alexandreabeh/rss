@@ -309,7 +309,7 @@ public final class UtilsTest extends XmlTestBase {
 
     @Test(expected = IllegalStateException.class)
     public void getTextThrowAnExceptionIfCantFindText() throws XMLStreamException {
-        final XMLEventReader reader = parseString("<tag><other>sdfs</other></tag>");
+        final XMLEventReader reader = parseString("<tag><other>value</other></tag>");
         reader.nextEvent();
         getText(reader);
     }
