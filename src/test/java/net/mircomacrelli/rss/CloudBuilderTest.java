@@ -8,7 +8,7 @@ import static org.junit.Assert.assertNotNull;
 public class CloudBuilderTest extends BuilderBaseTestBase<Cloud, Builder> {
     @Test(expected = NumberFormatException.class)
     public void portMustBeAnInteger() throws Exception {
-        parse("<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"somthing\" protocol=\"http-post\" registerProcedure=\"\" />");
+        parse("<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"something\" protocol=\"http-post\" registerProcedure=\"\" />");
     }
 
     @Test(expected = IllegalArgumentException.class)
