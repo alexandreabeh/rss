@@ -3,8 +3,6 @@ package net.mircomacrelli.rss;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.String.format;
-
 enum ModuleInformation {
     CREATIVE_COMMONS("http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html", CreativeCommons.class,
                      CreativeCommons.Builder.class),
