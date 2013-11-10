@@ -11,7 +11,7 @@
 
     <groupId>net.mircomacrelli</groupId>
     <artifactId>rss</artifactId>
-    <version>2.0</version>
+    <version>2.1-SNAPSHOT</version>
 
     <name>rss</name>
     <description>A small library that I use to parse RSS feeds</description>
