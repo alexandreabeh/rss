@@ -13,22 +13,22 @@ import static org.junit.Assume.assumeFalse;
 
 public final class UniqueIdTest {
     @Test(expected = NullPointerException.class)
-    public void theIdIsRequired() throws MalformedURLException {
+    public void theIdIsRequired() {
         new UniqueId(null, false);
     }
 
     @Test
-    public void idCanBeAnythingIfIsLinkIsFalse() throws MalformedURLException {
+    public void idCanBeAnythingIfIsLinkIsFalse() {
         assertEquals("any string you can think of", new UniqueId("any string you can think of", false).getId());
     }
 
     @Test
-    public void id() throws MalformedURLException {
+    public void id() {
         assertEquals("this is the id", new UniqueId("this is the id", false).getId());
     }
 
     @Test
-    public void isLink() throws MalformedURLException {
+    public void isLink() {
         assertFalse(new UniqueId("this is the id", false).isLink());
     }
 
@@ -50,7 +50,7 @@ public final class UniqueIdTest {
     }
 
     @Test
-    public void testToString() throws MalformedURLException {
+    public void testToString() {
         assertEquals("UniqueId{id='id', isLink=false}", new UniqueId("id", false).toString());
     }
 }

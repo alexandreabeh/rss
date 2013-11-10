@@ -16,7 +16,7 @@ import static net.mircomacrelli.rss.Utils.getText;
  * Unique Identifier of an Item
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class UniqueId {
     private final String id;
@@ -91,7 +91,7 @@ public final class UniqueId {
         }
 
         @Override
-        public UniqueId build() throws MalformedURLException {
+        public UniqueId build() {
             return new UniqueId(id, isLink);
         }
     }

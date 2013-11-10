@@ -13,7 +13,7 @@ import static net.mircomacrelli.rss.Utils.getText;
  * One category of an Item
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class Category {
 

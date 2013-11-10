@@ -15,7 +15,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * A text field that could be used for searching the feed or provide feedback
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class TextInput {
     private final String name;

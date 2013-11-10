@@ -9,7 +9,7 @@ import static java.util.Objects.requireNonNull;
 abstract class ExtensibleElement {
     private final Map<Class<? extends Module>, Module> modules;
 
-    ExtensibleElement() {
+    protected ExtensibleElement() {
         modules = new IdentityHashMap<>();
     }
 

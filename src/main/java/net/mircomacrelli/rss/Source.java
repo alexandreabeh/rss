@@ -15,7 +15,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * Link to the original feed that first published the Item
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class Source {
     private final URL link;

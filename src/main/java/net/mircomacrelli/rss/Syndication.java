@@ -20,7 +20,7 @@ import static net.mircomacrelli.rss.Utils.parseDate;
  * Implementation of the Syndication Module
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class Syndication implements Module {
     private final Period period;

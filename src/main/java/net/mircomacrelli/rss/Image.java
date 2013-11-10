@@ -15,7 +15,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * An image that can be displayed with the feed
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class Image {
     private final URL image;

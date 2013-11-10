@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
  * A RSS feed
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class RSS {
     private final Charset charset;

@@ -39,7 +39,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * Contains all the information regarding the rss and all the items published in this feed.
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class Channel extends ExtensibleElement {
     private final String title;
@@ -383,14 +383,14 @@ public final class Channel extends ExtensibleElement {
         }
 
         @Override
-        Channel buildElement() {
+        protected Channel buildElement() {
             return new Channel(title, link, description, language, copyright, editor, webmaster, publishDate, buildDate,
                                categories, generator, docs, cloud, ttl, image, textInput, skipHours, skipDays, rating,
                                items);
         }
 
         @Override
-        void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
+        protected void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
             final String name = element.getName().getLocalPart();
             switch (name) {
                 case "title":
@@ -548,7 +548,7 @@ public final class Channel extends ExtensibleElement {
         }
 
         @Override
-        Set<Class<? extends Module>> getAllowedModules() {
+        protected Set<Class<? extends Module>> getAllowedModules() {
             return ALLOWED_MODULES;
         }
     }

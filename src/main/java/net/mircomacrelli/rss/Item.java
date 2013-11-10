@@ -29,7 +29,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * An Item of the Feed
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class Item extends ExtensibleElement {
     private final String author;
@@ -200,13 +200,13 @@ public final class Item extends ExtensibleElement {
         }
 
         @Override
-        Item buildElement() {
+        protected Item buildElement() {
             return new Item(link, title, description, author, publishDate, categories, source, commentsLink, enclosures,
                             uniqueId);
         }
 
         @Override
-        void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
+        protected void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
             final String name = element.getName().getLocalPart();
             switch (name) {
                 case "title":
@@ -284,7 +284,7 @@ public final class Item extends ExtensibleElement {
         }
 
         @Override
-        Set<Class<? extends Module>> getAllowedModules() {
+        protected Set<Class<? extends Module>> getAllowedModules() {
             return ALLOWED_MODULES;
         }
     }

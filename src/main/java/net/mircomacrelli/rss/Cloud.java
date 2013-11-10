@@ -17,7 +17,7 @@ import static net.mircomacrelli.rss.Utils.getAttributesValues;
  * Information about the Cloud that can be used to subscribe to the push notifications for this feed
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class Cloud {
     private final URI domain;

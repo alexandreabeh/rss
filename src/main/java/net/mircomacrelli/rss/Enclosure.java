@@ -19,7 +19,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * location, the size and the type are given.
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class Enclosure {
     private final URL link;

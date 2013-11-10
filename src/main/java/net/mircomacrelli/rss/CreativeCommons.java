@@ -19,7 +19,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * Implementation of the Creative Commons module
  *
  * @author Mirco Macrelli
- * @version 1.0
+ * @version 2.0
  */
 public final class CreativeCommons implements Module {
     private final List<URL> licenses;

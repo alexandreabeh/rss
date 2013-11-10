@@ -77,16 +77,16 @@ public class ExtensibleElementBuilderTest {
             }
 
             @Override
-            MockElement buildElement() {
+            protected MockElement buildElement() {
                 return new MockElement();
             }
 
             @Override
-            void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
+            protected void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
             }
 
             @Override
-            Set<Class<? extends Module>> getAllowedModules() {
+            protected Set<Class<? extends Module>> getAllowedModules() {
                 return allowedModules(CreativeCommons.class);
             }
         }

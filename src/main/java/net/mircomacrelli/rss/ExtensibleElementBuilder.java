@@ -22,7 +22,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         modules = new IdentityHashMap<>();
     }
 
-    final <T extends ExtensibleElement> T extend(final T element) throws Exception {
+    private <T extends ExtensibleElement> T extend(final T element) throws Exception {
         for (final Entry<Class<? extends Module>, ModuleBuilder> module : modules.entrySet()) {
             element.addModule(module.getKey(), module.getValue().build());
         }
@@ -30,7 +30,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         return element;
     }
 
-    public final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
+    protected final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
         final ModuleInformation info = ModuleInformation.fromUri(element.getName().getNamespaceURI());
         if (info == null) {
             return; // ignore all the unknown modules
@@ -56,11 +56,11 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         builder.parse(reader, element);
     }
 
-    final String tagName;
+    private final String tagName;
 
-    abstract T buildElement();
+    protected abstract T buildElement();
 
-    abstract void handleTag(XMLEventReader reader, StartElement element) throws Exception;
+    protected abstract void handleTag(XMLEventReader reader, StartElement element) throws Exception;
 
     @Override
     public final T build() throws Exception {
@@ -93,5 +93,5 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         }
     }
 
-    abstract Set<Class<? extends Module>> getAllowedModules();
+    protected abstract Set<Class<? extends Module>> getAllowedModules();
 }
