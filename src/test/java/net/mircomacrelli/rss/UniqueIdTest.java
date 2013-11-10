@@ -22,11 +22,6 @@ public final class UniqueIdTest {
         assertEquals("any string you can think of", new UniqueId("any string you can think of", false).getId());
     }
 
-    @Test(expected = MalformedURLException.class)
-    public void ifIsLinkIsTrueThenIdMustBeAValidURL() throws MalformedURLException {
-        new UniqueId("this will throw an exception", true);
-    }
-
     @Test
     public void id() throws MalformedURLException {
         assertEquals("this is the id", new UniqueId("this is the id", false).getId());

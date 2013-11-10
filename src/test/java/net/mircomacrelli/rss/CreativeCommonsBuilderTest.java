@@ -20,7 +20,7 @@ public class CreativeCommonsBuilderTest extends ModuleBuilderTestBase {
         step(builder, "<cc:license>http://www.creativecommons.org/licenses/by-nc/1.0</cc:license>");
         step(builder, "<cc:license>http://www.creativecommons.org/licenses/by/1.0</cc:license>");
 
-        final CreativeCommons cc = (CreativeCommons)builder.build();
-        assertEquals(2, cc.getLicenses().size());
+        final CreativeCommons creativeCommons = (CreativeCommons)builder.build();
+        assertEquals(2, creativeCommons.getLicenses().size());
     }
 }

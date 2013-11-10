@@ -17,9 +17,9 @@ import java.util.Set;
 import static java.util.Objects.hash;
 import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
-import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
+import static net.mircomacrelli.rss.Utils.crashIfAlreadySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.parseDate;
@@ -68,11 +68,11 @@ public final class Item extends ExtensibleElement {
         this.description = description;
         this.link = link;
         this.commentsLink = commentsLink;
-        this.categories = copySet(categories);
+        this.categories = categories;
         this.uniqueId = uniqueId;
         this.publishDate = publishDate;
         this.source = source;
-        this.enclosures = copyList(enclosures);
+        this.enclosures = enclosures;
     }
 
     private static void itemInvariant(final String title, final String description) {
@@ -116,7 +116,7 @@ public final class Item extends ExtensibleElement {
 
     /** @return a set of categories that contains this item */
     public Set<Category> getCategories() {
-        return categories;
+        return copySet(categories);
     }
 
     /** @return the unique id of the item */
@@ -136,7 +136,7 @@ public final class Item extends ExtensibleElement {
 
     /** @return the attached file if present */
     public List<Enclosure> getEnclosures() {
-        return enclosures;
+        return copyList(enclosures);
     }
 
     @Override
@@ -210,19 +210,19 @@ public final class Item extends ExtensibleElement {
             final String name = element.getName().getLocalPart();
             switch (name) {
                 case "title":
-                    canBeWrittenOnlyOnce(title);
+                    crashIfAlreadySet(title);
                     title = getText(reader);
                     break;
                 case "link":
-                    canBeWrittenOnlyOnce(link);
+                    crashIfAlreadySet(link);
                     link = parseURL(getText(reader));
                     break;
                 case "description":
-                    canBeWrittenOnlyOnce(description);
+                    crashIfAlreadySet(description);
                     description = getText(reader);
                     break;
                 case "author":
-                    canBeWrittenOnlyOnce(author);
+                    crashIfAlreadySet(author);
                     author = getText(reader);
                     break;
                 case "category":
@@ -232,7 +232,7 @@ public final class Item extends ExtensibleElement {
                     categories.add(parseCategory(reader, element));
                     break;
                 case "comments":
-                    canBeWrittenOnlyOnce(commentsLink);
+                    crashIfAlreadySet(commentsLink);
                     commentsLink = parseURL(getText(reader));
                     break;
                 case "enclosure":
@@ -242,15 +242,15 @@ public final class Item extends ExtensibleElement {
                     enclosures.add(parseEnclosure(reader, element));
                     break;
                 case "guid":
-                    canBeWrittenOnlyOnce(uniqueId);
+                    crashIfAlreadySet(uniqueId);
                     uniqueId = parseUniqueId(reader, element);
                     break;
                 case "pubDate":
-                    canBeWrittenOnlyOnce(publishDate);
+                    crashIfAlreadySet(publishDate);
                     publishDate = parseDate(getText(reader), parser);
                     break;
                 case "source":
-                    canBeWrittenOnlyOnce(source);
+                    crashIfAlreadySet(source);
                     source = parseSource(reader, element);
                     break;
             }

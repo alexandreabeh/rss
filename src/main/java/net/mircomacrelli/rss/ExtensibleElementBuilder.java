@@ -68,7 +68,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
     }
 
     @Override
-    public final void parse(final XMLEventReader reader, final StartElement ignored) throws Exception {
+    public final void parse(final XMLEventReader reader, final StartElement element) throws Exception {
         while (true) {
             final XMLEvent event = reader.nextEvent();
 
@@ -77,16 +77,19 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
             }
 
             if (event.isStartElement()) {
-                final StartElement element = event.asStartElement();
-
-                // parse the extensions
-                if (!element.getName().getPrefix().isEmpty()) {
-                    passToModuleParser(reader, element);
-                    continue;
-                }
-
-                handleTag(reader, element);
+                handleEvent(reader, event);
             }
+        }
+    }
+
+    private void handleEvent(final XMLEventReader reader, final XMLEvent event) throws Exception {
+        final StartElement element = event.asStartElement();
+
+        if (!element.getName().getPrefix().isEmpty()) {
+            // parse the extensions
+            passToModuleParser(reader, element);
+        } else {
+            handleTag(reader, element);
         }
     }
 

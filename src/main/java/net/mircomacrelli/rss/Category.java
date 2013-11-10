@@ -27,10 +27,8 @@ public final class Category {
      * @param location the location/name of the category
      */
     Category(final String domain, final String location) {
-        requireNonNull(location);
-
         this.domain = domain;
-        this.location = location;
+        this.location = requireNonNull(location);
     }
 
     /** @return return the domain of the category. can be null */

@@ -18,7 +18,7 @@ enum ModuleInformation {
         this.builder = builder;
     }
 
-    private static final Map<String,ModuleInformation> MODULES;
+    private static final Map<String, ModuleInformation> MODULES;
 
     static {
         MODULES = new HashMap<>(2);

@@ -18,21 +18,12 @@ public class CreativeCommonsTest {
         new CreativeCommons(null);
     }
 
-    @Test
-    public void licensesIsCopiedByCtor() throws MalformedURLException {
-        final List<URL> licenses = new ArrayList<>(1);
-        licenses.add(new URL("http://www.google.it"));
-        final CreativeCommons cc = new CreativeCommons(licenses);
-        licenses.clear();
-        assertEquals(1, cc.getLicenses().size());
-    }
-
     @Test(expected = UnsupportedOperationException.class)
     public void licensesIsUnmodifiable() throws MalformedURLException {
         final List<URL> licenses = new ArrayList<>(1);
         licenses.add(new URL("http://www.google.it"));
-        final CreativeCommons cc = new CreativeCommons(licenses);
-        cc.getLicenses().clear();
+        final CreativeCommons creativeCommons = new CreativeCommons(licenses);
+        creativeCommons.getLicenses().clear();
     }
 
     @Test
@@ -44,8 +35,8 @@ public class CreativeCommonsTest {
     public void testToString() throws MalformedURLException {
         final List<URL> licenses = new ArrayList<>(1);
         licenses.add(new URL("http://www.google.it"));
-        final CreativeCommons cc = new CreativeCommons(licenses);
+        final CreativeCommons creativeCommons = new CreativeCommons(licenses);
 
-        assertEquals("CreativeCommons{licenses=[http://www.google.it]}", cc.toString());
+        assertEquals("CreativeCommons{licenses=[http://www.google.it]}", creativeCommons.toString());
     }
 }

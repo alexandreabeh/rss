@@ -36,6 +36,6 @@ public class UniqueIdBuilderTest extends BuilderBaseTestBase<UniqueId, Builder> 
     @Test(expected = MalformedURLException.class)
     public void ifIsALinkButIsMalformedThenThrowsAnException() throws Exception {
         final Builder builder = parse("<guid>NEWS_12345</guid>");
-        builder.build();
+        builder.build().asURL();
     }
 }

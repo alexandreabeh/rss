@@ -24,10 +24,10 @@ import java.util.Set;
 import static net.mircomacrelli.rss.Utils.PARSER;
 import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
-import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyEnumSet;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
+import static net.mircomacrelli.rss.Utils.crashIfAlreadySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
 import static net.mircomacrelli.rss.Utils.getAttributesValues;
@@ -111,7 +111,7 @@ public final class UtilsTest extends XmlTestBase {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void copyListReturnAnUnmodifiableEmptyListWhenPassedNull() {
+    public void copyListOfNull() {
         final List<Integer> list = copyList(null);
         assertTrue(list.isEmpty());
         list.add(4);
@@ -192,14 +192,9 @@ public final class UtilsTest extends XmlTestBase {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void canBeWrittenOnlyOnceThrowAnExceptionIfTheValueIsSet() {
+    public void tryToWriteTwoValues() {
         final String value = "12";
-        canBeWrittenOnlyOnce(value);
-    }
-
-    @Test
-    public void canBeWrittenOnlyOnceDoesNothingIfNull() {
-        canBeWrittenOnlyOnce(null);
+        crashIfAlreadySet(value);
     }
 
     @Test(expected = NullPointerException.class)

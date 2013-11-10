@@ -28,9 +28,8 @@ public final class UniqueId {
      * @param id the unique id
      * @param isLink true if id contains a link that can be opened in a browser
      */
-    UniqueId(final String id, final boolean isLink) throws MalformedURLException {
-        requireNonNull(id);
-        this.id = isLink ? new URL(id).toString() : id;
+    UniqueId(final String id, final boolean isLink) {
+        this.id = requireNonNull(id);
         this.isLink = isLink;
     }
 

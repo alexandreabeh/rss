@@ -25,12 +25,9 @@ public final class RSS {
      * @param channel the channel contained
      */
     public RSS(final Charset charset, final Version version, final Channel channel) {
-        requireNonNull(charset);
-        requireNonNull(version);
-        requireNonNull(channel);
-        this.charset = charset;
-        this.version = version;
-        this.channel = channel;
+        this.charset = requireNonNull(charset);
+        this.version = requireNonNull(version);
+        this.channel = requireNonNull(channel);
     }
 
     /** @return the charset encoding used in the feed */

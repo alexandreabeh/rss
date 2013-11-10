@@ -36,18 +36,14 @@ public final class Cloud {
      * @param protocol the protocol used for the request
      */
     Cloud(final URI domain, final int port, final Path path, final String procedureName, final Protocol protocol) {
-        requireNonNull(domain);
-        requireNonNull(path);
-        requireNonNull(protocol);
-        requireNonNull(procedureName);
         portInvariant(port);
         procedureNameInvariant(procedureName, protocol);
 
-        this.domain = domain;
+        this.domain = requireNonNull(domain);
         this.port = port;
-        this.path = path;
-        this.procedureName = procedureName;
-        this.protocol = protocol;
+        this.path = requireNonNull(path);
+        this.procedureName = requireNonNull(procedureName);
+        this.protocol = requireNonNull(protocol);
     }
 
     private static void procedureNameInvariant(final String procedureName, final Protocol protocol) {

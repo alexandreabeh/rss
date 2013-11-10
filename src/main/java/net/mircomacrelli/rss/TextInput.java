@@ -32,15 +32,10 @@ public final class TextInput {
      * @param scriptUrl the url to the page that will handle the requests
      */
     TextInput(final String name, final String description, final String label, final URL scriptUrl) {
-        requireNonNull(name);
-        requireNonNull(description);
-        requireNonNull(label);
-        requireNonNull(scriptUrl);
-
-        this.label = label;
-        this.description = description;
-        this.name = name;
-        this.scriptUrl = scriptUrl;
+        this.label = requireNonNull(label);
+        this.description = requireNonNull(description);
+        this.name = requireNonNull(name);
+        this.scriptUrl = requireNonNull(scriptUrl);
     }
 
     /** @return the url to the page that will handle the requests */

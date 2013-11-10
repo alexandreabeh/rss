@@ -24,10 +24,10 @@ import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
-import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
 import static net.mircomacrelli.rss.Utils.copyEnumSet;
 import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.copySet;
+import static net.mircomacrelli.rss.Utils.crashIfAlreadySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.isEndOfTag;
@@ -91,34 +91,31 @@ public final class Channel extends ExtensibleElement {
             final Set<Category> categories, final String generator, final URL documentation, final Cloud cloud,
             final Integer timeToLive, final Image image, final TextInput textInput, final Set<Integer> skipHours,
             final EnumSet<Day> skipDays, final String rating, final List<Item> items) {
-        final Set<Integer> correctedSkipHours = correctSkipHours(skipHours);
-
-        requireNonNull(title);
-        requireNonNull(link);
-        requireNonNull(description);
         ttlInvariant(timeToLive);
+
+        final Set<Integer> correctedSkipHours = correctSkipHours(skipHours);
         skipHoursInvariant(correctedSkipHours);
 
-        this.title = title;
-        this.link = link;
-        this.description = description;
+        this.title = requireNonNull(title);
+        this.link = requireNonNull(link);
+        this.description = requireNonNull(description);
         this.language = language;
         this.copyright = copyright;
         this.editor = editor;
         this.webmaster = webmaster;
         this.publishDate = publishDate;
         this.buildDate = buildDate;
-        this.categories = copySet(categories);
+        this.categories = categories;
         this.generator = generator;
         this.documentation = documentation;
         this.cloud = cloud;
         this.timeToLive = timeToLive;
         this.image = image;
         this.textInput = textInput;
-        this.skipHours = copySet(correctedSkipHours);
-        this.skipDays = copyEnumSet(skipDays, Day.class);
+        this.skipHours = correctedSkipHours;
+        this.skipDays = skipDays;
         this.rating = rating;
-        this.items = copyList(items);
+        this.items = items;
     }
 
     private static Set<Integer> correctSkipHours(final Set<Integer> orig) {
@@ -220,7 +217,7 @@ public final class Channel extends ExtensibleElement {
 
     /** @return a set of categories that contains this feed */
     public Set<Category> getCategories() {
-        return categories;
+        return copySet(categories);
     }
 
     /** @return the name of the program that created this feed */
@@ -256,7 +253,7 @@ public final class Channel extends ExtensibleElement {
 
     /** @return a set of hours that can be skipped when checking the feed for updates */
     public Set<Integer> getSkipHours() {
-        return skipHours;
+        return copySet(skipHours);
     }
 
     /** @return a set of days that can be skipped when checking the feed for updates */
@@ -266,7 +263,7 @@ public final class Channel extends ExtensibleElement {
 
     /** @return the list with all the items published in this feed */
     public List<Item> getItems() {
-        return items;
+        return copyList(items);
     }
 
     @Override
@@ -397,39 +394,39 @@ public final class Channel extends ExtensibleElement {
             final String name = element.getName().getLocalPart();
             switch (name) {
                 case "title":
-                    canBeWrittenOnlyOnce(title);
+                    crashIfAlreadySet(title);
                     title = getText(reader);
                     break;
                 case "link":
-                    canBeWrittenOnlyOnce(link);
+                    crashIfAlreadySet(link);
                     link = parseURL(getText(reader));
                     break;
                 case "description":
-                    canBeWrittenOnlyOnce(description);
+                    crashIfAlreadySet(description);
                     description = getText(reader);
                     break;
                 case "language":
-                    canBeWrittenOnlyOnce(language);
+                    crashIfAlreadySet(language);
                     language = Locale.forLanguageTag(getText(reader));
                     break;
                 case "copyright":
-                    canBeWrittenOnlyOnce(copyright);
+                    crashIfAlreadySet(copyright);
                     copyright = getText(reader);
                     break;
                 case "managingEditor":
-                    canBeWrittenOnlyOnce(editor);
+                    crashIfAlreadySet(editor);
                     editor = getText(reader);
                     break;
                 case "webMaster":
-                    canBeWrittenOnlyOnce(webmaster);
+                    crashIfAlreadySet(webmaster);
                     webmaster = getText(reader);
                     break;
                 case "pubDate":
-                    canBeWrittenOnlyOnce(publishDate);
+                    crashIfAlreadySet(publishDate);
                     publishDate = parseDate(getText(reader), parser);
                     break;
                 case "lastBuildDate":
-                    canBeWrittenOnlyOnce(buildDate);
+                    crashIfAlreadySet(buildDate);
                     buildDate = parseDate(getText(reader), parser);
                     break;
                 case "category":
@@ -439,31 +436,31 @@ public final class Channel extends ExtensibleElement {
                     categories.add(parseCategory(reader, element));
                     break;
                 case "generator":
-                    canBeWrittenOnlyOnce(generator);
+                    crashIfAlreadySet(generator);
                     generator = getText(reader);
                     break;
                 case "docs":
-                    canBeWrittenOnlyOnce(docs);
+                    crashIfAlreadySet(docs);
                     docs = parseURL(getText(reader));
                     break;
                 case "cloud":
-                    canBeWrittenOnlyOnce(cloud);
+                    crashIfAlreadySet(cloud);
                     cloud = parseCloud(element);
                     break;
                 case "ttl":
-                    canBeWrittenOnlyOnce(ttl);
+                    crashIfAlreadySet(ttl);
                     ttl = Integer.parseInt(getText(reader));
                     break;
                 case "image":
-                    canBeWrittenOnlyOnce(image);
+                    crashIfAlreadySet(image);
                     image = parseImage(reader);
                     break;
                 case "textInput":
-                    canBeWrittenOnlyOnce(textInput);
+                    crashIfAlreadySet(textInput);
                     textInput = parseTextInput(reader);
                     break;
                 case "rating":
-                    canBeWrittenOnlyOnce(rating);
+                    crashIfAlreadySet(rating);
                     rating = getText(reader);
                     break;
                 case "item":
@@ -473,11 +470,11 @@ public final class Channel extends ExtensibleElement {
                     items.add(parseItem(reader, parser));
                     break;
                 case "skipDays":
-                    canBeWrittenOnlyOnce(skipDays);
+                    crashIfAlreadySet(skipDays);
                     skipDays = parseSkipDays(reader);
                     break;
                 case "skipHours":
-                    canBeWrittenOnlyOnce(skipHours);
+                    crashIfAlreadySet(skipHours);
                     skipHours = parseSkipHours(reader);
                     break;
             }

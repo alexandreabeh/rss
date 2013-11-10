@@ -11,7 +11,7 @@ import java.util.Locale;
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
-import static net.mircomacrelli.rss.Utils.canBeWrittenOnlyOnce;
+import static net.mircomacrelli.rss.Utils.crashIfAlreadySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.parseDate;
@@ -28,14 +28,11 @@ public final class Syndication implements Module {
     private final DateTime base;
 
     Syndication(final Period period, final Integer frequency, final DateTime base) {
-        requireNonNull(period);
-        requireNonNull(base);
-        requireNonNull(frequency);
         frequencyInvariant(frequency);
 
-        this.period = period;
-        this.frequency = frequency;
-        this.base = base;
+        this.period = requireNonNull(period);
+        this.frequency = requireNonNull(frequency);
+        this.base = requireNonNull(base);
     }
 
     private static void frequencyInvariant(final int frequency) {
@@ -122,15 +119,15 @@ public final class Syndication implements Module {
 
             switch (name) {
                 case "updatePeriod":
-                    canBeWrittenOnlyOnce(period);
+                    crashIfAlreadySet(period);
                     period = Period.from(getText(reader));
                     break;
                 case "updateFrequency":
-                    canBeWrittenOnlyOnce(frequency);
+                    crashIfAlreadySet(frequency);
                     frequency = Integer.parseInt(getText(reader));
                     break;
                 case "updateBase":
-                    canBeWrittenOnlyOnce(base);
+                    crashIfAlreadySet(base);
                     base = parseDate(getText(reader), parser);
                     break;
             }

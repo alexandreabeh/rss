@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
@@ -125,12 +124,6 @@ public final class ItemTest {
         assertEquals("parla di questo e quello", item.getDescription());
     }
 
-    @Test
-    public void categoriesAreCopiedByCtor() {
-        categories.clear();
-        assertEquals(1, item.getCategories().size());
-    }
-
     @Test(expected = UnsupportedOperationException.class)
     public void categoriesAreUnmodifiable() {
         item.getCategories().clear();
@@ -139,12 +132,6 @@ public final class ItemTest {
     @Test
     public void equalsContract() {
         EqualsVerifier.forClass(Item.class).withPrefabValues(URL.class, validLink, otherLink).verify();
-    }
-
-    @Test
-    public void enclosuresAreCopiedByCtor() {
-        enclosures.clear();
-        assertNotEquals(enclosures, item.getEnclosures());
     }
 
     @Test(expected = UnsupportedOperationException.class)

@@ -228,12 +228,6 @@ public final class ChannelTest {
         chan.getWebmasterAsEmailAddress();
     }
 
-    @Test
-    public void itemsAreCopiedByCtor() {
-        items.clear();
-        assertEquals(1, channel.getItems().size());
-    }
-
     @Test(expected = UnsupportedOperationException.class)
     public void itemsAreUnmodifiable() {
         channel.getItems().clear();
@@ -248,24 +242,6 @@ public final class ChannelTest {
     @Test(expected = UnsupportedOperationException.class)
     public void skipHoursIsUnmodifiable() {
         channel.getSkipHours().clear();
-    }
-
-    @Test
-    public void skipDaysIsCopiedByCtor() {
-        skipDays.clear();
-        assertEquals(1, channel.getSkipDays().size());
-    }
-
-    @Test
-    public void skipDaysIsCopiedByGetter() {
-        channel.getSkipDays().clear();
-        assertEquals(1, channel.getSkipDays().size());
-    }
-
-    @Test
-    public void categoriesAreCopiedByCtor() {
-        categories.clear();
-        assertEquals(1, channel.getCategories().size());
     }
 
     @Test(expected = UnsupportedOperationException.class)

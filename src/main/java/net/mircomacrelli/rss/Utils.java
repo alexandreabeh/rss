@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
-import static java.util.Objects.requireNonNull;
 
 final class Utils {
     public static final DateTimeFormatter ISO8601_DATE_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -60,12 +59,8 @@ final class Utils {
         return (set == null) ? EnumSet.noneOf(type) : set.clone();
     }
 
-    public static MimeType copyMimeType(final MimeType original) {
-        try {
-            return new MimeType(original.getPrimaryType(), original.getSubType());
-        } catch (MimeTypeParseException ignored) {
-            throw new AssertionError("can not happen");
-        }
+    public static MimeType copyMimeType(final MimeType original) throws MimeTypeParseException {
+        return new MimeType(original.getPrimaryType(), original.getSubType());
     }
 
     public static void append(final StringBuilder sb, final String fieldName, final Object field) {
@@ -173,7 +168,7 @@ final class Utils {
         return new URL(url);
     }
 
-    public static void canBeWrittenOnlyOnce(final Object obj) {
+    public static void crashIfAlreadySet(final Object obj) {
         if (obj != null) {
             throw new IllegalStateException("field already set");
         }
@@ -182,14 +177,12 @@ final class Utils {
     @SafeVarargs
     public static Set<Class<? extends Module>> allowedModules(final Class<? extends Module> module,
                                                               final Class<? extends Module>... others) {
-        requireNonNull(module);
         requireModuleInterface(module);
 
         final Set<Class<? extends Module>> set = new HashSet<>(1 + others.length);
         set.add(module);
 
         for (final Class<? extends Module> mod : others) {
-            requireNonNull(mod);
             requireModuleInterface(mod);
             set.add(mod);
         }

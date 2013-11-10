@@ -28,11 +28,8 @@ public final class Source {
      * @param link ths link to the original rss feed
      */
     Source(final String name, final URL link) {
-        requireNonNull(name);
-        requireNonNull(link);
-
-        this.name = name;
-        this.link = link;
+        this.name = requireNonNull(name);
+        this.link = requireNonNull(link);
     }
 
     /** @return the URL to the feed */

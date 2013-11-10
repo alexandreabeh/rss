@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.String.format;
+import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
-import static net.mircomacrelli.rss.Utils.copyList;
 import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.parseURL;
 
@@ -25,13 +25,12 @@ public final class CreativeCommons implements Module {
     private final List<URL> licenses;
 
     CreativeCommons(final List<URL> licenses) {
-        requireNonNull(licenses);
-        this.licenses = copyList(licenses);
+        this.licenses = requireNonNull(licenses);
     }
 
     /** @return the list with the URL of the licenses */
     public List<URL> getLicenses() {
-        return licenses;
+        return unmodifiableList(licenses);
     }
 
     @Override

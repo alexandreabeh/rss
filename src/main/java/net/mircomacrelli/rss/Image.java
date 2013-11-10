@@ -39,15 +39,12 @@ public final class Image {
      */
     Image(final URL image, final URL link, final String alt, final String description, final Integer width,
           final Integer height) {
-        requireNonNull(image);
-        requireNonNull(link);
-        requireNonNull(alt);
         widthInvariant(width);
         heightInvariant(height);
 
-        this.image = image;
-        this.link = link;
-        this.alt = alt;
+        this.image = requireNonNull(image);
+        this.link = requireNonNull(link);
+        this.alt = requireNonNull(alt);
         this.description = description;
         this.width = width;
         this.height = height;

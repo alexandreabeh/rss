@@ -44,10 +44,4 @@ public class SyndicationBuilderTest extends ModuleBuilderTestBase {
         step(builder, "<sy:updateBase>2013-12-21T12:21:00+0000</sy:updateBase>");
         assertNotNull(builder.build());
     }
-
-    @Test
-    public void unknownTagsAreIgnored() throws Exception {
-        final Builder builder = new Builder(ISODateTimeFormat.dateTimeParser());
-        step(builder, "<sy:unknownTag>12</sy:unknownTag>");
-    }
 }

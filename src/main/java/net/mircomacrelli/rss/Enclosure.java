@@ -1,6 +1,7 @@
 package net.mircomacrelli.rss;
 
 import javax.activation.MimeType;
+import javax.activation.MimeTypeParseException;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 import java.net.URL;
@@ -33,14 +34,12 @@ public final class Enclosure {
      * @param type MIME Type of the linked file
      */
     Enclosure(final URL link, final long length, final MimeType type) {
-        requireNonNull(link);
-        requireNonNull(type);
         lengthInvariant(length);
         linkInvariant(link);
 
-        this.link = link;
+        this.link = requireNonNull(link);
         this.length = length;
-        this.type = copyMimeType(type);
+        this.type = requireNonNull(type);
     }
 
     private static void linkInvariant(final URL link) {
@@ -65,8 +64,11 @@ public final class Enclosure {
         return length;
     }
 
-    /** @return a copy of the MIME Type */
-    public MimeType getType() {
+    /**
+     * @return a copy of the MIME Type
+     * @throws MimeTypeParseException if the mime type is not valid
+     */
+    public MimeType getType() throws MimeTypeParseException {
         return copyMimeType(type);
     }
 

@@ -61,14 +61,8 @@ public final class EnclosureTest {
     }
 
     @Test
-    public void type() {
+    public void type() throws MimeTypeParseException {
         assertTrue(validMimeType.match(enclosure.getType()));
-    }
-
-    @Test
-    public void typeIsCopiedByCtor() throws MimeTypeParseException {
-        validMimeType.setSubType("aac");
-        assertEquals("mp3", enclosure.getType().getSubType());
     }
 
     @Test
