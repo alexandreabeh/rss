@@ -275,9 +275,6 @@ public final class Channel extends ExtensibleElement {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this) {
-            return true;
-        }
         if (!(obj instanceof Channel)) {
             return false;
         }

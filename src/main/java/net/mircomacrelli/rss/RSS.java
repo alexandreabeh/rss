@@ -52,9 +52,6 @@ public final class RSS {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this) {
-            return true;
-        }
         if (!(obj instanceof RSS)) {
             return false;
         }

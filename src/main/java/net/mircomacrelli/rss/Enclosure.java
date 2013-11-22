@@ -79,9 +79,6 @@ public final class Enclosure {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this) {
-            return true;
-        }
         if (!(obj instanceof Enclosure)) {
             return false;
         }

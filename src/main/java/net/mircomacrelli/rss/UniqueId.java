@@ -61,9 +61,6 @@ public final class UniqueId {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this) {
-            return true;
-        }
         if (!(obj instanceof UniqueId)) {
             return false;
         }

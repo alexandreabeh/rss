@@ -40,9 +40,6 @@ public final class CreativeCommons implements Module {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this) {
-            return true;
-        }
         if (!(obj instanceof CreativeCommons)) {
             return false;
         }

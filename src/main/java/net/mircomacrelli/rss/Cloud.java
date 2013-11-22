@@ -90,9 +90,6 @@ public final class Cloud {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this) {
-            return true;
-        }
         if (!(obj instanceof Cloud)) {
             return false;
         }
