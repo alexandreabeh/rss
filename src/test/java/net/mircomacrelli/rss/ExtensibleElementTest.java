@@ -4,7 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
@@ -17,9 +18,9 @@ public class ExtensibleElementTest {
     private CreativeCommons creativeCommons;
 
     @Before
-    public void setup() throws MalformedURLException {
+    public void setup() throws MalformedURLException, URISyntaxException {
         element = new MockElement();
-        creativeCommons = new CreativeCommons(singletonList(new URL("http://www.google.it")));
+        creativeCommons = new CreativeCommons(singletonList(new URI("http://www.google.it")));
     }
 
     @Test(expected = NullPointerException.class)

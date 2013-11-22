@@ -2,14 +2,14 @@ package net.mircomacrelli.rss;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
-import java.net.URL;
+import java.net.URI;
 import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
-import static net.mircomacrelli.rss.Utils.parseURL;
+import static net.mircomacrelli.rss.Utils.parseUri;
 
 /**
  * An image that can be displayed with the feed
@@ -18,8 +18,8 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * @version 2.0
  */
 public final class Image {
-    private final URL image;
-    private final URL link;
+    private final URI image;
+    private final URI link;
     private final String alt;
     private final String description;
     private final Integer width;
@@ -37,7 +37,7 @@ public final class Image {
      * @param width width of the image
      * @param height height of the image
      */
-    Image(final URL image, final URL link, final String alt, final String description, final Integer width,
+    Image(final URI image, final URI link, final String alt, final String description, final Integer width,
           final Integer height) {
         widthInvariant(width);
         heightInvariant(height);
@@ -67,12 +67,12 @@ public final class Image {
     }
 
     /** @return the url of an png, jpeg or gif image */
-    public URL getImage() {
+    public URI getImage() {
         return image;
     }
 
     /** @return the link of the site */
-    public URL getLink() {
+    public URI getLink() {
         return link;
     }
 
@@ -108,7 +108,7 @@ public final class Image {
         }
 
         final Image other = (Image)obj;
-        return image.toString().equals(other.image.toString()) && link.toString().equals(other.link.toString()) &&
+        return image.equals(other.image) && link.equals(other.link) &&
                alt.equals(other.alt);
     }
 
@@ -135,8 +135,8 @@ public final class Image {
     }
 
     static final class Builder extends BuilderBase<Image> {
-        URL image;
-        URL link;
+        URI image;
+        URI link;
         String alt;
         String description;
         Integer width;
@@ -146,9 +146,9 @@ public final class Image {
         public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
             final Map<String, String> values = getAllTagsValuesInside(reader, "image");
 
-            image = parseURL(values.get("url"));
+            image = parseUri(values.get("url"));
             alt = values.get("title");
-            link = parseURL(values.get("link"));
+            link = parseUri(values.get("link"));
             description = values.get("description");
             width = Integer.parseInt(values.get("width"));
             height = Integer.parseInt(values.get("height"));

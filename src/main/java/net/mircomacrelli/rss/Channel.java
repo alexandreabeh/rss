@@ -9,7 +9,7 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -33,7 +33,7 @@ import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.isEndOfTag;
 import static net.mircomacrelli.rss.Utils.isStartOfTag;
 import static net.mircomacrelli.rss.Utils.parseDate;
-import static net.mircomacrelli.rss.Utils.parseURL;
+import static net.mircomacrelli.rss.Utils.parseUri;
 
 /**
  * Contains all the information regarding the rss and all the items published in this feed.
@@ -43,7 +43,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  */
 public final class Channel extends ExtensibleElement {
     private final String title;
-    private final URL link;
+    private final URI link;
     private final String description;
     private final Locale language;
     private final String copyright;
@@ -53,7 +53,7 @@ public final class Channel extends ExtensibleElement {
     private final DateTime buildDate;
     private final Set<Category> categories;
     private final String generator;
-    private final URL documentation;
+    private final URI documentation;
     private final Cloud cloud;
     private final Integer timeToLive;
     private final Image image;
@@ -86,9 +86,9 @@ public final class Channel extends ExtensibleElement {
      * @param skipDays a set of days that can be skipped when checking for updates
      * @param items a list with all the items published in the feed
      */
-    Channel(final String title, final URL link, final String description, final Locale language, final String copyright,
+    Channel(final String title, final URI link, final String description, final Locale language, final String copyright,
             final String editor, final String webmaster, final DateTime publishDate, final DateTime buildDate,
-            final Set<Category> categories, final String generator, final URL documentation, final Cloud cloud,
+            final Set<Category> categories, final String generator, final URI documentation, final Cloud cloud,
             final Integer timeToLive, final Image image, final TextInput textInput, final Set<Integer> skipHours,
             final EnumSet<Day> skipDays, final String rating, final List<Item> items) {
         ttlInvariant(timeToLive);
@@ -160,7 +160,7 @@ public final class Channel extends ExtensibleElement {
     }
 
     /** @return a link to the web site */
-    public URL getLink() {
+    public URI getLink() {
         return link;
     }
 
@@ -226,7 +226,7 @@ public final class Channel extends ExtensibleElement {
     }
 
     /** @return a link to a page that contains information about this feed */
-    public URL getDocumentation() {
+    public URI getDocumentation() {
         return documentation;
     }
 
@@ -280,7 +280,7 @@ public final class Channel extends ExtensibleElement {
         }
 
         final Channel other = (Channel)obj;
-        return title.equals(other.title) && link.toString().equals(other.link.toString()) &&
+        return title.equals(other.title) && link.equals(other.link) &&
                description.equals(other.description) && Objects.equals(language, other.language) &&
                Objects.equals(copyright, other.copyright) &&
                Objects.equals(editor, other.editor) &&
@@ -355,7 +355,7 @@ public final class Channel extends ExtensibleElement {
         private static final Set<Class<? extends Module>> ALLOWED_MODULES = allowedModules(CreativeCommons.class,
                                                                                            Syndication.class);
         String title;
-        URL link;
+        URI link;
         String description;
         Locale language;
         String copyright;
@@ -365,7 +365,7 @@ public final class Channel extends ExtensibleElement {
         DateTime buildDate;
         Set<Category> categories;
         String generator;
-        URL docs;
+        URI docs;
         Cloud cloud;
         Integer ttl;
         Image image;
@@ -396,7 +396,7 @@ public final class Channel extends ExtensibleElement {
                     break;
                 case "link":
                     crashIfAlreadySet(link);
-                    link = parseURL(getText(reader));
+                    link = parseUri(getText(reader));
                     break;
                 case "description":
                     crashIfAlreadySet(description);
@@ -438,7 +438,7 @@ public final class Channel extends ExtensibleElement {
                     break;
                 case "docs":
                     crashIfAlreadySet(docs);
-                    docs = parseURL(getText(reader));
+                    docs = parseUri(getText(reader));
                     break;
                 case "cloud":
                     crashIfAlreadySet(cloud);

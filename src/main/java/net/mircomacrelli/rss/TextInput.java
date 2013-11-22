@@ -2,14 +2,14 @@ package net.mircomacrelli.rss;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
-import java.net.URL;
+import java.net.URI;
 import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
-import static net.mircomacrelli.rss.Utils.parseURL;
+import static net.mircomacrelli.rss.Utils.parseUri;
 
 /**
  * A text field that could be used for searching the feed or provide feedback
@@ -21,7 +21,7 @@ public final class TextInput {
     private final String name;
     private final String description;
     private final String label;
-    private final URL scriptUrl;
+    private final URI scriptUri;
 
     /**
      * Creates a new TextInput
@@ -29,18 +29,18 @@ public final class TextInput {
      * @param name the name of the field
      * @param description a description of what this field does
      * @param label the text of the label
-     * @param scriptUrl the url to the page that will handle the requests
+     * @param scriptUri the url to the page that will handle the requests
      */
-    TextInput(final String name, final String description, final String label, final URL scriptUrl) {
+    TextInput(final String name, final String description, final String label, final URI scriptUri) {
         this.label = requireNonNull(label);
         this.description = requireNonNull(description);
         this.name = requireNonNull(name);
-        this.scriptUrl = requireNonNull(scriptUrl);
+        this.scriptUri = requireNonNull(scriptUri);
     }
 
     /** @return the url to the page that will handle the requests */
-    public URL getScriptUrl() {
-        return scriptUrl;
+    public URI getScriptUri() {
+        return scriptUri;
     }
 
     /** @return the name of the field */
@@ -60,7 +60,7 @@ public final class TextInput {
 
     @Override
     public int hashCode() {
-        return hash(label, description, name, scriptUrl);
+        return hash(label, description, name, scriptUri);
     }
 
     @Override
@@ -71,20 +71,20 @@ public final class TextInput {
 
         final TextInput other = (TextInput)obj;
         return label.equals(other.label) && description.equals(other.description) && name.equals(other.name) &&
-               scriptUrl.toString().equals(other.scriptUrl.toString());
+               scriptUri.equals(other.scriptUri);
     }
 
     @Override
     public String toString() {
-        return format("TextInput{label='%s', description='%s', name='%s', scriptUrl='%s'}", label, description, name,
-                      scriptUrl);
+        return format("TextInput{label='%s', description='%s', name='%s', scriptUri='%s'}", label, description, name,
+                      scriptUri);
     }
 
     static final class Builder extends BuilderBase<TextInput> {
         String name;
         String description;
         String label;
-        URL cgiScriptURL;
+        URI cgiScriptUri;
 
         @Override
         public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
@@ -93,12 +93,12 @@ public final class TextInput {
             label = values.get("title");
             description = values.get("description");
             name = values.get("name");
-            cgiScriptURL = parseURL(values.get("link"));
+            cgiScriptUri = parseUri(values.get("link"));
         }
 
         @Override
         public TextInput build() {
-            return new TextInput(name, description, label, cgiScriptURL);
+            return new TextInput(name, description, label, cgiScriptUri);
         }
     }
 }

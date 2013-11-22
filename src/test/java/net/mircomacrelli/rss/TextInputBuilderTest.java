@@ -3,7 +3,7 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.TextInput.Builder;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -13,11 +13,11 @@ public class TextInputBuilderTest extends BuilderBaseTestBase<TextInput, Builder
         return new Builder();
     }
 
-    @Test(expected = MalformedURLException.class)
-    public void linkMustBeAValidUrl() throws Exception {
+    @Test(expected = URISyntaxException.class)
+    public void linkMustBeAValidUri() throws Exception {
         parse("<textInput>" +
               "<description>descrizione</description>" +
-              "<link>http//..it</link>" +
+              "<link>** http//..it</link>" +
               "<name>nome</name>" +
               "<title>titolo</title>" +
               "</textInput>");

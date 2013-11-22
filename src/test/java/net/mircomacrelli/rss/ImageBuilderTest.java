@@ -3,7 +3,7 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.Image.Builder;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -13,8 +13,8 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
         return new Builder();
     }
 
-    @Test(expected = MalformedURLException.class)
-    public void imageMustBeAValidUrl() throws Exception {
+    @Test(expected = URISyntaxException.class)
+    public void imageMustBeAValidUri() throws Exception {
         parse("<image>" +
               "<link>http://www.google.it</link>" +
               "<title>titolo</title>" +
@@ -25,10 +25,10 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
               "</image>");
     }
 
-    @Test(expected = MalformedURLException.class)
-    public void linkMustBeAValidUrl() throws Exception {
+    @Test(expected = URISyntaxException.class)
+    public void linkMustBeAValidUri() throws Exception {
         parse("<image>" +
-              "<link>htt///</link>" +
+              "<link>,,, *htt///</link>" +
               "<title>titolo</title>" +
               "<url>http://www.google.it/logo.gif</url>" +
               "<description>descrizione</description>" +

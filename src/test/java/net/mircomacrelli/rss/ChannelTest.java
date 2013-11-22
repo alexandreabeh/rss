@@ -9,10 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.mail.internet.AddressException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,8 +28,8 @@ import static org.junit.Assert.assertSame;
 
 public final class ChannelTest {
 
-    private URL validLink;
-    private URL otherLink;
+    private URI validLink;
+    private URI otherLink;
     private Channel channel;
     private String validAddress;
     private DateTime validDate;
@@ -45,10 +43,10 @@ public final class ChannelTest {
     private List<Item> items;
 
     @Before
-    public void setup() throws MalformedURLException, URISyntaxException {
-        validLink = new URL("http://mircomacrelli.net");
+    public void setup() throws URISyntaxException {
+        validLink = new URI("http://mircomacrelli.net");
         validAddress = "info@mircomacrelli.net";
-        otherLink = new URL("http://www.google.com");
+        otherLink = new URI("http://www.google.com");
         validDate = new DateTime(1380279886610L);
         categories = new HashSet<>(1);
         categories.add(new Category(null, "web"));
@@ -261,13 +259,13 @@ public final class ChannelTest {
     @Test
     public void equalsContract() {
         EqualsVerifier.forClass(Channel.class).suppress(Warning.NULL_FIELDS)
-                      .withPrefabValues(URL.class, validLink, otherLink).verify();
+                      .withPrefabValues(URI.class, validLink, otherLink).verify();
     }
 
     @Test
     public void testToString() {
         assertEquals(
-                "Channel{title='Mirco Macrelli', link='http://mircomacrelli.net', description='Descrizione del feed', language='it_IT', copyright='Copyright (c) 2013 Mirco Macrelli', editor='info@mircomacrelli.net', webmaster='info@mircomacrelli.net', publishDate='Fri, 27 Sep 2013 11:04:46 +0000', buildDate='Fri, 27 Sep 2013 11:04:46 +0000', categories=[Category{location='web'}], generator='Generatore del feed 1.0', documentation='http://mircomacrelli.net', cloud=Cloud{domain='mircomacrelli.net', port=80, path='/subscribe', procedureName='', protocol=HTTP-POST}, timeToLive='60', image=Image{image='http://mircomacrelli.net', alt='logo', link='http://mircomacrelli.net'}, textInput=TextInput{label='Search', description='Search the feed', name='q', scriptUrl='http://mircomacrelli.net'}, skipHours=[13, 14], skipDays=[FRIDAY], items=[Item{title='titolo'}]}",
+                "Channel{title='Mirco Macrelli', link='http://mircomacrelli.net', description='Descrizione del feed', language='it_IT', copyright='Copyright (c) 2013 Mirco Macrelli', editor='info@mircomacrelli.net', webmaster='info@mircomacrelli.net', publishDate='Fri, 27 Sep 2013 11:04:46 +0000', buildDate='Fri, 27 Sep 2013 11:04:46 +0000', categories=[Category{location='web'}], generator='Generatore del feed 1.0', documentation='http://mircomacrelli.net', cloud=Cloud{domain='mircomacrelli.net', port=80, path='/subscribe', procedureName='', protocol=HTTP-POST}, timeToLive='60', image=Image{image='http://mircomacrelli.net', alt='logo', link='http://mircomacrelli.net'}, textInput=TextInput{label='Search', description='Search the feed', name='q', scriptUri='http://mircomacrelli.net'}, skipHours=[13, 14], skipDays=[FRIDAY], items=[Item{title='titolo'}]}",
                 channel.toString());
     }
 

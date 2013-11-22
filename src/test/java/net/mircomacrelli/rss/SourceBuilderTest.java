@@ -3,7 +3,7 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.Source.Builder;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -14,9 +14,9 @@ public class SourceBuilderTest extends BuilderBaseTestBase<Source, Builder> {
         return new Builder();
     }
 
-    @Test(expected = MalformedURLException.class)
+    @Test(expected = URISyntaxException.class)
     public void urlMustBeValid() throws Exception {
-        parse("<source url=\"invalid\">fonte</source>");
+        parse("<source url=\", ,\">fonte</source>");
     }
 
     @Test

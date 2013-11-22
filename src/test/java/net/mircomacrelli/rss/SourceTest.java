@@ -5,21 +5,21 @@ import nl.jqno.equalsverifier.Warning;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public final class SourceTest {
-    private URL validLink;
-    private URL otherLink;
+    private URI validLink;
+    private URI otherLink;
     private Source source;
 
     @Before
-    public void setup() throws MalformedURLException {
-        validLink = new URL("http://mircomacrelli.net");
-        otherLink = new URL("http://www.google.com");
+    public void setup() throws URISyntaxException {
+        validLink = new URI("http://mircomacrelli.net");
+        otherLink = new URI("http://www.google.com");
         source = new Source("Mirco Macrelli", validLink);
     }
 
@@ -45,7 +45,7 @@ public final class SourceTest {
 
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(Source.class).withPrefabValues(URL.class, validLink, otherLink)
+        EqualsVerifier.forClass(Source.class).withPrefabValues(URI.class, validLink, otherLink)
                       .suppress(Warning.NULL_FIELDS).verify();
     }
 

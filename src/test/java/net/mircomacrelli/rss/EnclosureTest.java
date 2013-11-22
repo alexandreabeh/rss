@@ -7,25 +7,25 @@ import org.junit.Test;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public final class EnclosureTest {
-    private URL validLink;
-    private URL badLink;
-    private URL otherLink;
+    private URI validLink;
+    private URI badLink;
+    private URI otherLink;
     private MimeType validMimeType;
     private Enclosure enclosure;
 
     @Before
-    public void setup() throws MalformedURLException, MimeTypeParseException {
-        validLink = new URL("http://mircomacrelli.net/audio.mp3");
-        badLink = new URL("ftp://mircomacrelli.net/archive.zip");
-        otherLink = new URL("https://www.google.com");
+    public void setup() throws MimeTypeParseException, URISyntaxException {
+        validLink = new URI("http://mircomacrelli.net/audio.mp3");
+        badLink = new URI("ftp://mircomacrelli.net/archive.zip");
+        otherLink = new URI("https://www.google.com");
         validMimeType = new MimeType("audio/mp3");
         enclosure = new Enclosure(validLink, 1024, validMimeType);
     }
@@ -79,7 +79,7 @@ public final class EnclosureTest {
     @Test
     public void equalsContract() {
         EqualsVerifier.forClass(Enclosure.class).suppress(Warning.NULL_FIELDS)
-                      .withPrefabValues(URL.class, validLink, otherLink).verify();
+                      .withPrefabValues(URI.class, validLink, otherLink).verify();
     }
 
     @Test

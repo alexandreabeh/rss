@@ -4,8 +4,8 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +19,9 @@ public class CreativeCommonsTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void licensesIsUnmodifiable() throws MalformedURLException {
-        final List<URL> licenses = new ArrayList<>(1);
-        licenses.add(new URL("http://www.google.it"));
+    public void licensesIsUnmodifiable() throws URISyntaxException {
+        final List<URI> licenses = new ArrayList<>(1);
+        licenses.add(new URI("http://www.google.it"));
         final CreativeCommons creativeCommons = new CreativeCommons(licenses);
         creativeCommons.getLicenses().clear();
     }
@@ -32,9 +32,9 @@ public class CreativeCommonsTest {
     }
 
     @Test
-    public void testToString() throws MalformedURLException {
-        final List<URL> licenses = new ArrayList<>(1);
-        licenses.add(new URL("http://www.google.it"));
+    public void testToString() throws URISyntaxException {
+        final List<URI> licenses = new ArrayList<>(1);
+        licenses.add(new URI("http://www.google.it"));
         final CreativeCommons creativeCommons = new CreativeCommons(licenses);
 
         assertEquals("CreativeCommons{licenses=[http://www.google.it]}", creativeCommons.toString());

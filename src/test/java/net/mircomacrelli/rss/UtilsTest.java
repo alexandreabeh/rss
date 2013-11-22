@@ -11,7 +11,7 @@ import javax.activation.MimeTypeParseException;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,7 +35,7 @@ import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.isEndOfTag;
 import static net.mircomacrelli.rss.Utils.isStartOfTag;
 import static net.mircomacrelli.rss.Utils.parseDate;
-import static net.mircomacrelli.rss.Utils.parseURL;
+import static net.mircomacrelli.rss.Utils.parseUri;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -51,18 +51,18 @@ public final class UtilsTest extends XmlTestBase {
     }
 
     @Test
-    public void emptyUrlsAreIgnored() throws MalformedURLException {
-        assertNull(parseURL(""));
+    public void emptyUrlsAreIgnored() throws URISyntaxException {
+        assertNull(parseUri(""));
     }
 
     @Test
-    public void spacesAreTrimmedWhenParsingUrls() throws MalformedURLException {
-        assertNull(parseURL("       "));
+    public void spacesAreTrimmedWhenParsingUrls() throws URISyntaxException {
+        assertNull(parseUri("       "));
     }
 
     @Test
-    public void validUrl() throws MalformedURLException {
-        assertEquals("http://www.google.it", parseURL("    http://www.google.it   ").toString());
+    public void validUrl() throws URISyntaxException {
+        assertEquals("http://www.google.it", parseUri("    http://www.google.it   ").toString());
     }
 
     @Test

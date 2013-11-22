@@ -2,14 +2,14 @@ package net.mircomacrelli.rss;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
-import java.net.URL;
+import java.net.URI;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.getAttributesValues;
 import static net.mircomacrelli.rss.Utils.getText;
-import static net.mircomacrelli.rss.Utils.parseURL;
+import static net.mircomacrelli.rss.Utils.parseUri;
 
 /**
  * Link to the original feed that first published the Item
@@ -18,7 +18,7 @@ import static net.mircomacrelli.rss.Utils.parseURL;
  * @version 2.0
  */
 public final class Source {
-    private final URL link;
+    private final URI link;
     private final String name;
 
     /**
@@ -27,13 +27,13 @@ public final class Source {
      * @param name the name of the source
      * @param link ths link to the original rss feed
      */
-    Source(final String name, final URL link) {
+    Source(final String name, final URI link) {
         this.name = requireNonNull(name);
         this.link = requireNonNull(link);
     }
 
-    /** @return the URL to the feed */
-    public URL getLink() {
+    /** @return the URI to the feed */
+    public URI getLink() {
         return link;
     }
 
@@ -54,7 +54,7 @@ public final class Source {
         }
 
         final Source other = (Source)obj;
-        return name.equals(other.name) && link.toString().equals(other.link.toString());
+        return name.equals(other.name) && link.equals(other.link);
     }
 
     @Override
@@ -63,12 +63,12 @@ public final class Source {
     }
 
     static final class Builder extends BuilderBase<Source> {
-        URL link;
+        URI link;
         String title;
 
         @Override
         public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
-            link = parseURL(getAttributesValues(element).get("url"));
+            link = parseUri(getAttributesValues(element).get("url"));
             title = getText(reader);
         }
 

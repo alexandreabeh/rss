@@ -5,37 +5,37 @@ import nl.jqno.equalsverifier.Warning;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public final class TextInputTest {
-    private URL validUrl;
-    private URL otherUrl;
+    private URI validUri;
+    private URI otherUri;
     private TextInput input;
 
     @Before
-    public void setup() throws MalformedURLException {
-        validUrl = new URL("http://mircomacrelli.net/search.php");
-        otherUrl = new URL("http://www.google.com");
-        input = new TextInput("q", "search the feed", "Search", validUrl);
+    public void setup() throws URISyntaxException {
+        validUri = new URI("http://mircomacrelli.net/search.php");
+        otherUri = new URI("http://www.google.com");
+        input = new TextInput("q", "search the feed", "Search", validUri);
     }
 
     @Test(expected = NullPointerException.class)
     public void nameIsRequired() {
-        new TextInput(null, "search the feed", "Search", validUrl);
+        new TextInput(null, "search the feed", "Search", validUri);
     }
 
     @Test(expected = NullPointerException.class)
     public void labelIsRequired() {
-        new TextInput("q", "search the feed", null, validUrl);
+        new TextInput("q", "search the feed", null, validUri);
     }
 
     @Test(expected = NullPointerException.class)
     public void descriptionIsRequired() {
-        new TextInput("q", null, "Search", validUrl);
+        new TextInput("q", null, "Search", validUri);
     }
 
     @Test(expected = NullPointerException.class)
@@ -59,20 +59,20 @@ public final class TextInputTest {
     }
 
     @Test
-    public void scriptUrl() {
-        assertSame(validUrl, input.getScriptUrl());
+    public void scriptUri() {
+        assertSame(validUri, input.getScriptUri());
     }
 
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(TextInput.class).withPrefabValues(URL.class, validUrl, otherUrl)
+        EqualsVerifier.forClass(TextInput.class).withPrefabValues(URI.class, validUri, otherUri)
                       .suppress(Warning.NULL_FIELDS).verify();
     }
 
     @Test
     public void testToString() {
         assertEquals(
-                "TextInput{label='Search', description='search the feed', name='q', scriptUrl='http://mircomacrelli.net/search.php'}",
+                "TextInput{label='Search', description='search the feed', name='q', scriptUri='http://mircomacrelli.net/search.php'}",
                 input.toString());
     }
 }

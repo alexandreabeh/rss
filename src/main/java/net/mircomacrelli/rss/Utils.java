@@ -13,8 +13,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -161,11 +161,11 @@ final class Utils {
         return RFC822_DATE_FORMAT.print(date);
     }
 
-    public static URL parseURL(final String url) throws MalformedURLException {
-        if (url.trim().isEmpty()) {
+    public static URI parseUri(final String uri) throws URISyntaxException {
+        if (uri.trim().isEmpty()) {
             return null;
         }
-        return new URL(url);
+        return new URI(uri.trim());
     }
 
     public static void crashIfAlreadySet(final Object obj) {

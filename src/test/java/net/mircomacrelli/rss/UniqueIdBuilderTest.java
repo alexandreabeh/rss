@@ -3,7 +3,7 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.UniqueId.Builder;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -33,9 +33,9 @@ public class UniqueIdBuilderTest extends BuilderBaseTestBase<UniqueId, Builder> 
         assertFalse(builder.build().isLink());
     }
 
-    @Test(expected = MalformedURLException.class)
+    @Test(expected = URISyntaxException.class)
     public void ifIsALinkButIsMalformedThenThrowsAnException() throws Exception {
-        final Builder builder = parse("<guid>NEWS_12345</guid>");
-        builder.build().asURL();
+        final Builder builder = parse("<guid>12345 NEWS,qualcosa</guid>");
+        builder.build().asURI();
     }
 }

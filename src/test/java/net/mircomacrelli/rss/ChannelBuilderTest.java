@@ -3,7 +3,7 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.Channel.Builder;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import static net.mircomacrelli.rss.Utils.PARSER;
 import static org.junit.Assert.assertEquals;
@@ -31,10 +31,10 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
               "</channel>");
     }
 
-    @Test(expected = MalformedURLException.class)
-    public void linkMustBeAValidUrl() throws Exception {
+    @Test(expected = URISyntaxException.class)
+    public void linkMustBeAValidUri() throws Exception {
         parse("<channel>" +
-              "<link>---///---</link>" +
+              "<link>,**/    /---</link>" +
               "</channel>");
     }
 

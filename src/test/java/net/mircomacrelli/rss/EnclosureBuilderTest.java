@@ -4,7 +4,7 @@ import net.mircomacrelli.rss.Enclosure.Builder;
 import org.junit.Test;
 
 import javax.activation.MimeTypeParseException;
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -14,7 +14,7 @@ public class EnclosureBuilderTest extends BuilderBaseTestBase<Enclosure, Builder
         return new Builder();
     }
 
-    @Test(expected = MalformedURLException.class)
+    @Test(expected = URISyntaxException.class)
     public void urlMustBuValid() throws Exception {
         parse("<enclosure url=\" f  i*=?le.mp3\" length=\"12\" type=\"audio/mp3\"/>");
     }

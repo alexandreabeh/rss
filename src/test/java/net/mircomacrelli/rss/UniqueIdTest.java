@@ -4,7 +4,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -33,15 +33,15 @@ public final class UniqueIdTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void ifIsLinkIsFalseAsURLThrownAnException() throws MalformedURLException {
+    public void ifIsLinkIsFalseAsURLThrownAnException() throws URISyntaxException {
         final UniqueId id = new UniqueId("this is the id", false);
         assumeFalse(id.isLink());
-        id.asURL();
+        id.asURI();
     }
 
     @Test
-    public void asURL() throws MalformedURLException {
-        assertNotNull(new UniqueId("http://mircomacrelli.net", true).asURL());
+    public void asURL() throws URISyntaxException {
+        assertNotNull(new UniqueId("http://mircomacrelli.net", true).asURI());
     }
 
     @Test

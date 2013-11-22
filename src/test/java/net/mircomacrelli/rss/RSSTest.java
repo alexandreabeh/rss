@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
@@ -21,11 +23,11 @@ public final class RSSTest {
     private RSS rss;
 
     @Before
-    public void setup() throws MalformedURLException {
+    public void setup() throws URISyntaxException {
         validCharset = Charset.forName("UTF-8");
         otherCharset = Charset.forName("ISO-8859-1");
         validVersion = Version.RSS_2_0;
-        validChannel = new Channel("titolo", new URL("http://mircomacrelli.net"), "Mirco Macrelli", null, null, null,
+        validChannel = new Channel("titolo", new URI("http://mircomacrelli.net"), "Mirco Macrelli", null, null, null,
                                    null, null, null, null, null, null, null, null, null, null, null, null, null, null);
         rss = new RSS(validCharset, validVersion, validChannel);
     }

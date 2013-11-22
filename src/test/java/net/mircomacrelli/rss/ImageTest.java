@@ -5,8 +5,8 @@ import nl.jqno.equalsverifier.Warning;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -14,16 +14,16 @@ import static org.junit.Assert.assertSame;
 
 public final class ImageTest {
 
-    private URL validImage;
-    private URL validLink;
-    private URL otherLink;
+    private URI validImage;
+    private URI validLink;
+    private URI otherLink;
     private Image image;
 
     @Before
-    public void setup() throws MalformedURLException {
-        validImage = new URL("http://mircomacrelli.net/image.png");
-        validLink = new URL("http://mircomacrelli.net");
-        otherLink = new URL("http://www.google.com");
+    public void setup() throws URISyntaxException {
+        validImage = new URI("http://mircomacrelli.net/image.png");
+        validLink = new URI("http://mircomacrelli.net");
+        otherLink = new URI("http://www.google.com");
         image = new Image(validImage, validLink, "logo", "Il mio logo", 80, 80);
     }
 
@@ -99,7 +99,7 @@ public final class ImageTest {
 
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(Image.class).withPrefabValues(URL.class, validLink, otherLink)
+        EqualsVerifier.forClass(Image.class).withPrefabValues(URI.class, validLink, otherLink)
                       .suppress(Warning.NULL_FIELDS).verify();
     }
 

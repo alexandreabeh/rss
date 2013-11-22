@@ -7,7 +7,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +23,7 @@ import static net.mircomacrelli.rss.Utils.crashIfAlreadySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.getText;
 import static net.mircomacrelli.rss.Utils.parseDate;
-import static net.mircomacrelli.rss.Utils.parseURL;
+import static net.mircomacrelli.rss.Utils.parseUri;
 
 /**
  * An Item of the Feed
@@ -35,8 +35,8 @@ public final class Item extends ExtensibleElement {
     private final String author;
     private final String title;
     private final String description;
-    private final URL link;
-    private final URL commentsLink;
+    private final URI link;
+    private final URI commentsLink;
     private final Set<Category> categories;
     private final UniqueId uniqueId;
     private final DateTime publishDate;
@@ -58,8 +58,8 @@ public final class Item extends ExtensibleElement {
      * @param enclosures an list with all the attached files
      * @param uniqueId the unique id of the item
      */
-    Item(final URL link, final String title, final String description, final String author, final DateTime publishDate,
-         final Set<Category> categories, final Source source, final URL commentsLink, final List<Enclosure> enclosures,
+    Item(final URI link, final String title, final String description, final String author, final DateTime publishDate,
+         final Set<Category> categories, final Source source, final URI commentsLink, final List<Enclosure> enclosures,
          final UniqueId uniqueId) {
         itemInvariant(title, description);
 
@@ -105,12 +105,12 @@ public final class Item extends ExtensibleElement {
     }
 
     /** @return the link to the item */
-    public URL getLink() {
+    public URI getLink() {
         return link;
     }
 
     /** @return a link to a page containing comments on this item */
-    public URL getCommentsLink() {
+    public URI getCommentsLink() {
         return commentsLink;
     }
 
@@ -184,8 +184,8 @@ public final class Item extends ExtensibleElement {
         String author;
         String title;
         String description;
-        URL link;
-        URL commentsLink;
+        URI link;
+        URI commentsLink;
         Set<Category> categories;
         UniqueId uniqueId;
         DateTime publishDate;
@@ -212,7 +212,7 @@ public final class Item extends ExtensibleElement {
                     break;
                 case "link":
                     crashIfAlreadySet(link);
-                    link = parseURL(getText(reader));
+                    link = parseUri(getText(reader));
                     break;
                 case "description":
                     crashIfAlreadySet(description);
@@ -230,7 +230,7 @@ public final class Item extends ExtensibleElement {
                     break;
                 case "comments":
                     crashIfAlreadySet(commentsLink);
-                    commentsLink = parseURL(getText(reader));
+                    commentsLink = parseUri(getText(reader));
                     break;
                 case "enclosure":
                     if (enclosures == null) {

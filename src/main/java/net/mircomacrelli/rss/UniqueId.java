@@ -2,8 +2,8 @@ package net.mircomacrelli.rss;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import static java.lang.String.format;
@@ -44,14 +44,14 @@ public final class UniqueId {
     }
 
     /**
-     * @return the id as an URL if the UniqueId is a link
-     * @throws MalformedURLException this should never happen
+     * @return the id as an URI if the UniqueId is a link
+     * @throws URISyntaxException if the URI is malformed
      */
-    public URL asURL() throws MalformedURLException {
+    public URI asURI() throws URISyntaxException {
         if (!isLink) {
             throw new IllegalStateException("the id is not a link");
         }
-        return new URL(id);
+        return new URI(id);
     }
 
     @Override
@@ -66,7 +66,7 @@ public final class UniqueId {
         }
 
         final UniqueId other = (UniqueId)obj;
-        return id.equals(other.id) && (isLink == other.isLink);
+        return (isLink == other.isLink) && id.equals(other.id);
     }
 
     @Override
