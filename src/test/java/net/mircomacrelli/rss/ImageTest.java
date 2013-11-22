@@ -16,14 +16,12 @@ public final class ImageTest {
 
     private URI validImage;
     private URI validLink;
-    private URI otherLink;
     private Image image;
 
     @Before
     public void setup() throws URISyntaxException {
         validImage = new URI("http://mircomacrelli.net/image.png");
         validLink = new URI("http://mircomacrelli.net");
-        otherLink = new URI("http://www.google.com");
         image = new Image(validImage, validLink, "logo", "Il mio logo", 80, 80);
     }
 
@@ -99,8 +97,7 @@ public final class ImageTest {
 
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(Image.class).withPrefabValues(URI.class, validLink, otherLink)
-                      .suppress(Warning.NULL_FIELDS).verify();
+        EqualsVerifier.forClass(Image.class).suppress(Warning.NULL_FIELDS).verify();
     }
 
     @Test

@@ -6,10 +6,8 @@ import nl.jqno.equalsverifier.Warning;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.Charset;
 
 import static org.junit.Assert.assertEquals;
@@ -63,12 +61,9 @@ public final class RSSTest {
     }
 
     @Test
-    public void equalsContract() throws MalformedURLException {
-        final URL firstLink = new URL("http://www.google.com");
-        final URL secondLink = new URL("http://mircomacrelli.net");
-
+    public void equalsContract() {
         EqualsVerifier.forClass(RSS.class).withPrefabValues(Charset.class, validCharset, otherCharset)
-                      .withPrefabValues(URL.class, firstLink, secondLink).suppress(Warning.NULL_FIELDS).verify();
+                      .suppress(Warning.NULL_FIELDS).verify();
     }
 
     @Test

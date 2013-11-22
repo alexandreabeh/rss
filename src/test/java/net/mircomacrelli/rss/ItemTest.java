@@ -27,19 +27,18 @@ public final class ItemTest {
     private Source source;
     private DateTime publishDate;
     private List<Enclosure> enclosures;
-    private URI otherLink;
     private Item item;
 
     @Before
     public void setup() throws MimeTypeParseException, URISyntaxException {
         validLink = new URI("http://mircomacrelli.net");
-        otherLink = new URI("http://www.google.com");
         author = "info@mircomacrelli.net";
         categories = new HashSet<>(1);
         categories.add(new Category(null, "web"));
         source = new Source("Mirco Macrelli", validLink);
         enclosures = new ArrayList<>(2);
         enclosures.add(new Enclosure(validLink, 10, new MimeType("audio/mp3")));
+        final URI otherLink = new URI("http://www.google.com");
         enclosures.add(new Enclosure(otherLink, 1024, new MimeType("audio/mp3")));
         uniqueId = new UniqueId("id12345", false);
         publishDate = new DateTime(1380279886610L);
@@ -131,7 +130,7 @@ public final class ItemTest {
 
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(Item.class).withPrefabValues(URI.class, validLink, otherLink).verify();
+        EqualsVerifier.forClass(Item.class).verify();
     }
 
     @Test(expected = UnsupportedOperationException.class)

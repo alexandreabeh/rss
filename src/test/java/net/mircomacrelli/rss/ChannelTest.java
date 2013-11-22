@@ -29,7 +29,6 @@ import static org.junit.Assert.assertSame;
 public final class ChannelTest {
 
     private URI validLink;
-    private URI otherLink;
     private Channel channel;
     private String validAddress;
     private DateTime validDate;
@@ -46,7 +45,6 @@ public final class ChannelTest {
     public void setup() throws URISyntaxException {
         validLink = new URI("http://mircomacrelli.net");
         validAddress = "info@mircomacrelli.net";
-        otherLink = new URI("http://www.google.com");
         validDate = new DateTime(1380279886610L);
         categories = new HashSet<>(1);
         categories.add(new Category(null, "web"));
@@ -258,8 +256,7 @@ public final class ChannelTest {
 
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(Channel.class).suppress(Warning.NULL_FIELDS)
-                      .withPrefabValues(URI.class, validLink, otherLink).verify();
+        EqualsVerifier.forClass(Channel.class).suppress(Warning.NULL_FIELDS).verify();
     }
 
     @Test

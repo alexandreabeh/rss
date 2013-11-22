@@ -13,13 +13,11 @@ import static org.junit.Assert.assertSame;
 
 public final class SourceTest {
     private URI validLink;
-    private URI otherLink;
     private Source source;
 
     @Before
     public void setup() throws URISyntaxException {
         validLink = new URI("http://mircomacrelli.net");
-        otherLink = new URI("http://www.google.com");
         source = new Source("Mirco Macrelli", validLink);
     }
 
@@ -45,8 +43,7 @@ public final class SourceTest {
 
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(Source.class).withPrefabValues(URI.class, validLink, otherLink)
-                      .suppress(Warning.NULL_FIELDS).verify();
+        EqualsVerifier.forClass(Source.class).suppress(Warning.NULL_FIELDS).verify();
     }
 
     @Test

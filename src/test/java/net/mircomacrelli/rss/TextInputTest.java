@@ -13,13 +13,11 @@ import static org.junit.Assert.assertSame;
 
 public final class TextInputTest {
     private URI validUri;
-    private URI otherUri;
     private TextInput input;
 
     @Before
     public void setup() throws URISyntaxException {
         validUri = new URI("http://mircomacrelli.net/search.php");
-        otherUri = new URI("http://www.google.com");
         input = new TextInput("q", "search the feed", "Search", validUri);
     }
 
@@ -65,8 +63,7 @@ public final class TextInputTest {
 
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(TextInput.class).withPrefabValues(URI.class, validUri, otherUri)
-                      .suppress(Warning.NULL_FIELDS).verify();
+        EqualsVerifier.forClass(TextInput.class).suppress(Warning.NULL_FIELDS).verify();
     }
 
     @Test

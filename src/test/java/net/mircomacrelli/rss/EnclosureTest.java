@@ -78,8 +78,7 @@ public final class EnclosureTest {
 
     @Test
     public void equalsContract() {
-        EqualsVerifier.forClass(Enclosure.class).suppress(Warning.NULL_FIELDS)
-                      .withPrefabValues(URI.class, validLink, otherLink).verify();
+        EqualsVerifier.forClass(Enclosure.class).suppress(Warning.NULL_FIELDS).verify();
     }
 
     @Test
