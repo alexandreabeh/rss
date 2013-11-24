@@ -1,6 +1,5 @@
 package net.mircomacrelli.rss;
 
-import net.mircomacrelli.rss.Channel.Day;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Before;
@@ -12,21 +11,14 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static net.mircomacrelli.rss.Utils.PARSER;
 import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
-import static net.mircomacrelli.rss.Utils.copyEnumSet;
-import static net.mircomacrelli.rss.Utils.copyList;
-import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.crashIfAlreadySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
@@ -38,7 +30,6 @@ import static net.mircomacrelli.rss.Utils.parseDate;
 import static net.mircomacrelli.rss.Utils.parseUri;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -93,51 +84,6 @@ public final class UtilsTest extends XmlTestBase {
     @Test
     public void whenParsingMultipleSpacesAreIgnored() {
         assertEquals(date, parseDate("Sat,  19     Oct  2013  11:09:03    +0000", PARSER));
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void copySetReturnAnUnmodifiableEmptySetWhenPassedNull() {
-        final Set<Integer> set = copySet(null);
-        assertTrue(set.isEmpty());
-        set.add(23);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void copySetReturnAnUnmodifiableSet() {
-        final Set<Integer> set = new HashSet<>(1);
-        final Set<Integer> copy = copySet(set);
-        assertEquals(set, copy);
-        copy.add(12);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void copyListOfNull() {
-        final List<Integer> list = copyList(null);
-        assertTrue(list.isEmpty());
-        list.add(4);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void copyListReturnAnUnmodifiableList() {
-        final List<Integer> list = new ArrayList<>(1);
-        final List<Integer> copy = copyList(list);
-        assertEquals(list, copy);
-        copy.add(433);
-    }
-
-    @Test
-    public void copyEnumSetReturnAnEmptySetIfPassedNull() {
-        final EnumSet<Day> set = copyEnumSet(null, Day.class);
-        assertTrue(set.isEmpty());
-    }
-
-    @Test
-    public void copyEnumSetCopiesAreNotUnmodifiable() {
-        final EnumSet<Day> set = EnumSet.of(Day.WEDNESDAY);
-        final EnumSet<Day> copy = copyEnumSet(set, Day.class);
-        assertEquals(set, copy);
-        copy.add(Day.FRIDAY);
-        assertNotEquals(set, copy);
     }
 
     @Test

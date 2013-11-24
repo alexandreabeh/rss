@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.hash;
 import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
-import static net.mircomacrelli.rss.Utils.copyList;
-import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.crashIfAlreadySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.getText;
@@ -116,7 +116,7 @@ public final class Item extends ExtensibleElement {
 
     /** @return a set of categories that contains this item */
     public Set<Category> getCategories() {
-        return copySet(categories);
+        return unmodifiableSet(categories);
     }
 
     /** @return the unique id of the item */
@@ -136,7 +136,7 @@ public final class Item extends ExtensibleElement {
 
     /** @return the attached file if present */
     public List<Enclosure> getEnclosures() {
-        return copyList(enclosures);
+        return unmodifiableList(enclosures);
     }
 
     @Override
@@ -194,6 +194,8 @@ public final class Item extends ExtensibleElement {
 
         Builder(final DateTimeFormatter parser) {
             super("item", parser);
+            categories = new HashSet<>(1);
+            enclosures = new ArrayList<>(1);
         }
 
         @Override
@@ -223,9 +225,6 @@ public final class Item extends ExtensibleElement {
                     author = getText(reader);
                     break;
                 case "category":
-                    if (categories == null) {
-                        categories = new HashSet<>(1);
-                    }
                     categories.add(parseCategory(reader, element));
                     break;
                 case "comments":
@@ -233,9 +232,6 @@ public final class Item extends ExtensibleElement {
                     commentsLink = parseUri(getText(reader));
                     break;
                 case "enclosure":
-                    if (enclosures == null) {
-                        enclosures = new ArrayList<>(1);
-                    }
                     enclosures.add(parseEnclosure(reader, element));
                     break;
                 case "guid":

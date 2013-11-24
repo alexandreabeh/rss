@@ -20,13 +20,12 @@ import java.util.Objects;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
-import static net.mircomacrelli.rss.Utils.copyEnumSet;
-import static net.mircomacrelli.rss.Utils.copyList;
-import static net.mircomacrelli.rss.Utils.copySet;
 import static net.mircomacrelli.rss.Utils.crashIfAlreadySet;
 import static net.mircomacrelli.rss.Utils.formatDate;
 import static net.mircomacrelli.rss.Utils.getText;
@@ -217,7 +216,7 @@ public final class Channel extends ExtensibleElement {
 
     /** @return a set of categories that contains this feed */
     public Set<Category> getCategories() {
-        return copySet(categories);
+        return unmodifiableSet(categories);
     }
 
     /** @return the name of the program that created this feed */
@@ -253,17 +252,17 @@ public final class Channel extends ExtensibleElement {
 
     /** @return a set of hours that can be skipped when checking the feed for updates */
     public Set<Integer> getSkipHours() {
-        return copySet(skipHours);
+        return unmodifiableSet(skipHours);
     }
 
     /** @return a set of days that can be skipped when checking the feed for updates */
     public Collection<Day> getSkipDays() {
-        return copyEnumSet(skipDays, Day.class);
+        return skipDays.clone();
     }
 
     /** @return the list with all the items published in this feed */
     public List<Item> getItems() {
-        return copyList(items);
+        return unmodifiableList(items);
     }
 
     @Override
@@ -377,6 +376,8 @@ public final class Channel extends ExtensibleElement {
 
         Builder(final DateTimeFormatter parser) {
             super("channel", parser);
+            categories = new HashSet<>(6);
+            items = new ArrayList<>(25);
         }
 
         @Override
@@ -427,9 +428,6 @@ public final class Channel extends ExtensibleElement {
                     buildDate = parseDate(getText(reader), parser);
                     break;
                 case "category":
-                    if (categories == null) {
-                        categories = new HashSet<>(6);
-                    }
                     categories.add(parseCategory(reader, element));
                     break;
                 case "generator":
@@ -461,9 +459,6 @@ public final class Channel extends ExtensibleElement {
                     rating = getText(reader);
                     break;
                 case "item":
-                    if (items == null) {
-                        items = new ArrayList<>(25);
-                    }
                     items.add(parseItem(reader, parser));
                     break;
                 case "skipDays":

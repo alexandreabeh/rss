@@ -58,15 +58,12 @@ public final class CreativeCommons implements Module {
 
         public Builder() {
             super(null);
+            licenses = new ArrayList<>(1);
         }
 
         @Override
         public void parse(final XMLEventReader reader, final StartElement element) throws XMLStreamException,
                                                                                           URISyntaxException {
-            if (licenses == null) {
-                licenses = new ArrayList<>(1);
-            }
-
             licenses.add(parseUri(getText(reader)));
         }
 

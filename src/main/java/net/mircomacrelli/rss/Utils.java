@@ -15,14 +15,10 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -30,7 +26,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
 
 final class Utils {
@@ -45,18 +40,6 @@ final class Utils {
 
     private Utils() {
         throw new AssertionError("do not instantiate this class");
-    }
-
-    public static <T> Set<T> copySet(final Set<T> source) {
-        return (source == null) ? Collections.<T>emptySet() : unmodifiableSet(new HashSet<>(source));
-    }
-
-    public static <T> List<T> copyList(final List<T> source) {
-        return (source == null) ? Collections.<T>emptyList() : unmodifiableList(new ArrayList<>(source));
-    }
-
-    public static <E extends Enum<E>> EnumSet<E> copyEnumSet(final EnumSet<E> set, final Class<E> type) {
-        return (set == null) ? EnumSet.noneOf(type) : set.clone();
     }
 
     public static MimeType copyMimeType(final MimeType original) throws MimeTypeParseException {
