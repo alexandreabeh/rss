@@ -15,7 +15,7 @@ The library is available on the maven central repository. Just add this to your 
 <dependency>
     <groupId>net.mircomacrelli</groupId>
     <artifactId>rss</artifactId>
-    <version>1.2</version>
+    <version>2.1</version>
 </dependency>
 ```
 
