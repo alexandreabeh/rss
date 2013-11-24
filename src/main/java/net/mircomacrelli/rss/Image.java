@@ -4,6 +4,7 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 import java.net.URI;
 import java.util.Map;
+import java.util.Objects;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
@@ -98,7 +99,7 @@ public final class Image {
 
     @Override
     public int hashCode() {
-        return hash(image, alt, link);
+        return hash(image, alt, link, width, height, description);
     }
 
     @Override
@@ -108,8 +109,9 @@ public final class Image {
         }
 
         final Image other = (Image)obj;
-        return image.equals(other.image) && link.equals(other.link) &&
-               alt.equals(other.alt);
+        return image.equals(other.image) && link.equals(other.link) && alt.equals(other.alt) &&
+               Objects.equals(width, other.width) && Objects.equals(height, other.height) &&
+               Objects.equals(description, other.description);
     }
 
     @Override
