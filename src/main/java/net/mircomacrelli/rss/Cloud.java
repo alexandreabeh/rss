@@ -95,8 +95,8 @@ public final class Cloud {
         }
 
         final Cloud other = (Cloud)obj;
-        return domain.equals(other.domain) && (port == other.port) && path.equals(other.path) &&
-               procedureName.equals(other.procedureName) && (protocol == other.protocol);
+        return (port == other.port) && (protocol == other.protocol) && domain.equals(other.domain) &&
+               path.equals(other.path) && procedureName.equals(other.procedureName);
     }
 
     @Override

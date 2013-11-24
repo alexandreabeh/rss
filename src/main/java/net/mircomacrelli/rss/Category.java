@@ -53,7 +53,7 @@ public final class Category {
         }
 
         final Category other = (Category)obj;
-        return Objects.equals(domain, other.domain) && location.equals(other.location);
+        return location.equals(other.location) && Objects.equals(domain, other.domain);
     }
 
     @Override

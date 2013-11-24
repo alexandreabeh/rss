@@ -57,7 +57,7 @@ public final class RSS {
         }
 
         final RSS other = (RSS)obj;
-        return charset.equals(other.charset) && (version == other.version) && channel.equals(other.channel);
+        return channel.equals(other.channel) && (version == other.version) && charset.equals(other.charset);
     }
 
     @Override
