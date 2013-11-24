@@ -150,8 +150,12 @@ public final class Image {
             alt = values.get("title");
             link = parseUri(values.get("link"));
             description = values.get("description");
-            width = Integer.parseInt(values.get("width"));
-            height = Integer.parseInt(values.get("height"));
+            if (values.containsKey("width")) {
+                width = Integer.parseInt(values.get("width"));
+            }
+            if (values.containsKey("height")) {
+                height = Integer.parseInt(values.get("height"));
+            }
         }
 
         @Override

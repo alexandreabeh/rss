@@ -73,4 +73,28 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
                                       "</image>");
         assertNotNull(builder.build());
     }
+
+    @Test
+    public void widthIsOptional() throws Exception {
+        final Builder builder = parse("<image>" +
+                                      "<link>http://www.google.it</link>" +
+                                      "<title>titolo</title>" +
+                                      "<url>http://www.google.it/logo.gif</url>" +
+                                      "<description>descrizione</description>" +
+                                      "<height>90</height>" +
+                                      "</image>");
+        assertNotNull(builder.build());
+    }
+
+    @Test
+    public void heightIsOptional() throws Exception {
+        final Builder builder = parse("<image>" +
+                                      "<link>http://www.google.it</link>" +
+                                      "<title>titolo</title>" +
+                                      "<url>http://www.google.it/logo.gif</url>" +
+                                      "<description>descrizione</description>" +
+                                      "<width>90</width>" +
+                                      "</image>");
+        assertNotNull(builder.build());
+    }
 }
