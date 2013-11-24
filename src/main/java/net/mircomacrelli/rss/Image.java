@@ -9,6 +9,7 @@ import java.util.Objects;
 import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
+import static net.mircomacrelli.rss.Utils.append;
 import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
 import static net.mircomacrelli.rss.Utils.parseUri;
 
@@ -120,17 +121,9 @@ public final class Image {
         sb.append("Image{image='").append(image).append("', alt='").append(alt).append("', link='").append(link)
           .append('\'');
 
-        if (description != null) {
-            sb.append(", description='").append(description).append('\'');
-        }
-
-        if (width != null) {
-            sb.append(", width=").append(width);
-        }
-
-        if (height != null) {
-            sb.append(", height=").append(height);
-        }
+        append(sb, "description", description);
+        append(sb, "width", width, false);
+        append(sb, "height", height, false);
 
         sb.append('}');
         return sb.toString();
