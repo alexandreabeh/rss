@@ -84,9 +84,7 @@ public final class Enclosure {
         }
 
         final Enclosure other = (Enclosure)obj;
-        return link.equals(other.link) && (length == other.length) &&
-               type.getPrimaryType().equals(other.type.getPrimaryType()) &&
-               type.getSubType().equals(other.type.getSubType());
+        return (length == other.length) && link.equals(other.link) && type.match(other.type);
     }
 
     @Override
