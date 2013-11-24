@@ -20,11 +20,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public final class ChannelTest {
 
@@ -251,7 +250,7 @@ public final class ChannelTest {
         hours.add(24);
         final Channel chan = new Channel("title", validLink, "desc", null, null, null, null, null, null, null, null,
                                          null, null, null, null, null, hours, null, null, null);
-        assertThat(chan.getSkipHours(), contains(0));
+        assertTrue(chan.getSkipHours().contains(0));
     }
 
     @Test
