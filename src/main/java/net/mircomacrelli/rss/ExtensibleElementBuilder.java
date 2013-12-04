@@ -47,7 +47,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         if (builder == null) {
             try {
                 builder = info.getBuilder().getConstructor(DateTimeFormatter.class).newInstance(parser);
-            } catch (NoSuchMethodException ignored) {
+            } catch (final NoSuchMethodException ignored) {
                 builder = info.getBuilder().getConstructor().newInstance();
             }
             modules.put(module, builder);
