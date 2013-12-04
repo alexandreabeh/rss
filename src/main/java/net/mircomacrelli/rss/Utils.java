@@ -64,7 +64,7 @@ final class Utils {
             if (quote) {
                 sb.append('\'');
             }
-            sb.append(field.toString());
+            sb.append(field);
             if (quote) {
                 sb.append('\'');
             }
