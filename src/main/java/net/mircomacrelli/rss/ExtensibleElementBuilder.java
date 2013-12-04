@@ -85,11 +85,11 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
     private void handleEvent(final XMLEventReader reader, final XMLEvent event) throws Exception {
         final StartElement element = event.asStartElement();
 
-        if (!element.getName().getPrefix().isEmpty()) {
+        if (element.getName().getPrefix().isEmpty()) {
+            handleTag(reader, element);
+        } else {
             // parse the extensions
             passToModuleParser(reader, element);
-        } else {
-            handleTag(reader, element);
         }
     }
 
