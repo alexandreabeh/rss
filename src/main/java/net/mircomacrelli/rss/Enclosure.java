@@ -5,6 +5,7 @@ import javax.activation.MimeTypeParseException;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import static java.lang.String.format;
@@ -98,7 +99,8 @@ public final class Enclosure {
         MimeType type;
 
         @Override
-        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+        public void parse(final XMLEventReader reader, final StartElement element) throws MimeTypeParseException,
+                                                                                          URISyntaxException {
             final Map<String, String> attributes = getAttributesValues(element);
 
             uri = parseUri(attributes.get("url"));

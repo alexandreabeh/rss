@@ -1,6 +1,7 @@
 package net.mircomacrelli.rss;
 
 import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import java.util.Objects;
 
@@ -77,7 +78,7 @@ public final class Category {
         String location;
 
         @Override
-        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+        public void parse(final XMLEventReader reader, final StartElement element) throws XMLStreamException {
             domain = getAttributesValues(element).get("domain");
             location = getText(reader);
         }

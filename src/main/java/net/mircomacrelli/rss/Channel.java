@@ -10,6 +10,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -497,7 +498,7 @@ public final class Channel extends ExtensibleElement {
         }
 
         private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws
-                                                                                                       Exception {
+                                                                                                       XMLStreamException {
             final Category.Builder builder = new Category.Builder();
             builder.parse(reader, element);
             return builder.build();
@@ -521,19 +522,20 @@ public final class Channel extends ExtensibleElement {
             return days;
         }
 
-        private static TextInput parseTextInput(final XMLEventReader reader) throws Exception {
+        private static TextInput parseTextInput(final XMLEventReader reader) throws URISyntaxException,
+                                                                                    XMLStreamException {
             final TextInput.Builder builder = new TextInput.Builder();
             builder.parse(reader, null);
             return builder.build();
         }
 
-        private static Cloud parseCloud(final StartElement element) throws Exception {
+        private static Cloud parseCloud(final StartElement element) throws URISyntaxException {
             final Cloud.Builder builder = new Cloud.Builder();
             builder.parse(null, element);
             return builder.build();
         }
 
-        private static Image parseImage(final XMLEventReader reader) throws Exception {
+        private static Image parseImage(final XMLEventReader reader) throws URISyntaxException, XMLStreamException {
             final Image.Builder builder = new Image.Builder();
             builder.parse(reader, null);
             return builder.build();

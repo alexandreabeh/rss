@@ -1,8 +1,10 @@
 package net.mircomacrelli.rss;
 
 import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import static java.lang.String.format;
@@ -87,7 +89,8 @@ public final class TextInput {
         URI cgiScriptUri;
 
         @Override
-        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+        public void parse(final XMLEventReader reader, final StartElement element) throws URISyntaxException,
+                                                                                          XMLStreamException {
             final Map<String, String> values = getAllTagsValuesInside(reader, "textInput");
 
             label = values.get("title");

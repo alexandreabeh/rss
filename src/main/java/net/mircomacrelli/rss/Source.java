@@ -1,8 +1,10 @@
 package net.mircomacrelli.rss;
 
 import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import static java.lang.String.format;
 import static java.util.Objects.hash;
@@ -67,7 +69,8 @@ public final class Source {
         String title;
 
         @Override
-        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+        public void parse(final XMLEventReader reader, final StartElement element) throws URISyntaxException,
+                                                                                          XMLStreamException {
             link = parseUri(getAttributesValues(element).get("url"));
             title = getText(reader);
         }

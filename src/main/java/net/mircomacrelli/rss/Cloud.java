@@ -3,6 +3,7 @@ package net.mircomacrelli.rss;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
@@ -143,7 +144,7 @@ public final class Cloud {
         Protocol protocol;
 
         @Override
-        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+        public void parse(final XMLEventReader reader, final StartElement element) throws URISyntaxException {
             final Map<String, String> attributes = getAttributesValues(element);
 
             domain = new URI(attributes.get("domain"));

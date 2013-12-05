@@ -1,6 +1,7 @@
 package net.mircomacrelli.rss;
 
 import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -79,7 +80,7 @@ public final class UniqueId {
         String id;
 
         @Override
-        public void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+        public void parse(final XMLEventReader reader, final StartElement element) throws XMLStreamException {
             final Map<String, String> attributes = getAttributesValues(element);
             if (attributes.containsKey("isPermaLink")) {
                 isLink = Boolean.parseBoolean(attributes.get("isPermaLink"));
