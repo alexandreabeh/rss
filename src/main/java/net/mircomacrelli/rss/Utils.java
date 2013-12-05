@@ -53,7 +53,7 @@ final class Utils {
     public static void append(final StringBuilder sb, final String fieldName, final Object field, final boolean quote) {
         if (field != null) {
             if (field instanceof Collection) {
-                if (((Collection)field).isEmpty()) {
+                if (((Collection<?>)field).isEmpty()) {
                     return;
                 }
             }
