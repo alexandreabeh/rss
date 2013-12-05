@@ -54,7 +54,7 @@ public final class CreativeCommons implements Module {
     }
 
     static final class Builder extends ModuleBuilder {
-        List<URI> licenses;
+        final List<URI> licenses;
 
         public Builder() {
             super(null);

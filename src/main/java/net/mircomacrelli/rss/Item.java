@@ -186,11 +186,11 @@ public final class Item extends ExtensibleElement {
         String description;
         URI link;
         URI commentsLink;
-        Set<Category> categories;
+        final Set<Category> categories;
         UniqueId uniqueId;
         DateTime publishDate;
         Source source;
-        List<Enclosure> enclosures;
+        final List<Enclosure> enclosures;
 
         Builder(final DateTimeFormatter parser) {
             super("item", parser);

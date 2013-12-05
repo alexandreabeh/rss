@@ -362,7 +362,7 @@ public final class Channel extends ExtensibleElement {
         String webmaster;
         DateTime publishDate;
         DateTime buildDate;
-        Set<Category> categories;
+        final Set<Category> categories;
         String generator;
         URI docs;
         Cloud cloud;
@@ -372,7 +372,7 @@ public final class Channel extends ExtensibleElement {
         Set<Integer> skipHours;
         EnumSet<Day> skipDays;
         String rating;
-        List<Item> items;
+        final List<Item> items;
 
         Builder(final DateTimeFormatter parser) {
             super("channel", parser);
