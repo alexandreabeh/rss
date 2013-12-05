@@ -6,13 +6,13 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 
 abstract class BuilderBase<T> {
-    protected final DateTimeFormatter parser;
+    final DateTimeFormatter parser;
 
-    protected BuilderBase(final DateTimeFormatter parser) {
+    BuilderBase(final DateTimeFormatter parser) {
         this.parser = parser;
     }
 
-    protected BuilderBase() {
+    BuilderBase() {
         this(null);
     }
 

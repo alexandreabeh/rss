@@ -16,7 +16,7 @@ import static net.mircomacrelli.rss.Utils.isEndOfTag;
 abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends BuilderBase<T> {
     private final Map<Class<? extends Module>, ModuleBuilder> modules;
 
-    protected ExtensibleElementBuilder(final String tagName, final DateTimeFormatter parser) {
+    ExtensibleElementBuilder(final String tagName, final DateTimeFormatter parser) {
         super(parser);
         this.tagName = tagName;
         modules = new IdentityHashMap<>();
@@ -30,7 +30,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         return element;
     }
 
-    protected final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
+    final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
         final ModuleInformation info = ModuleInformation.fromUri(element.getName().getNamespaceURI());
         if (info == null) {
             return; // ignore all the unknown modules
@@ -47,7 +47,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         if (builder == null) {
             try {
                 builder = info.getBuilder().getConstructor(DateTimeFormatter.class).newInstance(parser);
-            } catch (NoSuchMethodException ignored) {
+            } catch (final NoSuchMethodException ignored) {
                 builder = info.getBuilder().getConstructor().newInstance();
             }
             modules.put(module, builder);
@@ -85,11 +85,11 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
     private void handleEvent(final XMLEventReader reader, final XMLEvent event) throws Exception {
         final StartElement element = event.asStartElement();
 
-        if (!element.getName().getPrefix().isEmpty()) {
+        if (element.getName().getPrefix().isEmpty()) {
+            handleTag(reader, element);
+        } else {
             // parse the extensions
             passToModuleParser(reader, element);
-        } else {
-            handleTag(reader, element);
         }
     }
 

@@ -7,7 +7,7 @@ abstract class BuilderBaseTestBase<T, B extends BuilderBase<T>> extends XmlTestB
 
     abstract B newBuilder();
 
-    protected B parse(final String xml) throws Exception {
+    B parse(final String xml) throws Exception {
         final XMLEventReader reader = parseString(xml);
         final StartElement element = getElement(reader);
         final B builder = newBuilder();

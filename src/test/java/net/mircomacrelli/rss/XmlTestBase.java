@@ -18,13 +18,13 @@ public abstract class XmlTestBase {
         factory.setProperty("javax.xml.stream.supportDTD", false);
     }
 
-    protected static XMLEventReader parseString(final String xml) throws XMLStreamException {
+    static XMLEventReader parseString(final String xml) throws XMLStreamException {
         XMLEventReader reader = factory.createXMLEventReader(new StringReader(xml));
         reader.nextEvent();
         return reader;
     }
 
-    protected static StartElement getElement(final XMLEventReader reader) throws XMLStreamException {
+    static StartElement getElement(final XMLEventReader reader) throws XMLStreamException {
         while (reader.hasNext()) {
             final XMLEvent event = reader.nextEvent();
             if (event.isStartElement()) {

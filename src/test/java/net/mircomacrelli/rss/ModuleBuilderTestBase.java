@@ -4,10 +4,10 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 
 public abstract class ModuleBuilderTestBase extends XmlTestBase {
-    protected String uri;
-    protected String prefix;
+    String uri;
+    String prefix;
 
-    public void step(final ModuleBuilder builder, final String xml) throws Exception {
+    void step(final ModuleBuilder builder, final String xml) throws Exception {
         final XMLEventReader reader = parseString(decorate(xml));
         final StartElement element = getElement(reader);
         builder.parse(reader, element);
