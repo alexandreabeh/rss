@@ -18,6 +18,7 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public final class ItemTest {
     private URI validLink;
@@ -28,6 +29,7 @@ public final class ItemTest {
     private DateTime publishDate;
     private List<Enclosure> enclosures;
     private Item item;
+    private Item smallItem;
 
     @Before
     public void setup() throws MimeTypeParseException, URISyntaxException {
@@ -44,6 +46,7 @@ public final class ItemTest {
         publishDate = new DateTime(1380279886610L);
         item = new Item(validLink, "Titolo post", "parla di questo e quello", author, publishDate, categories, source,
                         validLink, enclosures, uniqueId);
+        smallItem = new Item(null, "title", "description", null, null, null, null, null, null, null);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -53,13 +56,12 @@ public final class ItemTest {
 
     @Test
     public void anItemWithOnlyTitleIsValid() {
-        assertNotNull(new Item(null, "Titolo post", null, null, null, null, null, null, null, null).getTitle());
+        assertNotNull(item.getTitle());
     }
 
     @Test
     public void anItemWithOnlyDescriptionIsValid() {
-        assertNotNull(new Item(null, null, "parla di questo e quello", null, null, null, null, null, null, null)
-                              .getDescription());
+        assertNotNull(item.getDescription());
     }
 
     @Test
@@ -86,6 +88,16 @@ public final class ItemTest {
     @Test
     public void categories() {
         assertEquals(categories, item.getCategories());
+    }
+
+    @Test
+    public void noCategories() {
+        assertTrue(smallItem.getCategories().isEmpty());
+    }
+
+    @Test
+    public void noEnclosures() {
+        assertTrue(smallItem.getEnclosures().isEmpty());
     }
 
     @Test

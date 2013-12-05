@@ -29,6 +29,7 @@ public final class ChannelTest {
 
     private URI validLink;
     private Channel channel;
+    private Channel smallChannel;
     private String validAddress;
     private DateTime validDate;
     private Cloud cloud;
@@ -61,6 +62,8 @@ public final class ChannelTest {
                               "Copyright (c) 2013 Mirco Macrelli", validAddress, validAddress, validDate, validDate,
                               categories, "Generatore del feed 1.0", validLink, cloud, 60, image, input, skipHours,
                               skipDays, "rating", items);
+        smallChannel = new Channel("titolo", validLink, "descrizione", null, null, null, null, null, null, null, null,
+                                   null, null, null, null, null, null, null, null, null);
     }
 
     @Test(expected = NullPointerException.class)
@@ -122,6 +125,26 @@ public final class ChannelTest {
     @Test
     public void textInput() {
         assertEquals(input, channel.getTextInput());
+    }
+
+    @Test
+    public void emptySkipHours() {
+        assertTrue(smallChannel.getSkipHours().isEmpty());
+    }
+
+    @Test
+    public void emptySkipDays() {
+        assertTrue(smallChannel.getSkipDays().isEmpty());
+    }
+
+    @Test
+    public void emptyCategories() {
+        assertTrue(smallChannel.getCategories().isEmpty());
+    }
+
+    @Test
+    public void emptyItems() {
+        assertTrue(smallChannel.getItems().isEmpty());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package net.mircomacrelli.rss;
 
+import com.sun.prism.PixelFormat.DataType;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -13,6 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
@@ -21,8 +23,11 @@ import java.util.Objects;
 import java.util.Set;
 
 import static java.lang.String.format;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
+import static java.util.EnumSet.noneOf;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.allowedModules;
@@ -217,6 +222,10 @@ public final class Channel extends ExtensibleElement {
 
     /** @return a set of categories that contains this feed */
     public Set<Category> getCategories() {
+        if (categories == null) {
+            return emptySet();
+        }
+
         return unmodifiableSet(categories);
     }
 
@@ -253,16 +262,28 @@ public final class Channel extends ExtensibleElement {
 
     /** @return a set of hours that can be skipped when checking the feed for updates */
     public Set<Integer> getSkipHours() {
+        if (skipHours == null) {
+            return emptySet();
+        }
+
         return unmodifiableSet(skipHours);
     }
 
     /** @return a set of days that can be skipped when checking the feed for updates */
     public Collection<Day> getSkipDays() {
+        if (skipDays == null) {
+            return noneOf(Day.class);
+        }
+
         return skipDays.clone();
     }
 
     /** @return the list with all the items published in this feed */
     public List<Item> getItems() {
+        if (items == null) {
+            return emptyList();
+        }
+
         return unmodifiableList(items);
     }
 
@@ -505,7 +526,7 @@ public final class Channel extends ExtensibleElement {
         }
 
         private static EnumSet<Day> parseSkipDays(final XMLEventReader reader) throws XMLStreamException {
-            final EnumSet<Day> days = EnumSet.noneOf(Day.class);
+            final EnumSet<Day> days = noneOf(Day.class);
 
             while (true) {
                 final XMLEvent event = reader.nextEvent();

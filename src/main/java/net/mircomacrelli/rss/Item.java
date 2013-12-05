@@ -12,11 +12,14 @@ import javax.xml.stream.events.StartElement;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.hash;
@@ -119,6 +122,10 @@ public final class Item extends ExtensibleElement {
 
     /** @return a set of categories that contains this item */
     public Set<Category> getCategories() {
+        if (categories == null) {
+            return emptySet();
+        }
+
         return unmodifiableSet(categories);
     }
 
@@ -139,6 +146,10 @@ public final class Item extends ExtensibleElement {
 
     /** @return the attached file if present */
     public List<Enclosure> getEnclosures() {
+        if (enclosures == null) {
+            return emptyList();
+        }
+
         return unmodifiableList(enclosures);
     }
 
