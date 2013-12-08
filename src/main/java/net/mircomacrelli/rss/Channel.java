@@ -336,6 +336,7 @@ public final class Channel extends ExtensibleElement {
         append(sb, "textInput", textInput, false);
         append(sb, "skipHours", skipHours, false);
         append(sb, "skipDays", skipDays, false);
+        append(sb, "rating", rating);
         append(sb, "items", items, false);
 
         sb.append('}');
