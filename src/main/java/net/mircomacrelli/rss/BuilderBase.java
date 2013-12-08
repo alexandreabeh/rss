@@ -16,7 +16,15 @@ abstract class BuilderBase<T> {
         this(null);
     }
 
-    public abstract void parse(final XMLEventReader reader, StartElement element) throws Exception;
+    abstract void parseElement(final XMLEventReader reader, StartElement element) throws Exception;
+
+    public final void parse(final XMLEventReader reader, final StartElement element) throws ParserException {
+        try {
+            parseElement(reader, element);
+        } catch (final Exception cause) {
+            throw new ParserException(cause);
+        }
+    }
 
     public abstract T build() throws Exception;
 }

@@ -3,14 +3,11 @@ package net.mircomacrelli.rss;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 
-import javax.activation.MimeTypeParseException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -263,30 +260,28 @@ public final class Item extends ExtensibleElement {
         }
 
         private static Source parseSource(final XMLEventReader reader, final StartElement element) throws
-                                                                                                   URISyntaxException,
-                                                                                                   XMLStreamException {
+                                                                                                   ParserException {
             final Source.Builder builder = new Source.Builder();
             builder.parse(reader, element);
             return builder.build();
         }
 
         private static Enclosure parseEnclosure(final XMLEventReader reader, final StartElement element) throws
-                                                                                                         URISyntaxException,
-                                                                                                         MimeTypeParseException {
+                                                                                                         ParserException {
             final Enclosure.Builder builder = new Enclosure.Builder();
             builder.parse(reader, element);
             return builder.build();
         }
 
         private static UniqueId parseUniqueId(final XMLEventReader reader, final StartElement element) throws
-                                                                                                       XMLStreamException {
+                                                                                                       ParserException {
             final UniqueId.Builder builder = new UniqueId.Builder();
             builder.parse(reader, element);
             return builder.build();
         }
 
         private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws
-                                                                                                       XMLStreamException {
+                                                                                                       ParserException {
             final Category.Builder builder = new Category.Builder();
             builder.parse(reader, element);
             return builder.build();

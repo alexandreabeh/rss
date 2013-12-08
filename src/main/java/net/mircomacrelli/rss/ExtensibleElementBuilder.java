@@ -68,7 +68,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
     }
 
     @Override
-    public final void parse(final XMLEventReader reader, final StartElement element) throws Exception {
+    public final void parseElement(final XMLEventReader reader, final StartElement element) throws Exception {
         while (true) {
             final XMLEvent event = reader.nextEvent();
 

@@ -9,32 +9,32 @@ import static org.junit.Assert.assertTrue;
 
 public class ItemBuilderTest extends BuilderBaseTestBase<Item, Builder> {
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneTitle() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneTitle() throws ParserException {
         parse("<item>" +
               "<title>first</title>" +
               "<title>second</title>" +
               "</item>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneLink() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneLink() throws ParserException {
         parse("<item>" +
               "<link>http://mircomacrelli.net</link>" +
               "<link>http://mircomacrelli.net</link>" +
               "</item>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneDescription() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneDescription() throws ParserException {
         parse("<item>" +
               "<description>first</description>" +
               "<description>second</description>" +
               "</item>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneAuthor() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneAuthor() throws ParserException {
         parse("<item>" +
               "<author>first</author>" +
               "<author>second</author>" +
@@ -52,8 +52,8 @@ public class ItemBuilderTest extends BuilderBaseTestBase<Item, Builder> {
         assertEquals(2, builder.build().getCategories().size());
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneCommentLink() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneCommentLink() throws ParserException {
         parse("<item>" +
               "<comments>http://mircomacrelli.net</comments>" +
               "<comments>http://www.google.it</comments>" +
@@ -71,24 +71,24 @@ public class ItemBuilderTest extends BuilderBaseTestBase<Item, Builder> {
         assertEquals(2, builder.build().getEnclosures().size());
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneGuid() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneGuid() throws ParserException {
         parse("<item>" +
               "<guid>http://mircomacrelli.net/abcde</guid>" +
               "<guid>http://www.google.it/123</guid>" +
               "</item>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneDate() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneDate() throws ParserException {
         parse("<item>" +
               "<pubDate>Sun, 29 Jan 2006 17:17:44 +0000</pubDate>" +
               "<pubDate>Sun, 29 Jan 2006 05:00:00 +0000</pubDate>" +
               "</item>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneSource() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneSource() throws ParserException {
         parse("<item>" +
               "<source url=\"http://www.google.it\">google</source>" +
               "<source url=\"http://mircomacrelli.net\">mircomacrelli</source>" +

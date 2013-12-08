@@ -3,8 +3,6 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.Channel.Builder;
 import org.junit.Test;
 
-import java.net.URISyntaxException;
-
 import static net.mircomacrelli.rss.Utils.PARSER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -15,87 +13,87 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
         return new Builder(PARSER);
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneTitle() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneTitle() throws ParserException {
         parse("<channel>" +
               "<title>first</title>" +
               "<title>second</title>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneLink() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneLink() throws ParserException {
         parse("<channel>" +
               "<link>http://www.google.it</link>" +
               "<link>http://mircomacrelli.net</link>" +
               "</channel>");
     }
 
-    @Test(expected = URISyntaxException.class)
-    public void linkMustBeAValidUri() throws Exception {
+    @Test(expected = ParserException.class)
+    public void linkMustBeAValidUri() throws ParserException {
         parse("<channel>" +
               "<link>,**/    /---</link>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneDescription() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneDescription() throws ParserException {
         parse("<channel>" +
               "<description>first</description>" +
               "<description>second</description>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneLanguage() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneLanguage() throws ParserException {
         parse("<channel>" +
               "<language>it</language>" +
               "<language>en</language>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneCopyright() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneCopyright() throws ParserException {
         parse("<channel>" +
               "<copyright>http://www.google.it</copyright>" +
               "<copyright>http://www.google.it</copyright>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneEditor() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneEditor() throws ParserException {
         parse("<channel>" +
               "<managingEditor>fake@email.it</managingEditor>" +
               "<managingEditor>other@email.it</managingEditor>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneWebmaster() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneWebmaster() throws ParserException {
         parse("<channel>" +
               "<webMaster>fake@email.it</webMaster>" +
               "<webMaster>other@email.it</webMaster>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOnePubDate() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOnePubDate() throws ParserException {
         parse("<channel>" +
               "<pubDate>Fri, 06 May 1983 09:00:00 +0000</pubDate>" +
               "<pubDate>Sun, 29 Jan 2006 05:00:00 +0000</pubDate>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneTtl() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneTtl() throws ParserException {
         parse("<channel>" +
               "<ttl>60</ttl>" +
               "<ttl>30</ttl>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneLastBuild() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneLastBuild() throws ParserException {
         parse("<channel>" +
               "<lastBuildDate>Fri, 06 May 1983 09:00:00 +0000</lastBuildDate>" +
               "<lastBuildDate>Sun, 29 Jan 2006 05:00:00 +0000</lastBuildDate>" +
@@ -114,31 +112,31 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
         assertEquals(2, builder.build().getCategories().size());
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneGenerator() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneGenerator() throws ParserException {
         parse("<channel>" +
               "<generator>some program a</generator>" +
               "<generator>other v1.2</generator>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneDocs() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneDocs() throws ParserException {
         parse("<channel>" +
               "<docs>http://www.google.it</docs>" +
               "<docs>http://mircomacrelli.net</docs>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneClouds() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneClouds() throws ParserException {
         parse("<channel>" +
               "<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"80\" protocol=\"http-post\" registerProcedure=\"\" />" +
               "<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"80\" protocol=\"http-post\" registerProcedure=\"\" />" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = ParserException.class)
     public void onlyOneImage() throws Exception {
         parse("<channel>" +
               "<image>" +
@@ -160,8 +158,8 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyTextInput() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyTextInput() throws ParserException {
         parse("<channel>" +
               "<textInput>" +
               "<description>descrizione</description>" +
@@ -178,7 +176,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = ParserException.class)
     public void onlyOneRating() throws Exception {
         parse("<channel>" +
               "<rating>rating a</rating>" +
@@ -204,16 +202,16 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
         assertEquals(2, builder.build().getItems().size());
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneSkipDays() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneSkipDays() throws ParserException {
         parse("<channel>" +
               "<skipDays><Day>Saturday</Day><Day>Sunday</Day></skipDays>" +
               "<skipDays><Day>Sunday</Day></skipDays>" +
               "</channel>");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void onlyOneSkipHours() throws Exception {
+    @Test(expected = ParserException.class)
+    public void onlyOneSkipHours() throws ParserException {
         parse("<channel>" +
               "<skipHours><Hour>5</Hour></skipHours>" +
               "<skipHours><Hour>6</Hour><Hour>4</Hour></skipHours>" +

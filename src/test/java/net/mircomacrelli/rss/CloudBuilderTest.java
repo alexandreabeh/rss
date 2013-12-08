@@ -6,13 +6,13 @@ import org.junit.Test;
 import static org.junit.Assert.assertNotNull;
 
 public class CloudBuilderTest extends BuilderBaseTestBase<Cloud, Builder> {
-    @Test(expected = NumberFormatException.class)
-    public void portMustBeAnInteger() throws Exception {
+    @Test(expected = ParserException.class)
+    public void portMustBeAnInteger() throws ParserException {
         parse("<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"something\" protocol=\"http-post\" registerProcedure=\"\" />");
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void protocolMustBuValid() throws Exception {
+    @Test(expected = ParserException.class)
+    public void protocolMustBuValid() throws ParserException {
         parse("<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"80\" protocol=\"random\" registerProcedure=\"\" />");
     }
 

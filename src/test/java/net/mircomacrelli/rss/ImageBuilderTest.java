@@ -3,8 +3,6 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.Image.Builder;
 import org.junit.Test;
 
-import java.net.URISyntaxException;
-
 import static org.junit.Assert.assertNotNull;
 
 public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
@@ -13,8 +11,8 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
         return new Builder();
     }
 
-    @Test(expected = URISyntaxException.class)
-    public void imageMustBeAValidUri() throws Exception {
+    @Test(expected = ParserException.class)
+    public void imageMustBeAValidUri() throws ParserException {
         parse("<image>" +
               "<link>http://www.google.it</link>" +
               "<title>titolo</title>" +
@@ -25,8 +23,8 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
               "</image>");
     }
 
-    @Test(expected = URISyntaxException.class)
-    public void linkMustBeAValidUri() throws Exception {
+    @Test(expected = ParserException.class)
+    public void linkMustBeAValidUri() throws ParserException {
         parse("<image>" +
               "<link>,,, *htt///</link>" +
               "<title>titolo</title>" +
@@ -37,8 +35,8 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
               "</image>");
     }
 
-    @Test(expected = NumberFormatException.class)
-    public void widthMustBeANumber() throws Exception {
+    @Test(expected = ParserException.class)
+    public void widthMustBeANumber() throws ParserException {
         parse("<image>" +
               "<link>http://www.google.it</link>" +
               "<title>titolo</title>" +
@@ -49,8 +47,8 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
               "</image>");
     }
 
-    @Test(expected = NumberFormatException.class)
-    public void heightMustBeANumber() throws Exception {
+    @Test(expected = ParserException.class)
+    public void heightMustBeANumber() throws ParserException {
         parse("<image>" +
               "<link>http://www.google.it</link>" +
               "<title>titolo</title>" +

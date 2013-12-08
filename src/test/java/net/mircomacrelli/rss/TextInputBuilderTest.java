@@ -3,8 +3,6 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.TextInput.Builder;
 import org.junit.Test;
 
-import java.net.URISyntaxException;
-
 import static org.junit.Assert.assertNotNull;
 
 public class TextInputBuilderTest extends BuilderBaseTestBase<TextInput, Builder> {
@@ -13,8 +11,8 @@ public class TextInputBuilderTest extends BuilderBaseTestBase<TextInput, Builder
         return new Builder();
     }
 
-    @Test(expected = URISyntaxException.class)
-    public void linkMustBeAValidUri() throws Exception {
+    @Test(expected = ParserException.class)
+    public void linkMustBeAValidUri() throws ParserException {
         parse("<textInput>" +
               "<description>descrizione</description>" +
               "<link>** http//..it</link>" +

@@ -12,7 +12,7 @@ public class CategoryBuilderTest extends BuilderBaseTestBase<Category, Builder> 
     }
 
     @Test
-    public void validCategory() throws Exception {
+    public void validCategory() throws ParserException {
         assertNotNull(parse("<category domain=\"dmoz.org\">news/italian</category>").build());
     }
 }

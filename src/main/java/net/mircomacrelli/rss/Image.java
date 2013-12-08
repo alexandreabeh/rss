@@ -140,7 +140,7 @@ public final class Image {
         Integer height;
 
         @Override
-        public void parse(final XMLEventReader reader, final StartElement element) throws URISyntaxException,
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws URISyntaxException,
                                                                                           XMLStreamException {
             final Map<String, String> values = getAllTagsValuesInside(reader, "image");
 

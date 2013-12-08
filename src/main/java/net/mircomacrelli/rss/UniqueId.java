@@ -80,7 +80,7 @@ public final class UniqueId {
         String id;
 
         @Override
-        public void parse(final XMLEventReader reader, final StartElement element) throws XMLStreamException {
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws XMLStreamException {
             final Map<String, String> attributes = getAttributesValues(element);
             if (attributes.containsKey("isPermaLink")) {
                 isLink = Boolean.parseBoolean(attributes.get("isPermaLink"));

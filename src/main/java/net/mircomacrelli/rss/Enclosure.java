@@ -99,7 +99,7 @@ public final class Enclosure {
         MimeType type;
 
         @Override
-        public void parse(final XMLEventReader reader, final StartElement element) throws MimeTypeParseException,
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws MimeTypeParseException,
                                                                                           URISyntaxException {
             final Map<String, String> attributes = getAttributesValues(element);
 

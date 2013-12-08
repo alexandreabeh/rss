@@ -18,15 +18,25 @@ public abstract class XmlTestBase {
         factory.setProperty("javax.xml.stream.supportDTD", false);
     }
 
-    static XMLEventReader parseString(final String xml) throws XMLStreamException {
-        XMLEventReader reader = factory.createXMLEventReader(new StringReader(xml));
-        reader.nextEvent();
-        return reader;
+    static XMLEventReader parseString(final String xml) {
+        XMLEventReader reader = null;
+        try {
+            reader = factory.createXMLEventReader(new StringReader(xml));
+            reader.nextEvent();
+            return reader;
+        } catch (XMLStreamException e) {
+            throw new AssertionError("error while parsing the string for the test", e);
+        }
     }
 
-    static StartElement getElement(final XMLEventReader reader) throws XMLStreamException {
+    static StartElement getElement(final XMLEventReader reader) {
         while (reader.hasNext()) {
-            final XMLEvent event = reader.nextEvent();
+            final XMLEvent event;
+            try {
+                event = reader.nextEvent();
+            } catch (XMLStreamException e) {
+                throw new AssertionError("the test was expecting an element", e);
+            }
             if (event.isStartElement()) {
                 final StartElement element = event.asStartElement();
                 if (!element.getName().getLocalPart().equals("rss")) {

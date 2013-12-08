@@ -3,8 +3,6 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.Source.Builder;
 import org.junit.Test;
 
-import java.net.URISyntaxException;
-
 import static org.junit.Assert.assertNotNull;
 
 public class SourceBuilderTest extends BuilderBaseTestBase<Source, Builder> {
@@ -14,8 +12,8 @@ public class SourceBuilderTest extends BuilderBaseTestBase<Source, Builder> {
         return new Builder();
     }
 
-    @Test(expected = URISyntaxException.class)
-    public void urlMustBeValid() throws Exception {
+    @Test(expected = ParserException.class)
+    public void urlMustBeValid() throws ParserException {
         parse("<source url=\", ,\">fonte</source>");
     }
 

@@ -15,21 +15,21 @@ public class SyndicationBuilderTest extends ModuleBuilderTestBase {
         prefix = "sy";
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = ParserException.class)
     public void periodCantBeRepeated() throws Exception {
         final Builder builder = new Builder(ISODateTimeFormat.dateTimeParser());
         step(builder, "<sy:updatePeriod>weekly</sy:updatePeriod>");
         step(builder, "<sy:updatePeriod>yearly</sy:updatePeriod>");
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = ParserException.class)
     public void frequencyCantBeRepeated() throws Exception {
         final Builder builder = new Builder(ISODateTimeFormat.dateTimeParser());
         step(builder, "<sy:updateFrequency>2</sy:updateFrequency>");
         step(builder, "<sy:updateFrequency>8</sy:updateFrequency>");
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = ParserException.class)
     public void baseCantBeRepeated() throws Exception {
         final Builder builder = new Builder(ISODateTimeFormat.dateTimeParser());
         step(builder, "<sy:updateBase>2013-12-21T12:21:00+0000</sy:updateBase>");
