@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ExtensibleElementBuilderTest {
     @Test
-    public void unknownModulesAreIgnored() throws Exception {
+    public void unknownModulesAreIgnored() throws ParserException {
         final String xml = "<rss xmlns:unk=\"http://mircomacrelli.net/unknown-module\">" +
                            "<unk:tag>value</unk:tag>" +
                            "</rss>";
@@ -26,7 +26,7 @@ public class ExtensibleElementBuilderTest {
         assertTrue(parse(xml, "tag").build().getModules().isEmpty());
     }
 
-    private static MockBuilder parse(final String xml, final String name) throws ParserException, XMLStreamException {
+    private static MockBuilder parse(final String xml, final String name) throws ParserException {
         final XMLEventReader reader = getReader(xml);
         final StartElement element = getFirstElementOf(reader, name);
         final MockBuilder builder = new MockBuilder(null);
@@ -34,10 +34,14 @@ public class ExtensibleElementBuilderTest {
         return builder;
     }
 
-    private static StartElement getFirstElementOf(final XMLEventReader reader, final String name) throws
-                                                                                                  XMLStreamException {
+    private static StartElement getFirstElementOf(final XMLEventReader reader, final String name) {
         while (reader.hasNext()) {
-            final XMLEvent event = reader.nextEvent();
+            final XMLEvent event;
+            try {
+                event = reader.nextEvent();
+            } catch (final XMLStreamException ignored) {
+                throw new AssertionError("the test is expecting at least one element");
+            }
             if (event.isStartElement()) {
                 final StartElement element = event.asStartElement();
                 if (element.getName().getLocalPart().equals(name)) {
@@ -45,17 +49,21 @@ public class ExtensibleElementBuilderTest {
                 }
             }
         }
-        return null;
+        throw new AssertionError("the test is expecting at least one element");
     }
 
-    private static XMLEventReader getReader(final String xml) throws XMLStreamException {
+    private static XMLEventReader getReader(final String xml) {
         final XMLInputFactory factory = XMLInputFactory.newFactory();
         factory.setProperty("javax.xml.stream.supportDTD", false);
-        return factory.createXMLEventReader(new StringReader(xml));
+        try {
+            return factory.createXMLEventReader(new StringReader(xml));
+        } catch (final XMLStreamException cause) {
+            throw new AssertionError("error while configuring the xml parser", cause);
+        }
     }
 
     @Test(expected = IllegalStateException.class)
-    public void throwExceptionWhenModuleIsNotAllowed() throws Exception {
+    public void throwExceptionWhenModuleIsNotAllowed() throws ParserException {
         final String xml = "<rss xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\">" +
                            "<sy:period>hourly</sy:period>" +
                            "</rss>";
@@ -63,7 +71,7 @@ public class ExtensibleElementBuilderTest {
     }
 
     @Test
-    public void moduleIsBuiltCorrectly() throws Exception {
+    public void moduleIsBuiltCorrectly() throws ParserException {
         final String xml = "<rss xmlns:cc=\"http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html\">" +
                            "<cc:license>http://www.google.it</cc:license>" +
                            "</rss>";
@@ -82,7 +90,7 @@ public class ExtensibleElementBuilderTest {
             }
 
             @Override
-            protected void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
+            protected void handleTag(final XMLEventReader reader, final StartElement element) {
             }
 
             @Override

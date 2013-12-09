@@ -69,8 +69,7 @@ public final class Source {
         String title;
 
         @Override
-        public void parseElement(final XMLEventReader reader, final StartElement element) throws URISyntaxException,
-                                                                                          XMLStreamException {
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
             link = parseUri(getAttributesValues(element).get("url"));
             title = getText(reader);
         }

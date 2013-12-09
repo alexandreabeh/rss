@@ -16,26 +16,25 @@ public class UniqueIdBuilderTest extends BuilderBaseTestBase<UniqueId, Builder> 
     }
 
     @Test
-    public void ifNotSpecifiedIsALink() throws BuilderException, ParserException {
+    public void ifNotSpecifiedIsALink() throws ParserException {
         final Builder builder = parse("<guid>http://www.google.it</guid>");
         assertTrue(builder.build().isLink());
     }
 
     @Test
-    public void isALinkAndIsSpecified() throws BuilderException, ParserException {
+    public void isALinkAndIsSpecified() throws ParserException {
         final Builder builder = parse("<guid isPermaLink=\"true\">http://www.google.it</guid>");
         assertTrue(builder.build().isLink());
     }
 
     @Test
-    public void isNotALink() throws BuilderException, ParserException {
+    public void isNotALink() throws ParserException {
         final Builder builder = parse("<guid isPermaLink=\"false\">NEWS_12345</guid>");
         assertFalse(builder.build().isLink());
     }
 
     @Test(expected = URISyntaxException.class)
-    public void ifIsALinkButIsMalformedThenThrowsAnException() throws BuilderException, URISyntaxException,
-                                                                      ParserException {
+    public void ifIsALinkButIsMalformedThenThrowsAnException() throws URISyntaxException, ParserException {
         final Builder builder = parse("<guid>12345 NEWS,qualcosa</guid>");
         builder.build().asURI();
     }

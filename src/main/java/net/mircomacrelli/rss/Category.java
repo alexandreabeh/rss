@@ -80,11 +80,7 @@ public final class Category {
         @Override
         public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
             domain = getAttributesValues(element).get("domain");
-            try {
-                location = getText(reader);
-            } catch (final XMLStreamException cause) {
-                throw new ParserException(cause);
-            }
+            location = getText(reader);
         }
 
         @Override

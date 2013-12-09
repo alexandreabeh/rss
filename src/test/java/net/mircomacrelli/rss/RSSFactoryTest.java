@@ -112,7 +112,9 @@ public class RSSFactoryTest {
                                          "</rss>"));
     }
 
-    private static InputStream toInputStream(final String arg) throws UnsupportedEncodingException {
-        return new ByteArrayInputStream(arg.getBytes("UTF-8"));
+    private static final Charset UTF8 = Charset.forName("UTF-8");
+
+    private static InputStream toInputStream(final String arg) {
+        return new ByteArrayInputStream(arg.getBytes(UTF8));
     }
 }

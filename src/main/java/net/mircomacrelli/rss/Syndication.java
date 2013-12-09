@@ -110,7 +110,7 @@ public final class Syndication implements Module {
         }
 
         @Override
-        public void parseElement(final XMLEventReader reader, final StartElement element) throws XMLStreamException {
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
             final String name = element.getName().getLocalPart();
 
             switch (name) {

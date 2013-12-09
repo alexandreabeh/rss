@@ -217,7 +217,7 @@ public final class Item extends ExtensibleElement {
         }
 
         @Override
-        protected void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
+        protected void handleTag(final XMLEventReader reader, final StartElement element) throws ParserException {
             final String name = element.getName().getLocalPart();
             switch (name) {
                 case "title":
@@ -262,32 +262,28 @@ public final class Item extends ExtensibleElement {
         }
 
         private static Source parseSource(final XMLEventReader reader, final StartElement element) throws
-                                                                                                   ParserException,
-                                                                                                   BuilderException {
+                                                                                                   ParserException {
             final Source.Builder builder = new Source.Builder();
             builder.parse(reader, element);
             return builder.build();
         }
 
         private static Enclosure parseEnclosure(final XMLEventReader reader, final StartElement element) throws
-                                                                                                         ParserException,
-                                                                                                         BuilderException {
+                                                                                                         ParserException {
             final Enclosure.Builder builder = new Enclosure.Builder();
             builder.parse(reader, element);
             return builder.build();
         }
 
         private static UniqueId parseUniqueId(final XMLEventReader reader, final StartElement element) throws
-                                                                                                       ParserException,
-                                                                                                       BuilderException {
+                                                                                                       ParserException {
             final UniqueId.Builder builder = new UniqueId.Builder();
             builder.parse(reader, element);
             return builder.build();
         }
 
         private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws
-                                                                                                       ParserException,
-                                                                                                       BuilderException {
+                                                                                                       ParserException {
             final Category.Builder builder = new Category.Builder();
             builder.parse(reader, element);
             return builder.build();

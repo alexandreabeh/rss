@@ -16,23 +16,23 @@ abstract class BuilderBase<T> {
         this(null);
     }
 
-    abstract void parseElement(final XMLEventReader reader, StartElement element) throws Exception;
+    abstract void parseElement(final XMLEventReader reader, StartElement element) throws ParserException;
 
     public final void parse(final XMLEventReader reader, final StartElement element) throws ParserException {
         try {
             parseElement(reader, element);
-        } catch (final Exception cause) {
+        } catch (final RuntimeException cause) {
             throw new ParserException(cause);
         }
     }
 
-    abstract T realBuild() throws Exception;
+    abstract T realBuild() throws ParserException;
 
-    public final T build() throws BuilderException {
+    public final T build() throws ParserException {
         try {
             return realBuild();
-        } catch (final Exception cause) {
-            throw new BuilderException(cause);
+        } catch (final RuntimeException cause) {
+            throw new ParserException(cause);
         }
     }
 }

@@ -140,17 +140,18 @@ public final class Image {
         Integer height;
 
         @Override
-        public void parseElement(final XMLEventReader reader, final StartElement element) throws URISyntaxException,
-                                                                                          XMLStreamException {
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
             final Map<String, String> values = getAllTagsValuesInside(reader, "image");
 
             image = parseUri(values.get("url"));
             alt = values.get("title");
             link = parseUri(values.get("link"));
             description = values.get("description");
+
             if (values.containsKey("width")) {
                 width = Integer.parseInt(values.get("width"));
             }
+
             if (values.containsKey("height")) {
                 height = Integer.parseInt(values.get("height"));
             }

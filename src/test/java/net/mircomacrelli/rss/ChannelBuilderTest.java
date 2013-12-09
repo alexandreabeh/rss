@@ -101,7 +101,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
     }
 
     @Test
-    public void moreThanOneCategory() throws BuilderException, ParserException {
+    public void moreThanOneCategory() throws ParserException {
         final Builder builder = parse("<channel>" +
                                       "<title>titolo</title>" +
                                       "<link>http://www.google.it</link>" +
@@ -185,7 +185,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
     }
 
     @Test
-    public void moreThanOneItem() throws BuilderException, ParserException {
+    public void moreThanOneItem() throws ParserException {
         final Builder builder = parse("<channel>" +
                                       "<title>titolo</title>" +
                                       "<link>http://www.google.it</link>" +
@@ -220,7 +220,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
 
     @Test
 
-    public void channelWithExtensions() throws BuilderException, ParserException {
+    public void channelWithExtensions() throws ParserException {
         final Builder builder = parse("<channel " +
                                       "xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\" " +
                                       "xmlns:cc=\"http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html\">" +

@@ -3,10 +3,12 @@ package net.mircomacrelli.rss;
 import org.joda.time.format.DateTimeFormatter;
 
 import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,7 +26,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         modules = new IdentityHashMap<>();
     }
 
-    private <T extends ExtensibleElement> T extend(final T element) throws BuilderException {
+    private <T extends ExtensibleElement> T extend(final T element) throws ParserException {
         for (final Entry<Class<? extends Module>, ModuleBuilder> module : modules.entrySet()) {
             element.addModule(module.getKey(), module.getValue().build());
         }
@@ -79,17 +81,22 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
 
     protected abstract T buildElement();
 
-    protected abstract void handleTag(XMLEventReader reader, StartElement element) throws Exception;
+    protected abstract void handleTag(XMLEventReader reader, StartElement element) throws ParserException;
 
     @Override
-    public final T realBuild() throws BuilderException {
+    public final T realBuild() throws ParserException {
         return extend(buildElement());
     }
 
     @Override
-    final void parseElement(final XMLEventReader reader, final StartElement element) throws Exception {
+    final void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
         while (true) {
-            final XMLEvent event = reader.nextEvent();
+            final XMLEvent event;
+            try {
+                event = reader.nextEvent();
+            } catch (final XMLStreamException cause) {
+                throw new ParserException(cause);
+            }
 
             if (isEndOfTag(event, tagName)) {
                 break;
@@ -101,7 +108,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         }
     }
 
-    private void handleEvent(final XMLEventReader reader, final XMLEvent event) throws Exception {
+    private void handleEvent(final XMLEventReader reader, final XMLEvent event) throws ParserException {
         final StartElement element = event.asStartElement();
 
         if (element.getName().getPrefix().isEmpty()) {

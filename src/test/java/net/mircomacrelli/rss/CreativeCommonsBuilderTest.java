@@ -15,7 +15,7 @@ public class CreativeCommonsBuilderTest extends ModuleBuilderTestBase {
     }
 
     @Test
-    public void twoLicenses() throws BuilderException, ParserException {
+    public void twoLicenses() throws ParserException {
         final Builder builder = new Builder();
         step(builder, "<cc:license>http://www.creativecommons.org/licenses/by-nc/1.0</cc:license>");
         step(builder, "<cc:license>http://www.creativecommons.org/licenses/by/1.0</cc:license>");

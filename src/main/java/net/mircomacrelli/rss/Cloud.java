@@ -148,11 +148,7 @@ public final class Cloud {
         public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
             final Map<String, String> attributes = getAttributesValues(element);
 
-            try {
-                domain = parseUri(attributes.get("domain"));
-            } catch (final URISyntaxException cause) {
-                throw new ParserException(cause);
-            }
+            domain = parseUri(attributes.get("domain"));
             path = Paths.get(attributes.get("path"));
             procedureName = attributes.get("registerProcedure");
             port = Integer.parseInt(attributes.get("port"));

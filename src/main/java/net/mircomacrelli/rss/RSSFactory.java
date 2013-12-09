@@ -61,8 +61,13 @@ public final class RSSFactory {
      * @throws MimeTypeParseException if the mime type are malformed
      * @throws URISyntaxException if some of the domain are wrong
      */
-    public RSS parse(final InputStream is) throws Exception {
-        final XMLEventReader reader = factory.createXMLEventReader(is);
+    public RSS parse(final InputStream is) throws ParserException {
+        final XMLEventReader reader;
+        try {
+            reader = factory.createXMLEventReader(is);
+        } catch (XMLStreamException e) {
+            throw new ParserException(e);
+        }
 
         final Charset charset = getCharset(reader);
         final Version version = getVersion(reader);
@@ -71,14 +76,23 @@ public final class RSSFactory {
         return new RSS(charset, version, channel);
     }
 
-    private static Charset getCharset(final XMLEventReader reader) throws XMLStreamException {
-        final StartDocument doc = (StartDocument)reader.nextEvent();
-        return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
+    private static Charset getCharset(final XMLEventReader reader) throws ParserException {
+        try {
+            final StartDocument doc = (StartDocument)reader.nextEvent();
+            return doc.encodingSet() ? Charset.forName(doc.getCharacterEncodingScheme()) : Charset.forName("UTF-8");
+        } catch (final XMLStreamException cause) {
+            throw new ParserException(cause);
+        }
     }
 
-    private static Version getVersion(final XMLEventReader reader) throws XMLStreamException {
+    private static Version getVersion(final XMLEventReader reader) throws ParserException {
         while (true) {
-            final XMLEvent event = reader.nextEvent();
+            final XMLEvent event;
+            try {
+                event = reader.nextEvent();
+            } catch (final XMLStreamException cause) {
+                throw new ParserException(cause);
+            }
 
             if (event.isStartElement()) {
                 final StartElement element = event.asStartElement();
@@ -95,9 +109,14 @@ public final class RSSFactory {
         throw new IllegalStateException("<rss> not found");
     }
 
-    private Channel getChannel(final XMLEventReader reader) throws Exception {
+    private Channel getChannel(final XMLEventReader reader) throws ParserException {
         while (reader.hasNext()) {
-            final XMLEvent event = reader.nextEvent();
+            final XMLEvent event;
+            try {
+                event = reader.nextEvent();
+            } catch (final XMLStreamException cause) {
+                throw new ParserException(cause);
+            }
 
             if (event.isStartElement()) {
                 final StartElement element = event.asStartElement();

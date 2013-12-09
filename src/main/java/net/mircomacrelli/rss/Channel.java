@@ -409,11 +409,7 @@ public final class Channel extends ExtensibleElement {
         }
 
         @Override
-        protected void handleTag(final XMLEventReader reader, final StartElement element) throws
-                                                                                          URISyntaxException,
-                                                                                          XMLStreamException,
-                                                                                          BuilderException,
-                                                                                          ParserException {
+        protected void handleTag(final XMLEventReader reader, final StartElement element) throws ParserException {
             final String name = element.getName().getLocalPart();
             switch (name) {
                 case "title":
@@ -498,18 +494,22 @@ public final class Channel extends ExtensibleElement {
         }
 
         private static Item parseItem(final XMLEventReader reader, final DateTimeFormatter parser) throws
-                                                                                                   BuilderException,
                                                                                                    ParserException {
             final Item.Builder builder = new Item.Builder(parser);
             builder.parse(reader, null);
             return builder.build();
         }
 
-        private static Set<Integer> parseSkipHours(final XMLEventReader reader) throws XMLStreamException {
+        private static Set<Integer> parseSkipHours(final XMLEventReader reader) throws ParserException {
             final Set<Integer> hours = new HashSet<>(24);
 
             while (true) {
-                final XMLEvent event = reader.nextEvent();
+                final XMLEvent event;
+                try {
+                    event = reader.nextEvent();
+                } catch (XMLStreamException e) {
+                    throw new ParserException(e);
+                }
 
                 if (isEndOfTag(event, "skipHours")) {
                     break;
@@ -524,18 +524,22 @@ public final class Channel extends ExtensibleElement {
         }
 
         private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws
-                                                                                                       ParserException,
-                                                                                                       BuilderException {
+                                                                                                       ParserException {
             final Category.Builder builder = new Category.Builder();
             builder.parse(reader, element);
             return builder.build();
         }
 
-        private static EnumSet<Day> parseSkipDays(final XMLEventReader reader) throws XMLStreamException {
+        private static EnumSet<Day> parseSkipDays(final XMLEventReader reader) throws ParserException {
             final EnumSet<Day> days = noneOf(Day.class);
 
             while (true) {
-                final XMLEvent event = reader.nextEvent();
+                final XMLEvent event;
+                try {
+                    event = reader.nextEvent();
+                } catch (XMLStreamException e) {
+                    throw new ParserException(e);
+                }
 
                 if (isEndOfTag(event, "skipDays")) {
                     break;
@@ -549,19 +553,19 @@ public final class Channel extends ExtensibleElement {
             return days;
         }
 
-        private static TextInput parseTextInput(final XMLEventReader reader) throws ParserException, BuilderException {
+        private static TextInput parseTextInput(final XMLEventReader reader) throws ParserException {
             final TextInput.Builder builder = new TextInput.Builder();
             builder.parse(reader, null);
             return builder.build();
         }
 
-        private static Cloud parseCloud(final StartElement element) throws ParserException, BuilderException {
+        private static Cloud parseCloud(final StartElement element) throws ParserException {
             final Cloud.Builder builder = new Cloud.Builder();
             builder.parse(null, element);
             return builder.build();
         }
 
-        private static Image parseImage(final XMLEventReader reader) throws ParserException, BuilderException {
+        private static Image parseImage(final XMLEventReader reader) throws ParserException {
             final Image.Builder builder = new Image.Builder();
             builder.parse(reader, null);
             return builder.build();

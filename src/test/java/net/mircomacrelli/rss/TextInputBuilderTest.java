@@ -22,7 +22,7 @@ public class TextInputBuilderTest extends BuilderBaseTestBase<TextInput, Builder
     }
 
     @Test
-    public void validTextInput() throws BuilderException, ParserException {
+    public void validTextInput() throws ParserException {
         final Builder builder = parse("<textInput>" +
                                       "<description>descrizione</description>" +
                                       "<link>http://www.google.it</link>" +

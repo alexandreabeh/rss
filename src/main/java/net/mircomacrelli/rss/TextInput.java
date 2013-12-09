@@ -89,8 +89,7 @@ public final class TextInput {
         URI cgiScriptUri;
 
         @Override
-        public void parseElement(final XMLEventReader reader, final StartElement element) throws URISyntaxException,
-                                                                                          XMLStreamException {
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
             final Map<String, String> values = getAllTagsValuesInside(reader, "textInput");
 
             label = values.get("title");

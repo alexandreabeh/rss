@@ -42,17 +42,17 @@ public final class UtilsTest extends XmlTestBase {
     }
 
     @Test
-    public void emptyUrlsAreIgnored() throws URISyntaxException {
+    public void emptyUrlsAreIgnored() throws ParserException {
         assertNull(parseUri(""));
     }
 
     @Test
-    public void spacesAreTrimmedWhenParsingUrls() throws URISyntaxException {
+    public void spacesAreTrimmedWhenParsingUrls() throws ParserException {
         assertNull(parseUri("       "));
     }
 
     @Test
-    public void validUrl() throws URISyntaxException {
+    public void validUrl() throws ParserException {
         assertEquals("http://www.google.it", parseUri("    http://www.google.it   ").toString());
     }
 
@@ -228,28 +228,28 @@ public final class UtilsTest extends XmlTestBase {
     }
 
     @Test
-    public void getTextReturnTheImmediateNextTextEvent() throws XMLStreamException {
+    public void getTextReturnTheImmediateNextTextEvent() throws XMLStreamException, ParserException {
         final XMLEventReader reader = parseString("<tag>testo completo</tag>");
         reader.nextEvent();
         assertEquals("testo completo", getText(reader));
     }
 
     @Test
-    public void getTextReturnEmptyStringOnEmptyTags() throws XMLStreamException {
+    public void getTextReturnEmptyStringOnEmptyTags() throws XMLStreamException, ParserException {
         final XMLEventReader reader = parseString("<tag/>");
         reader.nextEvent();
         assertEquals("", getText(reader));
     }
 
     @Test
-    public void getTextReturnEmptyStringOnEmptyTagTwo() throws XMLStreamException {
+    public void getTextReturnEmptyStringOnEmptyTagTwo() throws XMLStreamException, ParserException {
         final XMLEventReader reader = parseString("<tag></tag>");
         reader.nextEvent();
         assertEquals("", getText(reader));
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void getTextThrowAnExceptionIfCantFindText() throws XMLStreamException {
+    @Test(expected = ParserException.class)
+    public void getTextThrowAnExceptionIfCantFindText() throws XMLStreamException, ParserException {
         final XMLEventReader reader = parseString("<tag><other>value</other></tag>");
         reader.nextEvent();
         getText(reader);
@@ -274,14 +274,14 @@ public final class UtilsTest extends XmlTestBase {
     }
 
     @Test
-    public void getTagsReturnAnEmptyMapWhenNoChildTagsAreFound() throws XMLStreamException {
+    public void getTagsReturnAnEmptyMapWhenNoChildTagsAreFound() throws XMLStreamException, ParserException {
         final XMLEventReader reader = parseString("<tag>\n\n\n</tag>");
         reader.nextEvent();
         assertTrue(getAllTagsValuesInside(reader, "tag").isEmpty());
     }
 
     @Test
-    public void getTagsReturnMapsWithTwoValues() throws XMLStreamException {
+    public void getTagsReturnMapsWithTwoValues() throws XMLStreamException, ParserException {
         final XMLEventReader reader = parseString("<tag><a>uno</a><b>due</b></tag>");
         reader.nextEvent();
         final Map<String, String> tags = getAllTagsValuesInside(reader, "tag");

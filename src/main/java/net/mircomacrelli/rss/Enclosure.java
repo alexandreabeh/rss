@@ -102,11 +102,12 @@ public final class Enclosure {
         public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
             final Map<String, String> attributes = getAttributesValues(element);
 
+            uri = parseUri(attributes.get("url"));
+            length = Long.parseLong(attributes.get("length"));
+
             try {
-                uri = parseUri(attributes.get("url"));
-                length = Long.parseLong(attributes.get("length"));
                 type = new MimeType(attributes.get("type"));
-            } catch (final URISyntaxException | MimeTypeParseException cause) {
+            } catch (final MimeTypeParseException cause) {
                 throw new ParserException(cause);
             }
         }

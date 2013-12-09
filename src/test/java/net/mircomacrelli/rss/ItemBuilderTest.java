@@ -42,7 +42,7 @@ public class ItemBuilderTest extends BuilderBaseTestBase<Item, Builder> {
     }
 
     @Test
-    public void moreThanOneCategory() throws BuilderException, ParserException {
+    public void moreThanOneCategory() throws ParserException {
         final Builder builder = parse("<item>" +
                                       "<title>Titolo</title>" +
                                       "<link>http://www.google.it</link>" +
@@ -61,7 +61,7 @@ public class ItemBuilderTest extends BuilderBaseTestBase<Item, Builder> {
     }
 
     @Test
-    public void moreThanOneEnclosure() throws BuilderException, ParserException {
+    public void moreThanOneEnclosure() throws ParserException {
         final Builder builder = parse("<item>" +
                                       "<title>Titolo</title>" +
                                       "<link>http://www.google.it</link>" +

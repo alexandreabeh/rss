@@ -37,7 +37,7 @@ public class SyndicationBuilderTest extends ModuleBuilderTestBase {
     }
 
     @Test
-    public void build() throws BuilderException, ParserException {
+    public void build() throws ParserException {
         final Builder builder = new Builder(ISODateTimeFormat.dateTimeParser());
         step(builder, "<sy:updatePeriod>weekly</sy:updatePeriod>");
         step(builder, "<sy:updateFrequency>2</sy:updateFrequency>");

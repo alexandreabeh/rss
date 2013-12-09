@@ -76,11 +76,16 @@ final class Utils {
     }
 
     static Map<String, String> getAllTagsValuesInside(final XMLEventReader reader, final String containerTagName) throws
-                                                                                                                  XMLStreamException {
+                                                                                                                  ParserException {
         final Map<String, String> values = new HashMap<>(5);
 
         while (true) {
-            final XMLEvent event = reader.nextEvent();
+            final XMLEvent event;
+            try {
+                event = reader.nextEvent();
+            } catch (XMLStreamException e) {
+                throw new ParserException(e);
+            }
 
             if (isEndOfTag(event, containerTagName)) {
                 break;
@@ -95,8 +100,13 @@ final class Utils {
         return values;
     }
 
-    static String getText(final XMLEventReader reader) throws XMLStreamException {
-        final XMLEvent event = reader.nextEvent();
+    static String getText(final XMLEventReader reader) throws ParserException {
+        final XMLEvent event;
+        try {
+            event = reader.nextEvent();
+        } catch (final XMLStreamException cause) {
+            throw new ParserException(cause);
+        }
 
         if (event.isCharacters()) {
             return event.asCharacters().getData();
@@ -105,7 +115,7 @@ final class Utils {
         if (event.isEndElement()) {
             return "";
         } else {
-            throw new IllegalStateException("text not found");
+            throw new ParserException("text not found");
         }
     }
 
@@ -144,11 +154,15 @@ final class Utils {
         return RFC822_DATE_FORMAT.print(date);
     }
 
-    public static URI parseUri(final String uri) throws URISyntaxException {
+    public static URI parseUri(final String uri) throws ParserException {
         if (uri.trim().isEmpty()) {
             return null;
         }
-        return new URI(uri.trim());
+        try {
+            return new URI(uri.trim());
+        } catch (URISyntaxException e) {
+            throw new ParserException(e);
+        }
     }
 
     public static void crashIfAlreadySet(final Object obj) {

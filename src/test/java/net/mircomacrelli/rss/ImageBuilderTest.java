@@ -60,7 +60,7 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
     }
 
     @Test
-    public void validImage() throws BuilderException, ParserException {
+    public void validImage() throws ParserException {
         final Builder builder = parse("<image>" +
                                       "<link>http://www.google.it</link>" +
                                       "<title>titolo</title>" +
@@ -73,7 +73,7 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
     }
 
     @Test
-    public void widthIsOptional() throws BuilderException, ParserException {
+    public void widthIsOptional() throws ParserException {
         final Builder builder = parse("<image>" +
                                       "<link>http://www.google.it</link>" +
                                       "<title>titolo</title>" +
@@ -85,7 +85,7 @@ public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
     }
 
     @Test
-    public void heightIsOptional() throws BuilderException, ParserException {
+    public void heightIsOptional() throws ParserException {
         final Builder builder = parse("<image>" +
                                       "<link>http://www.google.it</link>" +
                                       "<title>titolo</title>" +
