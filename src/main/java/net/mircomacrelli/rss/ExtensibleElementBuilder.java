@@ -24,7 +24,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         modules = new IdentityHashMap<>();
     }
 
-    private <T extends ExtensibleElement> T extend(final T element) throws Exception {
+    private <T extends ExtensibleElement> T extend(final T element) throws BuilderException {
         for (final Entry<Class<? extends Module>, ModuleBuilder> module : modules.entrySet()) {
             element.addModule(module.getKey(), module.getValue().build());
         }
@@ -82,12 +82,12 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
     protected abstract void handleTag(XMLEventReader reader, StartElement element) throws Exception;
 
     @Override
-    public final T realBuild() throws Exception {
+    public final T realBuild() throws BuilderException {
         return extend(buildElement());
     }
 
     @Override
-    public final void parseElement(final XMLEventReader reader, final StartElement element) throws Exception {
+    final void parseElement(final XMLEventReader reader, final StartElement element) throws Exception {
         while (true) {
             final XMLEvent event = reader.nextEvent();
 

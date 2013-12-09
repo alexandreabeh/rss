@@ -10,6 +10,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -408,7 +409,11 @@ public final class Channel extends ExtensibleElement {
         }
 
         @Override
-        protected void handleTag(final XMLEventReader reader, final StartElement element) throws Exception {
+        protected void handleTag(final XMLEventReader reader, final StartElement element) throws
+                                                                                          URISyntaxException,
+                                                                                          XMLStreamException,
+                                                                                          BuilderException,
+                                                                                          ParserException {
             final String name = element.getName().getLocalPart();
             switch (name) {
                 case "title":
@@ -492,7 +497,9 @@ public final class Channel extends ExtensibleElement {
             }
         }
 
-        private static Item parseItem(final XMLEventReader reader, final DateTimeFormatter parser) throws Exception {
+        private static Item parseItem(final XMLEventReader reader, final DateTimeFormatter parser) throws
+                                                                                                   BuilderException,
+                                                                                                   ParserException {
             final Item.Builder builder = new Item.Builder(parser);
             builder.parse(reader, null);
             return builder.build();
