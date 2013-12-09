@@ -17,7 +17,7 @@ public class CloudBuilderTest extends BuilderBaseTestBase<Cloud, Builder> {
     }
 
     @Test
-    public void goodCloudTag() throws Exception {
+    public void goodCloudTag() throws BuilderException, ParserException {
         final Builder builder = parse(
                 "<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"80\" protocol=\"http-post\" registerProcedure=\"\" />");
         assertNotNull(builder.build());

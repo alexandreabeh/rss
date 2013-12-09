@@ -157,7 +157,7 @@ public final class Image {
         }
 
         @Override
-        public Image build() {
+        public Image realBuild() {
             return new Image(image, link, alt, description, width, height);
         }
     }

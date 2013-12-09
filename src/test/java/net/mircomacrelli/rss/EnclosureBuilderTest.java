@@ -27,7 +27,7 @@ public class EnclosureBuilderTest extends BuilderBaseTestBase<Enclosure, Builder
     }
 
     @Test
-    public void validEnclosure() throws Exception {
+    public void validEnclosure() throws BuilderException, ParserException {
         final Builder builder = parse(
                 "<enclosure url=\"http://mircomacrelli.net/file.mp3\" length=\"12\" type=\"audio/mp3\"/>");
         assertNotNull(builder.build());

@@ -130,7 +130,7 @@ public final class Syndication implements Module {
         }
 
         @Override
-        public Module build() {
+        public Module realBuild() {
             return new Syndication(period, frequency, base);
         }
     }

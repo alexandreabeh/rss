@@ -62,13 +62,16 @@ public final class CreativeCommons implements Module {
         }
 
         @Override
-        public void parseElement(final XMLEventReader reader, final StartElement element) throws XMLStreamException,
-                                                                                          URISyntaxException {
-            licenses.add(parseUri(getText(reader)));
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
+            try {
+                licenses.add(parseUri(getText(reader)));
+            } catch (final URISyntaxException | XMLStreamException cause) {
+                throw new ParserException(cause);
+            }
         }
 
         @Override
-        public Module build() {
+        public Module realBuild() {
             return new CreativeCommons(licenses);
         }
     }

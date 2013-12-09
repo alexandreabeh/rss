@@ -89,7 +89,7 @@ public final class UniqueId {
         }
 
         @Override
-        public UniqueId build() {
+        public UniqueId realBuild() {
             return new UniqueId(id, isLink);
         }
     }

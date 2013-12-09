@@ -13,6 +13,7 @@ import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.getAttributesValues;
+import static net.mircomacrelli.rss.Utils.parseUri;
 
 /**
  * Information about the Cloud that can be used to subscribe to the push notifications for this feed
@@ -144,10 +145,14 @@ public final class Cloud {
         Protocol protocol;
 
         @Override
-        public void parseElement(final XMLEventReader reader, final StartElement element) throws URISyntaxException {
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
             final Map<String, String> attributes = getAttributesValues(element);
 
-            domain = new URI(attributes.get("domain"));
+            try {
+                domain = parseUri(attributes.get("domain"));
+            } catch (final URISyntaxException cause) {
+                throw new ParserException(cause);
+            }
             path = Paths.get(attributes.get("path"));
             procedureName = attributes.get("registerProcedure");
             port = Integer.parseInt(attributes.get("port"));
@@ -155,7 +160,7 @@ public final class Cloud {
         }
 
         @Override
-        public Cloud build() {
+        public Cloud realBuild() {
             return new Cloud(domain, port, path, procedureName, protocol);
         }
     }

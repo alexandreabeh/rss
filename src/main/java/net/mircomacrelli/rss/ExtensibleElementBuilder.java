@@ -5,6 +5,8 @@ import org.joda.time.format.DateTimeFormatter;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,7 +32,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         return element;
     }
 
-    final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws Exception {
+    final void passToModuleParser(final XMLEventReader reader, final StartElement element) throws ParserException {
         final ModuleInformation info = ModuleInformation.fromUri(element.getName().getNamespaceURI());
         if (info == null) {
             return; // ignore all the unknown modules
@@ -45,11 +47,28 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
 
         ModuleBuilder builder = modules.get(module);
         if (builder == null) {
-            try {
-                builder = info.getBuilder().getConstructor(DateTimeFormatter.class).newInstance(parser);
-            } catch (final NoSuchMethodException ignored) {
-                builder = info.getBuilder().getConstructor().newInstance();
+            final Class<? extends ModuleBuilder> builderClass = info.getBuilder();
+            final Constructor<?>[] constructors = builderClass.getConstructors();
+
+            if (constructors.length != 1) {
+                throw new AssertionError("a builder must have exactly one constructor");
             }
+
+            final Constructor<?> constructor = constructors[0];
+            final Class<?>[] parameters = constructor.getParameterTypes();
+
+            try {
+                if (parameters.length == 0) {
+                    // normal constructor without parameter
+                    builder = (ModuleBuilder)constructor.newInstance();
+                } else {
+                    // constructor with DateTimeFormatter;
+                    builder = (ModuleBuilder)constructor.newInstance(parser);
+                }
+            } catch (final InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                throw new AssertionError("error while calling the constructor", e);
+            }
+
             modules.put(module, builder);
         }
 
@@ -63,7 +82,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
     protected abstract void handleTag(XMLEventReader reader, StartElement element) throws Exception;
 
     @Override
-    public final T build() throws Exception {
+    public final T realBuild() throws Exception {
         return extend(buildElement());
     }
 

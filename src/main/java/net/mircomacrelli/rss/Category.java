@@ -78,13 +78,17 @@ public final class Category {
         String location;
 
         @Override
-        public void parseElement(final XMLEventReader reader, final StartElement element) throws XMLStreamException {
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
             domain = getAttributesValues(element).get("domain");
-            location = getText(reader);
+            try {
+                location = getText(reader);
+            } catch (final XMLStreamException cause) {
+                throw new ParserException(cause);
+            }
         }
 
         @Override
-        public Category build() {
+        public Category realBuild() {
             return new Category(domain, location);
         }
     }

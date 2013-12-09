@@ -101,7 +101,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
     }
 
     @Test
-    public void moreThanOneCategory() throws Exception {
+    public void moreThanOneCategory() throws BuilderException, ParserException {
         final Builder builder = parse("<channel>" +
                                       "<title>titolo</title>" +
                                       "<link>http://www.google.it</link>" +
@@ -137,7 +137,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
     }
 
     @Test(expected = ParserException.class)
-    public void onlyOneImage() throws Exception {
+    public void onlyOneImage() throws ParserException {
         parse("<channel>" +
               "<image>" +
               "<link>http://www.google.it</link>" +
@@ -177,7 +177,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
     }
 
     @Test(expected = ParserException.class)
-    public void onlyOneRating() throws Exception {
+    public void onlyOneRating() throws ParserException {
         parse("<channel>" +
               "<rating>rating a</rating>" +
               "<rating>rating b</rating>" +
@@ -185,7 +185,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
     }
 
     @Test
-    public void moreThanOneItem() throws Exception {
+    public void moreThanOneItem() throws BuilderException, ParserException {
         final Builder builder = parse("<channel>" +
                                       "<title>titolo</title>" +
                                       "<link>http://www.google.it</link>" +
@@ -220,7 +220,7 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
 
     @Test
 
-    public void channelWithExtensions() throws Exception {
+    public void channelWithExtensions() throws BuilderException, ParserException {
         final Builder builder = parse("<channel " +
                                       "xmlns:sy=\"http://purl.org/rss/1.0/modules/syndication/\" " +
                                       "xmlns:cc=\"http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html\">" +

@@ -26,5 +26,13 @@ abstract class BuilderBase<T> {
         }
     }
 
-    public abstract T build() throws Exception;
+    abstract T realBuild() throws Exception;
+
+    public final T build() throws BuilderException {
+        try {
+            return realBuild();
+        } catch (final Exception cause) {
+            throw new BuilderException(cause);
+        }
+    }
 }

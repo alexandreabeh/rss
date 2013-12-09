@@ -16,28 +16,28 @@ public class SyndicationBuilderTest extends ModuleBuilderTestBase {
     }
 
     @Test(expected = ParserException.class)
-    public void periodCantBeRepeated() throws Exception {
+    public void periodCantBeRepeated() throws ParserException {
         final Builder builder = new Builder(ISODateTimeFormat.dateTimeParser());
         step(builder, "<sy:updatePeriod>weekly</sy:updatePeriod>");
         step(builder, "<sy:updatePeriod>yearly</sy:updatePeriod>");
     }
 
     @Test(expected = ParserException.class)
-    public void frequencyCantBeRepeated() throws Exception {
+    public void frequencyCantBeRepeated() throws ParserException {
         final Builder builder = new Builder(ISODateTimeFormat.dateTimeParser());
         step(builder, "<sy:updateFrequency>2</sy:updateFrequency>");
         step(builder, "<sy:updateFrequency>8</sy:updateFrequency>");
     }
 
     @Test(expected = ParserException.class)
-    public void baseCantBeRepeated() throws Exception {
+    public void baseCantBeRepeated() throws ParserException {
         final Builder builder = new Builder(ISODateTimeFormat.dateTimeParser());
         step(builder, "<sy:updateBase>2013-12-21T12:21:00+0000</sy:updateBase>");
         step(builder, "<sy:updateBase>2013-12-21T21:12:00+0000</sy:updateBase>");
     }
 
     @Test
-    public void build() throws Exception {
+    public void build() throws BuilderException, ParserException {
         final Builder builder = new Builder(ISODateTimeFormat.dateTimeParser());
         step(builder, "<sy:updatePeriod>weekly</sy:updatePeriod>");
         step(builder, "<sy:updateFrequency>2</sy:updateFrequency>");

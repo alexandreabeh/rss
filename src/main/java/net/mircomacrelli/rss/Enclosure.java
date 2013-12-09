@@ -99,17 +99,20 @@ public final class Enclosure {
         MimeType type;
 
         @Override
-        public void parseElement(final XMLEventReader reader, final StartElement element) throws MimeTypeParseException,
-                                                                                          URISyntaxException {
+        public void parseElement(final XMLEventReader reader, final StartElement element) throws ParserException {
             final Map<String, String> attributes = getAttributesValues(element);
 
-            uri = parseUri(attributes.get("url"));
-            length = Long.parseLong(attributes.get("length"));
-            type = new MimeType(attributes.get("type"));
+            try {
+                uri = parseUri(attributes.get("url"));
+                length = Long.parseLong(attributes.get("length"));
+                type = new MimeType(attributes.get("type"));
+            } catch (final URISyntaxException | MimeTypeParseException cause) {
+                throw new ParserException(cause);
+            }
         }
 
         @Override
-        public Enclosure build() {
+        public Enclosure realBuild() {
             return new Enclosure(uri, length, type);
         }
     }

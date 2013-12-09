@@ -517,7 +517,8 @@ public final class Channel extends ExtensibleElement {
         }
 
         private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws
-                                                                                                       ParserException {
+                                                                                                       ParserException,
+                                                                                                       BuilderException {
             final Category.Builder builder = new Category.Builder();
             builder.parse(reader, element);
             return builder.build();
@@ -541,19 +542,19 @@ public final class Channel extends ExtensibleElement {
             return days;
         }
 
-        private static TextInput parseTextInput(final XMLEventReader reader) throws ParserException {
+        private static TextInput parseTextInput(final XMLEventReader reader) throws ParserException, BuilderException {
             final TextInput.Builder builder = new TextInput.Builder();
             builder.parse(reader, null);
             return builder.build();
         }
 
-        private static Cloud parseCloud(final StartElement element) throws ParserException {
+        private static Cloud parseCloud(final StartElement element) throws ParserException, BuilderException {
             final Cloud.Builder builder = new Cloud.Builder();
             builder.parse(null, element);
             return builder.build();
         }
 
-        private static Image parseImage(final XMLEventReader reader) throws ParserException {
+        private static Image parseImage(final XMLEventReader reader) throws ParserException, BuilderException {
             final Image.Builder builder = new Image.Builder();
             builder.parse(reader, null);
             return builder.build();

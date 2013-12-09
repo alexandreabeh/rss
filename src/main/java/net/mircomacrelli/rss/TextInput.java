@@ -100,7 +100,7 @@ public final class TextInput {
         }
 
         @Override
-        public TextInput build() {
+        public TextInput realBuild() {
             return new TextInput(name, description, label, cgiScriptUri);
         }
     }

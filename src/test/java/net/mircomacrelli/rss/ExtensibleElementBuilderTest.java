@@ -26,7 +26,7 @@ public class ExtensibleElementBuilderTest {
         assertTrue(parse(xml, "tag").build().getModules().isEmpty());
     }
 
-    private static MockBuilder parse(final String xml, final String name) throws Exception {
+    private static MockBuilder parse(final String xml, final String name) throws ParserException, XMLStreamException {
         final XMLEventReader reader = getReader(xml);
         final StartElement element = getFirstElementOf(reader, name);
         final MockBuilder builder = new MockBuilder(null);

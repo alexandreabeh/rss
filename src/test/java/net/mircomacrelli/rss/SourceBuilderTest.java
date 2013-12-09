@@ -18,7 +18,7 @@ public class SourceBuilderTest extends BuilderBaseTestBase<Source, Builder> {
     }
 
     @Test
-    public void validSource() throws Exception {
+    public void validSource() throws ParserException, BuilderException {
         assertNotNull(parse("<source url=\"http://www.google.it\">Fonte</source>").build());
     }
 }

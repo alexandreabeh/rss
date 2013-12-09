@@ -7,7 +7,7 @@ public abstract class ModuleBuilderTestBase extends XmlTestBase {
     String uri;
     String prefix;
 
-    void step(final ModuleBuilder builder, final String xml) throws Exception {
+    void step(final ModuleBuilder builder, final String xml) throws ParserException {
         final XMLEventReader reader = parseString(decorate(xml));
         final StartElement element = getElement(reader);
         builder.parse(reader, element);
