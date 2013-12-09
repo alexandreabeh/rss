@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 import static net.mircomacrelli.rss.RSSFactory.newFactory;
@@ -27,12 +26,12 @@ public class RSSFactoryTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void oneChannelIsRequired() throws Exception {
+    public void oneChannelIsRequired() throws ParserException {
         newFactory().parse(toInputStream("<rss version=\"2.0\"></rss>"));
     }
 
     @Test
-    public void onlyTheFirstChannelIsParsed() throws Exception {
+    public void onlyTheFirstChannelIsParsed() throws ParserException {
         final Channel channel = newFactory().parse(toInputStream("<rss version=\"2.0\">" +
                                                                  "<channel>" +
                                                                  "<title>first</title>" +
@@ -49,7 +48,7 @@ public class RSSFactoryTest {
     }
 
     @Test
-    public void customEncoding() throws Exception {
+    public void customEncoding() throws ParserException {
         final RSS feed = newFactory().parse(toInputStream("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" +
                                                           "<rss version=\"2.0\">" +
                                                           "<channel>" +
@@ -62,7 +61,7 @@ public class RSSFactoryTest {
     }
 
     @Test
-    public void withoutEncodingUTF8IsUsed() throws Exception {
+    public void withoutEncodingUTF8IsUsed() throws ParserException {
         final RSS feed = newFactory().parse(toInputStream("<rss version=\"2.0\">" +
                                                           "<channel>" +
                                                           "<title>first</title>" +
@@ -74,7 +73,7 @@ public class RSSFactoryTest {
     }
 
     @Test
-    public void rssVersion() throws Exception {
+    public void rssVersion() throws ParserException {
         final RSS feed = newFactory().parse(toInputStream("<rss version=\"2.0\">" +
                                                           "<channel>" +
                                                           "<title>first</title>" +
@@ -86,12 +85,12 @@ public class RSSFactoryTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void rssMustBeTheRoot() throws Exception {
+    public void rssMustBeTheRoot() throws ParserException {
         newFactory().parse(toInputStream("<?xml version=\"1.0\" encoding=\"UTF-8\"?><feed><!-- other tags --></feed>"));
     }
 
     @Test
-    public void findRssEvenWithComments() throws Exception {
+    public void findRssEvenWithComments() throws ParserException {
         final RSS feed = newFactory().parse(toInputStream("<!-- comments --><!-- other comments -->" +
                                                           "<rss version=\"2.0\">" +
                                                           "<channel>" +
@@ -104,7 +103,7 @@ public class RSSFactoryTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void rssCanContainOnlyChannel() throws Exception {
+    public void rssCanContainOnlyChannel() throws ParserException {
         newFactory().parse(toInputStream("<rss version=\"2.0\">" +
                                          "<tag>" +
                                          "<!-- some other content -->" +
@@ -112,9 +111,9 @@ public class RSSFactoryTest {
                                          "</rss>"));
     }
 
-    private static final Charset UTF8 = Charset.forName("UTF-8");
+    private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     private static InputStream toInputStream(final String arg) {
-        return new ByteArrayInputStream(arg.getBytes(UTF8));
+        return new ByteArrayInputStream(arg.getBytes(UTF_8));
     }
 }

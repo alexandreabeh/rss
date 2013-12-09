@@ -3,7 +3,6 @@ package net.mircomacrelli.rss;
 import net.mircomacrelli.rss.RSS.Version;
 import org.joda.time.format.DateTimeFormatter;
 
-import javax.activation.MimeTypeParseException;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -11,8 +10,6 @@ import javax.xml.stream.events.StartDocument;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 
 import static net.mircomacrelli.rss.Utils.getAttributesValues;
@@ -56,17 +53,13 @@ public final class RSSFactory {
      *
      * @param is the InputStream
      * @return the RSS
-     * @throws XMLStreamException in case of some xml errors
-     * @throws MalformedURLException if some of the links are wrong
-     * @throws MimeTypeParseException if the mime type are malformed
-     * @throws URISyntaxException if some of the domain are wrong
      */
     public RSS parse(final InputStream is) throws ParserException {
         final XMLEventReader reader;
         try {
             reader = factory.createXMLEventReader(is);
-        } catch (XMLStreamException e) {
-            throw new ParserException(e);
+        } catch (final XMLStreamException cause) {
+            throw new ParserException(cause);
         }
 
         final Charset charset = getCharset(reader);

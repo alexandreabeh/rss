@@ -83,8 +83,8 @@ final class Utils {
             final XMLEvent event;
             try {
                 event = reader.nextEvent();
-            } catch (XMLStreamException e) {
-                throw new ParserException(e);
+            } catch (final XMLStreamException cause) {
+                throw new ParserException(cause);
             }
 
             if (isEndOfTag(event, containerTagName)) {
@@ -160,8 +160,8 @@ final class Utils {
         }
         try {
             return new URI(uri.trim());
-        } catch (URISyntaxException e) {
-            throw new ParserException(e);
+        } catch (final URISyntaxException cause) {
+            throw new ParserException(cause);
         }
     }
 

@@ -1,10 +1,8 @@
 package net.mircomacrelli.rss;
 
 import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Map;
 
 import static java.lang.String.format;
