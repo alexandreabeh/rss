@@ -75,7 +75,7 @@ public final class Source {
         }
 
         @Override
-        public Source realBuild() {
+        public Source buildElement() {
             return new Source(title, link);
         }
     }

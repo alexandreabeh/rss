@@ -211,13 +211,13 @@ public final class Item extends ExtensibleElement {
         }
 
         @Override
-        protected Item buildElement() {
+        protected Item buildBase() {
             return new Item(link, title, description, author, publishDate, categories, source, commentsLink, enclosures,
                             uniqueId);
         }
 
         @Override
-        protected void handleTag(final XMLEventReader reader, final StartElement element) throws ParserException {
+        protected void parseTag(final XMLEventReader reader, final StartElement element) throws ParserException {
             final String name = element.getName().getLocalPart();
             switch (name) {
                 case "title":

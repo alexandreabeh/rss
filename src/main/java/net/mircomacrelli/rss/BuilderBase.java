@@ -26,11 +26,11 @@ abstract class BuilderBase<T> {
         }
     }
 
-    abstract T realBuild() throws ParserException;
+    abstract T buildElement() throws ParserException;
 
     public final T build() throws ParserException {
         try {
-            return realBuild();
+            return buildElement();
         } catch (final RuntimeException cause) {
             throw new ParserException(cause);
         }

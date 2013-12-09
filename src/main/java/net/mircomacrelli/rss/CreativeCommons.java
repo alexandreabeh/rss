@@ -67,7 +67,7 @@ public final class CreativeCommons implements Module {
         }
 
         @Override
-        public Module realBuild() {
+        public Module buildElement() {
             return new CreativeCommons(licenses);
         }
     }

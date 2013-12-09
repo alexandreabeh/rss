@@ -90,7 +90,7 @@ public final class UniqueId {
         }
 
         @Override
-        public UniqueId realBuild() {
+        public UniqueId buildElement() {
             return new UniqueId(id, isLink);
         }
     }

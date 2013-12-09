@@ -8,7 +8,6 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -79,13 +78,13 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
 
     private final String tagName;
 
-    protected abstract T buildElement();
+    protected abstract T buildBase() throws ParserException;
 
-    protected abstract void handleTag(XMLEventReader reader, StartElement element) throws ParserException;
+    protected abstract void parseTag(XMLEventReader reader, StartElement element) throws ParserException;
 
     @Override
-    public final T realBuild() throws ParserException {
-        return extend(buildElement());
+    public final T buildElement() throws ParserException {
+        return extend(buildBase());
     }
 
     @Override
@@ -112,7 +111,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         final StartElement element = event.asStartElement();
 
         if (element.getName().getPrefix().isEmpty()) {
-            handleTag(reader, element);
+            parseTag(reader, element);
         } else {
             // parse the extensions
             passToModuleParser(reader, element);

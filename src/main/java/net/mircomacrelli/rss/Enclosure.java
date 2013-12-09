@@ -113,7 +113,7 @@ public final class Enclosure {
         }
 
         @Override
-        public Enclosure realBuild() {
+        public Enclosure buildElement() {
             return new Enclosure(uri, length, type);
         }
     }

@@ -84,7 +84,7 @@ public final class Category {
         }
 
         @Override
-        public Category realBuild() {
+        public Category buildElement() {
             return new Category(domain, location);
         }
     }

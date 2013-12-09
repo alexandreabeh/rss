@@ -85,12 +85,12 @@ public class ExtensibleElementBuilderTest {
             }
 
             @Override
-            protected MockElement buildElement() {
+            protected MockElement buildBase() {
                 return new MockElement();
             }
 
             @Override
-            protected void handleTag(final XMLEventReader reader, final StartElement element) {
+            protected void parseTag(final XMLEventReader reader, final StartElement element) {
             }
 
             @Override

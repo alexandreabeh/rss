@@ -156,7 +156,7 @@ public final class Cloud {
         }
 
         @Override
-        public Cloud realBuild() {
+        public Cloud buildElement() {
             return new Cloud(domain, port, path, procedureName, protocol);
         }
     }

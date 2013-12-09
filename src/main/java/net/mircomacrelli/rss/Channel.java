@@ -402,14 +402,14 @@ public final class Channel extends ExtensibleElement {
         }
 
         @Override
-        protected Channel buildElement() {
+        protected Channel buildBase() {
             return new Channel(title, link, description, language, copyright, editor, webmaster, publishDate, buildDate,
                                categories, generator, docs, cloud, ttl, image, textInput, skipHours, skipDays, rating,
                                items);
         }
 
         @Override
-        protected void handleTag(final XMLEventReader reader, final StartElement element) throws ParserException {
+        protected void parseTag(final XMLEventReader reader, final StartElement element) throws ParserException {
             final String name = element.getName().getLocalPart();
             switch (name) {
                 case "title":
@@ -507,8 +507,8 @@ public final class Channel extends ExtensibleElement {
                 final XMLEvent event;
                 try {
                     event = reader.nextEvent();
-                } catch (XMLStreamException e) {
-                    throw new ParserException(e);
+                } catch (final XMLStreamException cause) {
+                    throw new ParserException(cause);
                 }
 
                 if (isEndOfTag(event, "skipHours")) {
@@ -537,8 +537,8 @@ public final class Channel extends ExtensibleElement {
                 final XMLEvent event;
                 try {
                     event = reader.nextEvent();
-                } catch (XMLStreamException e) {
-                    throw new ParserException(e);
+                } catch (final XMLStreamException cause) {
+                    throw new ParserException(cause);
                 }
 
                 if (isEndOfTag(event, "skipDays")) {
