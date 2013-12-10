@@ -102,6 +102,6 @@ public class ItemBuilderTest extends BuilderBaseTestBase<Item, Builder> {
 
     @Test
     public void itemAllowCreativeCommonsModule() {
-        assertTrue(new Builder(PARSER).getAllowedModules().contains(CreativeCommons.class));
+        assertTrue(new Builder(PARSER).isModuleAllowed(CreativeCommons.class));
     }
 }

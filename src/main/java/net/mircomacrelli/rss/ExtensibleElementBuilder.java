@@ -42,7 +42,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         final Class<? extends Module> module = info.getModule();
 
         // check if this module can be here
-        if (!getAllowedModules().contains(module)) {
+        if (!isModuleAllowed(module)) {
             throw new IllegalStateException(format("the module %s can't be here", module));
         }
 
@@ -118,5 +118,5 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
         }
     }
 
-    protected abstract Set<Class<? extends Module>> getAllowedModules();
+    abstract boolean isModuleAllowed(Class<? extends Module> module);
 }

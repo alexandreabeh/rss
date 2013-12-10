@@ -237,11 +237,11 @@ public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
 
     @Test
     public void channelAllowCreativeCommonsModule() {
-        assertTrue(new Builder(PARSER).getAllowedModules().contains(CreativeCommons.class));
+        assertTrue(new Builder(PARSER).isModuleAllowed(CreativeCommons.class));
     }
 
     @Test
     public void channelAllowSyndicationModule() {
-        assertTrue(new Builder(PARSER).getAllowedModules().contains(Syndication.class));
+        assertTrue(new Builder(PARSER).isModuleAllowed(Syndication.class));
     }
 }

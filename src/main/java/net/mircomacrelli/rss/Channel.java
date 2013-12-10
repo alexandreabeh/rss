@@ -371,8 +371,6 @@ public final class Channel extends ExtensibleElement {
     }
 
     static final class Builder extends ExtensibleElementBuilder<Channel> {
-        private static final Set<Class<? extends Module>> ALLOWED_MODULES = allowedModules(CreativeCommons.class,
-                                                                                           Syndication.class);
         String title;
         URI link;
         String description;
@@ -492,6 +490,11 @@ public final class Channel extends ExtensibleElement {
             }
         }
 
+        @Override
+        boolean isModuleAllowed(final Class<? extends Module> module) {
+            return CreativeCommons.class.equals(module) || Syndication.class.equals(module);
+        }
+
         private static Item parseItem(final XMLEventReader reader, final DateTimeFormatter parser) throws
                                                                                                    ParserException {
             final Item.Builder builder = new Item.Builder(parser);
@@ -568,11 +571,6 @@ public final class Channel extends ExtensibleElement {
             final Image.Builder builder = new Image.Builder();
             builder.parse(reader, null);
             return builder.build();
-        }
-
-        @Override
-        protected Set<Class<? extends Module>> getAllowedModules() {
-            return ALLOWED_MODULES;
         }
     }
 }

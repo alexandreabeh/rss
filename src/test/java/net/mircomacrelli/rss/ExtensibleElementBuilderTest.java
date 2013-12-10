@@ -94,8 +94,8 @@ public class ExtensibleElementBuilderTest {
             }
 
             @Override
-            protected Set<Class<? extends Module>> getAllowedModules() {
-                return allowedModules(CreativeCommons.class);
+            boolean isModuleAllowed(final Class<? extends Module> module) {
+                return module.equals(CreativeCommons.class);
             }
         }
     }

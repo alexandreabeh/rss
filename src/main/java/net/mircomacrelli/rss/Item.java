@@ -190,7 +190,6 @@ public final class Item extends ExtensibleElement {
     }
 
     static final class Builder extends ExtensibleElementBuilder<Item> {
-        private static final Set<Class<? extends Module>> ALLOWED_MODULES = allowedModules(CreativeCommons.class);
         String author;
         String title;
         String description;
@@ -259,6 +258,11 @@ public final class Item extends ExtensibleElement {
             }
         }
 
+        @Override
+        boolean isModuleAllowed(final Class<? extends Module> module) {
+            return CreativeCommons.class.equals(module);
+        }
+
         private static Source parseSource(final XMLEventReader reader, final StartElement element) throws
                                                                                                    ParserException {
             final Source.Builder builder = new Source.Builder();
@@ -285,11 +289,6 @@ public final class Item extends ExtensibleElement {
             final Category.Builder builder = new Category.Builder();
             builder.parse(reader, element);
             return builder.build();
-        }
-
-        @Override
-        protected Set<Class<? extends Module>> getAllowedModules() {
-            return ALLOWED_MODULES;
         }
     }
 }
