@@ -70,6 +70,14 @@ public class ExtensibleElementBuilderTest {
         parse(xml, "period");
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void throwsExceptionWhenTagIsNotAllowed() throws ParserException {
+        final String xml = "<rss xmlns:cc=\"http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html\">" +
+                           "<cc:notAllowed>http://www.google.it</cc:notAllowed>" +
+                           "</rss>";
+        parse(xml, "notAllowed");
+    }
+
     @Test
     public void moduleIsBuiltCorrectly() throws ParserException {
         final String xml = "<rss xmlns:cc=\"http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html\">" +
@@ -96,6 +104,11 @@ public class ExtensibleElementBuilderTest {
             @Override
             boolean isModuleAllowed(final Class<? extends Module> module) {
                 return module.equals(CreativeCommons.class);
+            }
+
+            @Override
+            protected boolean isTagAllowed(Class<? extends Module> module, String tag) {
+                return !tag.equals("notAllowed");
             }
         }
     }

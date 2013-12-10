@@ -73,6 +73,11 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
             modules.put(module, builder);
         }
 
+        final String tag = element.getName().getLocalPart();
+        if (!isTagAllowed(module, tag)) {
+            throw new IllegalStateException(format("the module %s does not allow the tag %s here", module, tag));
+        }
+
         builder.parse(reader, element);
     }
 
@@ -119,4 +124,8 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
     }
 
     abstract boolean isModuleAllowed(Class<? extends Module> module);
+
+    protected boolean isTagAllowed(final Class<? extends Module> module, final String tag) {
+        return true;
+    }
 }
