@@ -234,7 +234,7 @@ public class Itunes implements Module {
         private InternetAddress ownerEmail;
         private Explicit explicit;
         private Duration duration;
-        private List<Category> categories;
+        private final List<Category> categories;
 
         Builder(final DateTimeFormatter parser) {
             super(parser);

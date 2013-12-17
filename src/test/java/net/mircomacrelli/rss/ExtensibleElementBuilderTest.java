@@ -105,7 +105,7 @@ public class ExtensibleElementBuilderTest {
             }
 
             @Override
-            protected boolean isTagAllowed(Class<? extends Module> module, String tag) {
+            protected boolean isTagAllowed(final Class<? extends Module> module, final String tag) {
                 return !tag.equals("notAllowed");
             }
         }
