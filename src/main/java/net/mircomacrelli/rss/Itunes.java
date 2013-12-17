@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.append;
 import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
@@ -34,6 +36,13 @@ public class Itunes implements Module {
         }
 
         private final List<Category> subCategories;
+
+        public List<Category> getSubCategories() {
+            if (subCategories == null) {
+                return emptyList();
+            }
+            return unmodifiableList(subCategories);
+        }
 
         public Category(String name, List<Category> subCategories) {
             this.name = requireNonNull(name);
