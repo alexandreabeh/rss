@@ -70,7 +70,7 @@ public class Itunes implements Module {
             sb.append("Category{");
 
             append(sb, "name", name);
-            append(sb, "subCategories", subCategories);
+            append(sb, "subCategories", subCategories, false);
 
             sb.append('}');
             return sb.toString();
