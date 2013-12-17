@@ -26,7 +26,7 @@ import static net.mircomacrelli.rss.Utils.isEndOfTag;
 import static net.mircomacrelli.rss.Utils.isStartOfTag;
 import static net.mircomacrelli.rss.Utils.parseUri;
 
-public class Itunes implements Module {
+public final class Itunes implements Module {
 
     public final static class Category {
         private final String name;
