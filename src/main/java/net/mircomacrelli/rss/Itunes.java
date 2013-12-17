@@ -131,7 +131,7 @@ public class Itunes implements Module {
     }
 
     public List<Category> getCategories() {
-        return categories;
+        return unmodifiableList(categories);
     }
 
     public Duration getDuration() {
