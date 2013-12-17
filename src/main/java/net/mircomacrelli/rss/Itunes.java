@@ -111,9 +111,9 @@ public class Itunes implements Module {
     private final List<Category> categories;
 
 
-    private Itunes(final String author, final Boolean block, URI image, Boolean cc, String summary, String subtitle,
-                   URI newFeedUrl, Integer order, Boolean complete, String ownerName, InternetAddress ownerEmail,
-                   Explicit explicit, Duration duration, List<Category> categories) {
+    Itunes(final String author, final Boolean block, URI image, Boolean cc, String summary, String subtitle,
+           URI newFeedUrl, Integer order, Boolean complete, String ownerName, InternetAddress ownerEmail,
+           Explicit explicit, Duration duration, List<Category> categories) {
         this.author = author;
         this.block = block;
         this.image = image;
