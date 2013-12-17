@@ -6,7 +6,10 @@ import java.util.Map;
 enum ModuleInformation {
     CREATIVE_COMMONS("http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html", CreativeCommons.class,
                      CreativeCommons.Builder.class),
-    SYNDICATION("http://purl.org/rss/1.0/modules/syndication/", Syndication.class, Syndication.Builder.class);
+    SYNDICATION("http://purl.org/rss/1.0/modules/syndication/", Syndication.class, Syndication.Builder.class),
+    ITUNES("http://www.itunes.com/dtds/podcast-1.0.dtd", Itunes.class, Itunes.Builder.class);
+
+
     private final String uri;
     private final Class<? extends Module> module;
     private final Class<? extends ModuleBuilder> builder;
