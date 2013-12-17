@@ -28,7 +28,7 @@ import static net.mircomacrelli.rss.Utils.parseUri;
 
 public class Itunes implements Module {
 
-    public static class Category {
+    public final static class Category {
         private final String name;
 
         public String getName() {
