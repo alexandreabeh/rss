@@ -29,6 +29,10 @@ public class Itunes implements Module {
     public static class Category {
         private final String name;
 
+        public String getName() {
+            return name;
+        }
+
         private final List<Category> subCategories;
 
         public Category(String name, List<Category> subCategories) {
