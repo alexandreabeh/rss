@@ -152,7 +152,7 @@ public final class Itunes implements Module {
         return (complete == null) ? false : complete;
     }
 
-    public Integer getOreder() {
+    public Integer getOrder() {
         return order;
     }
 
