@@ -28,7 +28,7 @@ import static net.mircomacrelli.rss.Utils.parseUri;
 
 public final class Itunes implements Module {
 
-    public final static class Category {
+    public static final class Category {
         private final String name;
 
         public String getName() {
@@ -44,7 +44,7 @@ public final class Itunes implements Module {
             return unmodifiableList(subCategories);
         }
 
-        public Category(String name, List<Category> subCategories) {
+        public Category(final String name, final List<Category> subCategories) {
             this.name = requireNonNull(name);
             this.subCategories = subCategories;
         }
@@ -55,18 +55,18 @@ public final class Itunes implements Module {
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (!(obj instanceof Category)) {
                 return false;
             }
 
-            Category other = (Category)obj;
+            final Category other = (Category)obj;
             return name.equals(other.name) && Objects.equals(subCategories, other.subCategories);
         }
 
         @Override
         public String toString() {
-            StringBuilder sb = new StringBuilder(128);
+            final StringBuilder sb = new StringBuilder(128);
             sb.append("Category{");
 
             append(sb, "name", name);
@@ -77,20 +77,16 @@ public final class Itunes implements Module {
         }
     }
 
-    public static enum Explicit {
+    public enum Explicit {
         YES,
         NO,
         CLEAN;
 
-        public static Explicit from(String value) {
+        public static Explicit from(final String value) {
             if (value.equalsIgnoreCase("yes")) {
                 return YES;
             } else {
-                if (value.equalsIgnoreCase("clean")) {
-                    return CLEAN;
-                } else {
-                    return NO;
-                }
+                return value.equalsIgnoreCase("clean") ? CLEAN : NO;
             }
         }
     }
@@ -111,9 +107,9 @@ public final class Itunes implements Module {
     private final List<Category> categories;
 
 
-    Itunes(final String author, final Boolean block, URI image, Boolean cc, String summary, String subtitle,
-           URI newFeedUrl, Integer order, Boolean complete, String ownerName, InternetAddress ownerEmail,
-           Explicit explicit, Duration duration, List<Category> categories) {
+    Itunes(final String author, final Boolean block, final URI image, final Boolean cc, final String summary, final String subtitle,
+           final URI newFeedUrl, final Integer order, final Boolean complete, final String ownerName, final InternetAddress ownerEmail,
+           final Explicit explicit, final Duration duration, final List<Category> categories) {
         this.author = author;
         this.block = block;
         this.image = image;
@@ -151,7 +147,7 @@ public final class Itunes implements Module {
     }
 
     public boolean isComplete() {
-        return complete == null ? false : complete;
+        return (complete == null) ? false : complete;
     }
 
     public Integer getOreder() {
@@ -171,11 +167,11 @@ public final class Itunes implements Module {
     }
 
     public boolean isClosedCaptioned() {
-        return cc == null ? false : cc;
+        return (cc == null) ? false : cc;
     }
 
     public boolean isBlocked() {
-        return block == null ? false : block;
+        return (block == null) ? false : block;
     }
 
     public URI getImage() {
@@ -210,7 +206,7 @@ public final class Itunes implements Module {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(256);
+        final StringBuilder sb = new StringBuilder(256);
         sb.append("iTunes{");
 
         append(sb, "author", author);
@@ -221,7 +217,7 @@ public final class Itunes implements Module {
         append(sb, "subtitle", subtitle);
         append(sb, "newFeedUrl", newFeedUrl);
         append(sb, "order", order, false);
-        append(sb, "compelte", complete, false);
+        append(sb, "complete", complete, false);
         append(sb, "owner.name", ownerName);
         append(sb, "owner.email", ownerEmail);
         append(sb, "explicit", explicit, false);
@@ -287,7 +283,7 @@ public final class Itunes implements Module {
                     complete = getText(reader).equals("yes");
                     break;
                 case "owner":
-                    Map<String,String> values = getAllTagsValuesInside(reader, "owner");
+                    final Map<String,String> values = getAllTagsValuesInside(reader, "owner");
                     ownerName = values.get("name");
                     try {
                         ownerEmail = new InternetAddress(values.get("email"));
@@ -307,14 +303,14 @@ public final class Itunes implements Module {
             }
         }
 
-        private static final Category parseCategory(XMLEventReader reader, StartElement element) throws
+        private static Category parseCategory(final XMLEventReader reader, final StartElement element) throws
                                                                                                  ParserException {
             final String name = getAttributesValues(element).get("text");
             final List<Category> subCategories = new ArrayList<>(0);
 
             while (true) {
                 try {
-                    XMLEvent event = reader.nextEvent();
+                    final XMLEvent event = reader.nextEvent();
 
                     if (isEndOfTag(event, "category")) {
                         break;
@@ -332,7 +328,7 @@ public final class Itunes implements Module {
         }
 
         @Override
-        Module buildElement() throws ParserException {
+        Module buildElement() {
             return new Itunes(author, block, image, cc, summary, subtitle, newFeedUrl, order, complete, ownerName,
                               ownerEmail, explicit, duration, categories);
         }
