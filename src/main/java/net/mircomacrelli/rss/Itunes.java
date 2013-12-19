@@ -21,6 +21,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 import static net.mircomacrelli.rss.Utils.append;
+import static net.mircomacrelli.rss.Utils.crashIfAlreadySet;
 import static net.mircomacrelli.rss.Utils.getAllTagsValuesInside;
 import static net.mircomacrelli.rss.Utils.getAttributesValues;
 import static net.mircomacrelli.rss.Utils.getText;
@@ -268,45 +269,58 @@ public final class Itunes implements Module {
 
             switch (name) {
                 case "author":
+                    crashIfAlreadySet(author);
                     author = getText(reader);
                     break;
                 case "block":
+                    crashIfAlreadySet(block);
                     block = getText(reader).equalsIgnoreCase("yes");
                     break;
                 case "image":
+                    crashIfAlreadySet(image);
                     image = parseUri(getAttributesValues(element).get("href"));
                     break;
                 case "isClosedCaptioned":
+                    crashIfAlreadySet(cc);
                     cc = getText(reader).equalsIgnoreCase("yes");
                     break;
                 case "summary":
+                    crashIfAlreadySet(summary);
                     summary = getText(reader);
                     break;
                 case "subtitle":
+                    crashIfAlreadySet(subtitle);
                     subtitle = getText(reader);
                     break;
                 case "new-feed-url":
+                    crashIfAlreadySet(newFeedUrl);
                     newFeedUrl = parseUri(getText(reader));
                     break;
                 case "order":
+                    crashIfAlreadySet(order);
                     order = Integer.parseInt(getText(reader));
                     break;
                 case "complete":
+                    crashIfAlreadySet(complete);
                     complete = getText(reader).equals("yes");
                     break;
                 case "owner":
                     final Map<String,String> values = getAllTagsValuesInside(reader, "owner");
+                    crashIfAlreadySet(ownerName);
                     ownerName = values.get("name");
                     try {
+                        crashIfAlreadySet(ownerEmail);
                         ownerEmail = new InternetAddress(values.get("email"));
                     } catch (final AddressException cause) {
                         throw new ParserException(cause);
                     }
                     break;
                 case "explicit":
+                    crashIfAlreadySet(explicit);
                     explicit = Explicit.from(getText(reader));
                     break;
                 case "duration":
+                    crashIfAlreadySet(duration);
                     duration = DURATION.parsePeriod(getText(reader));
                     break;
                 case "category":
