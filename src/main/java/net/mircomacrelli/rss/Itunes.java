@@ -1,7 +1,9 @@
 package net.mircomacrelli.rss;
 
-import org.joda.time.Duration;
+import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -103,13 +105,13 @@ public final class Itunes implements Module {
     private final String ownerName;
     private final InternetAddress ownerEmail;
     private final Explicit explicit;
-    private final Duration duration;
+    private final Period duration;
     private final List<Category> categories;
 
 
     Itunes(final String author, final Boolean block, final URI image, final Boolean cc, final String summary, final String subtitle,
            final URI newFeedUrl, final Integer order, final Boolean complete, final String ownerName, final InternetAddress ownerEmail,
-           final Explicit explicit, final Duration duration, final List<Category> categories) {
+           final Explicit explicit, final Period duration, final List<Category> categories) {
         this.author = author;
         this.block = block;
         this.image = image;
@@ -130,7 +132,7 @@ public final class Itunes implements Module {
         return unmodifiableList(categories);
     }
 
-    public Duration getDuration() {
+    public Period getDuration() {
         return duration;
     }
 
@@ -242,8 +244,18 @@ public final class Itunes implements Module {
         private String ownerName;
         private InternetAddress ownerEmail;
         private Explicit explicit;
-        private Duration duration;
+        private Period duration;
         private final List<Category> categories;
+
+        public static final PeriodFormatter DURATION = new PeriodFormatterBuilder()
+                .append(null, new PeriodFormatterBuilder().appendHours()
+                                                          .appendSeparator(":")
+                                                          .appendMinutes()
+                                                          .appendSeparator(":")
+                                                          .appendSeconds().toParser())
+                .append(null, new PeriodFormatterBuilder().appendMinutes()
+                                                          .appendSeparator(":")
+                                                          .appendSeconds().toParser()).toFormatter();
 
         Builder(final DateTimeFormatter parser) {
             super(parser);
@@ -295,7 +307,7 @@ public final class Itunes implements Module {
                     explicit = Explicit.from(getText(reader));
                     break;
                 case "duration":
-                    duration = Duration.parse(getText(reader));
+                    duration = DURATION.parsePeriod(getText(reader));
                     break;
                 case "category":
                     categories.add(parseCategory(reader, element));
