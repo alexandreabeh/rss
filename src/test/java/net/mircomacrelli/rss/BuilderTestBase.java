@@ -3,7 +3,7 @@ package net.mircomacrelli.rss;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 
-abstract class BuilderBaseTestBase<T, B extends BuilderBase<T>> extends XmlTestBase {
+abstract class BuilderTestBase<T, B extends BuilderBase<T>> extends XmlTestBase {
 
     abstract B newBuilder();
 

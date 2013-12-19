@@ -257,8 +257,8 @@ public final class Itunes implements Module {
                                                           .appendSeparator(":")
                                                           .appendSeconds().toParser()).toFormatter();
 
-        Builder(final DateTimeFormatter parser) {
-            super(parser);
+        Builder() {
+            super(null);
             categories = new ArrayList<>(1);
         }
 

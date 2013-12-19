@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-public class CategoryBuilderTest extends BuilderBaseTestBase<Category, Builder> {
+public class CategoryBuilderTest extends BuilderTestBase<Category, Builder> {
     @Override
     Builder newBuilder() {
         return new Builder();

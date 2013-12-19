@@ -7,7 +7,7 @@ import static net.mircomacrelli.rss.Utils.PARSER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ChannelBuilderTest extends BuilderBaseTestBase<Channel, Builder> {
+public class ChannelBuilderTest extends BuilderTestBase<Channel, Builder> {
     @Override
     Builder newBuilder() {
         return new Builder(PARSER);

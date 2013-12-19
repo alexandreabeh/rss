@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-public class CloudBuilderTest extends BuilderBaseTestBase<Cloud, Builder> {
+public class CloudBuilderTest extends BuilderTestBase<Cloud, Builder> {
     @Test(expected = ParserException.class)
     public void portMustBeAnInteger() throws ParserException {
         parse("<cloud domain=\"mircomacrelli.net\" path=\"/rss\" port=\"something\" protocol=\"http-post\" registerProcedure=\"\" />");
