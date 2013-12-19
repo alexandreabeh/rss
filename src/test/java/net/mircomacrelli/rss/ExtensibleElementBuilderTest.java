@@ -10,9 +10,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.StringReader;
-import java.util.Set;
 
-import static net.mircomacrelli.rss.Utils.allowedModules;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -107,7 +105,7 @@ public class ExtensibleElementBuilderTest {
             }
 
             @Override
-            protected boolean isTagAllowed(Class<? extends Module> module, String tag) {
+            protected boolean isTagAllowed(final Class<? extends Module> module, final String tag) {
                 return !tag.equals("notAllowed");
             }
         }

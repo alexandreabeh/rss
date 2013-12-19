@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-public class EnclosureBuilderTest extends BuilderBaseTestBase<Enclosure, Builder> {
+public class EnclosureBuilderTest extends BuilderTestBase<Enclosure, Builder> {
     @Override
     Builder newBuilder() {
         return new Builder();

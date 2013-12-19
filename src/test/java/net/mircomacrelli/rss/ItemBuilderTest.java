@@ -7,7 +7,7 @@ import static net.mircomacrelli.rss.Utils.PARSER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ItemBuilderTest extends BuilderBaseTestBase<Item, Builder> {
+public class ItemBuilderTest extends BuilderTestBase<Item, Builder> {
 
     @Test(expected = ParserException.class)
     public void onlyOneTitle() throws ParserException {

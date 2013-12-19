@@ -3,6 +3,8 @@ package net.mircomacrelli.rss;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.events.StartElement;
 
+import static java.lang.String.format;
+
 public abstract class ModuleBuilderTestBase extends XmlTestBase {
     String uri;
     String prefix;
@@ -15,7 +17,7 @@ public abstract class ModuleBuilderTestBase extends XmlTestBase {
 
     private String decorate(final String xml) {
         if ((uri != null) && (prefix != null)) {
-            return String.format("<rss xmlns:%s=\"%s\">%s</rss>", prefix, uri, xml);
+            return format("<rss xmlns:%s=\"%s\">%s</rss>", prefix, uri, xml);
         }
         return xml;
     }

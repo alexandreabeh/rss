@@ -8,7 +8,7 @@ import java.net.URISyntaxException;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class UniqueIdBuilderTest extends BuilderBaseTestBase<UniqueId, Builder> {
+public class UniqueIdBuilderTest extends BuilderTestBase<UniqueId, Builder> {
 
     @Override
     Builder newBuilder() {

@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-public class TextInputBuilderTest extends BuilderBaseTestBase<TextInput, Builder> {
+public class TextInputBuilderTest extends BuilderTestBase<TextInput, Builder> {
     @Override
     Builder newBuilder() {
         return new Builder();

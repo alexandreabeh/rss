@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-public class ImageBuilderTest extends BuilderBaseTestBase<Image, Builder> {
+public class ImageBuilderTest extends BuilderTestBase<Image, Builder> {
     @Override
     Builder newBuilder() {
         return new Builder();
