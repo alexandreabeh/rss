@@ -51,7 +51,7 @@ public class ItunesTest {
 
     @Test
     public void testToString() {
-        assertEquals("iTunes{author='Autore', block=false, image='http://www.sito.com/immagine.png', cc=false, summary='Sommario', subtitle='sottotitolo', newFeedUrl='http://www.sito.com/new/feed.xml', order=1, complete=false, owner.name='Owner', owner.email='owner@email.com', explicit=NO, duration='PT2H54M', categories=[Category{name='Categoria'}]}", itunes.toString());
+        assertEquals("iTunes{author='Autore', block=false, image='http://www.sito.com/immagine.png', closedCaptioned=false, summary='Sommario', subtitle='sottotitolo', newFeedUrl='http://www.sito.com/new/feed.xml', order=1, complete=false, owner.name='Owner', owner.email='owner@email.com', explicit=NO, duration='PT2H54M', categories=[Category{name='Categoria'}]}", itunes.toString());
     }
 
     @Test

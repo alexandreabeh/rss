@@ -135,7 +135,7 @@ public final class Itunes implements Module {
     private final String author;
     private final Boolean block;
     private final URI image;
-    private final Boolean cc;
+    private final Boolean closedCaptioned;
     private final String summary;
     private final String subtitle;
     private final URI newFeedUrl;
@@ -148,13 +148,13 @@ public final class Itunes implements Module {
     private final List<Category> categories;
 
 
-    Itunes(final String author, final Boolean block, final URI image, final Boolean cc, final String summary, final String subtitle,
+    Itunes(final String author, final Boolean block, final URI image, final Boolean closedCaptioned, final String summary, final String subtitle,
            final URI newFeedUrl, final Integer order, final Boolean complete, final String ownerName, final InternetAddress ownerEmail,
            final Explicit explicit, final Period duration, final List<Category> categories) {
         this.author = author;
         this.block = block;
         this.image = image;
-        this.cc = cc;
+        this.closedCaptioned = closedCaptioned;
         this.summary = summary;
         this.subtitle = subtitle;
         this.newFeedUrl = newFeedUrl;
@@ -208,7 +208,7 @@ public final class Itunes implements Module {
     }
 
     public boolean isClosedCaptioned() {
-        return (cc == null) ? false : cc;
+        return (closedCaptioned == null) ? false : closedCaptioned;
     }
 
     public boolean isBlocked() {
@@ -225,7 +225,7 @@ public final class Itunes implements Module {
 
     @Override
     public int hashCode() {
-        return Objects.hash(author, block, image, cc, summary, subtitle, newFeedUrl, order, complete, ownerName,
+        return Objects.hash(author, block, image, closedCaptioned, summary, subtitle, newFeedUrl, order, complete, ownerName,
                             ownerEmail, explicit, duration, categories);
     }
 
@@ -237,7 +237,7 @@ public final class Itunes implements Module {
 
         final Itunes other = (Itunes)obj;
         return Objects.equals(author, other.author) && Objects.equals(block, other.block) &&
-               Objects.equals(image, other.image) && Objects.equals(cc, other.cc) &&
+               Objects.equals(image, other.image) && Objects.equals(closedCaptioned, other.closedCaptioned) &&
                Objects.equals(summary, other.summary) && Objects.equals(subtitle, other.subtitle) &&
                Objects.equals(newFeedUrl, other.newFeedUrl) && Objects.equals(order, other.order) &&
                Objects.equals(complete, other.complete) && Objects.equals(ownerName, other.ownerName) &&
@@ -253,7 +253,7 @@ public final class Itunes implements Module {
         append(sb, "author", author);
         append(sb, "block", block, false);
         append(sb, "image", image);
-        append(sb, "cc", cc, false);
+        append(sb, "closedCaptioned", closedCaptioned, false);
         append(sb, "summary", summary);
         append(sb, "subtitle", subtitle);
         append(sb, "newFeedUrl", newFeedUrl);
@@ -274,7 +274,7 @@ public final class Itunes implements Module {
         private String author;
         private Boolean block;
         private URI image;
-        private Boolean cc;
+        private Boolean closedCaptioned;
         private String summary;
         private String subtitle;
         private URI newFeedUrl;
@@ -319,8 +319,8 @@ public final class Itunes implements Module {
                     image = parseUri(getAttributesValues(element).get("href"));
                     break;
                 case "isClosedCaptioned":
-                    crashIfAlreadySet(cc);
-                    cc = getText(reader).equalsIgnoreCase("yes");
+                    crashIfAlreadySet(closedCaptioned);
+                    closedCaptioned = getText(reader).equalsIgnoreCase("yes");
                     break;
                 case "summary":
                     crashIfAlreadySet(summary);
@@ -393,8 +393,8 @@ public final class Itunes implements Module {
 
         @Override
         Module buildElement() {
-            return new Itunes(author, block, image, cc, summary, subtitle, newFeedUrl, order, complete, ownerName,
-                              ownerEmail, explicit, duration, categories);
+            return new Itunes(author, block, image, closedCaptioned, summary, subtitle, newFeedUrl, order, complete,
+                              ownerName, ownerEmail, explicit, duration, categories);
         }
     }
 }
