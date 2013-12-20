@@ -28,8 +28,20 @@ import static net.mircomacrelli.rss.Utils.isEndOfTag;
 import static net.mircomacrelli.rss.Utils.isStartOfTag;
 import static net.mircomacrelli.rss.Utils.parseUri;
 
+/**
+ * Module used for parsing the itunes/podcast module
+ *
+ * @author Mirco Macrelli
+ * @version 2.1
+ */
 public final class Itunes implements Module {
 
+    /**
+     * A category used in iTunes
+     *
+     * @author Mirco Macrelli
+     * @version 2.1
+     */
     public static final class Category {
         private final String name;
 
@@ -46,6 +58,12 @@ public final class Itunes implements Module {
             return unmodifiableList(subCategories);
         }
 
+        /**
+         * Create a new Category
+         *
+         * @param name the name of the category
+         * @param subCategories a list of sub categories
+         */
         public Category(final String name, final List<Category> subCategories) {
             this.name = requireNonNull(name);
             this.subCategories = subCategories;
@@ -79,11 +97,32 @@ public final class Itunes implements Module {
         }
     }
 
+    /**
+     * Enum with all the possibile levels of Explicit for a podcast
+     *
+     * @author Mirco Macrelli
+     * @version 2.1
+     */
     public enum Explicit {
+        /**
+         * Yes the podcast has explicit content
+         */
         YES,
+        /**
+         * No, the podcast does not contain explicit materials
+         */
         NO,
+        /**
+         * All the content is clean and not explicit
+         */
         CLEAN;
 
+        /**
+         * Return the value of Explicit from a string
+         *
+         * @param value the string value
+         * @return the Explicit enum value
+         */
         public static Explicit from(final String value) {
             if (value.equalsIgnoreCase("yes")) {
                 return YES;
