@@ -21,6 +21,8 @@ public class ItunesTest {
 
     private Itunes itunes;
 
+    private Itunes minimal;
+
     private URI image;
     private URI newFeedUrl;
 
@@ -37,6 +39,7 @@ public class ItunesTest {
         categories.add(new Itunes.Category("Categoria", null));
         itunes = new Itunes("Autore", false, image, false, "Sommario", "sottotitolo", newFeedUrl, 1, false, "Owner", ownerEmail,
                             Explicit.NO, DURATION.parsePeriod("2:54"), categories);
+        minimal = new Itunes("autore", null, null, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     @Test
@@ -119,5 +122,20 @@ public class ItunesTest {
     @Test
     public void complete() {
         assertFalse(itunes.isComplete());
+    }
+
+    @Test
+    public void whenNotSpecifiedCompleteIsFalse() {
+        assertFalse(minimal.isComplete());
+    }
+
+    @Test
+    public void whenNotSpecifiedCCIsFalse() {
+        assertFalse(minimal.isClosedCaptioned());
+    }
+
+    @Test
+    public void whenNotSpecifiedBlockedIsFalse() {
+        assertFalse(minimal.isBlocked());
     }
 }
