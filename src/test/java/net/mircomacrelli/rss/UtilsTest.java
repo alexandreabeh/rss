@@ -10,6 +10,7 @@ import javax.activation.MimeTypeParseException;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -31,6 +32,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public final class UtilsTest extends XmlTestBase {
     private DateTime date;
@@ -289,5 +293,19 @@ public final class UtilsTest extends XmlTestBase {
         assertTrue(tags.keySet().contains("b"));
         assertTrue(tags.values().contains("uno"));
         assertTrue(tags.values().contains("due"));
+    }
+
+    @Test(expected = ParserException.class)
+    public void getTextCatchStreamException() throws XMLStreamException, ParserException {
+        final XMLEventReader mock = mock(XMLEventReader.class);
+        doThrow(new XMLStreamException("eccezione")).when(mock).nextEvent();
+        getText(mock);
+    }
+
+    @Test(expected = ParserException.class)
+    public void getAllTagsValuesInsideCatchStreamerException() throws ParserException, XMLStreamException {
+        final XMLEventReader mock = mock(XMLEventReader.class);
+        doThrow(new XMLStreamException("eccezione")).when(mock).nextEvent();
+        getAllTagsValuesInside(mock, "tag");
     }
 }
