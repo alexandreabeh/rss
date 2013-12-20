@@ -27,7 +27,6 @@ import static java.util.Collections.unmodifiableSet;
 import static java.util.EnumSet.noneOf;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
-import static net.mircomacrelli.rss.Utils.allowedModules;
 import static net.mircomacrelli.rss.Utils.append;
 import static net.mircomacrelli.rss.Utils.crashIfAlreadySet;
 import static net.mircomacrelli.rss.Utils.formatDate;

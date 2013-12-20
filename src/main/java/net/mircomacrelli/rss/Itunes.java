@@ -1,7 +1,6 @@
 package net.mircomacrelli.rss;
 
 import org.joda.time.Period;
-import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
