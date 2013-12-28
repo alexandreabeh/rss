@@ -125,7 +125,7 @@ abstract class ExtensibleElementBuilder<T extends ExtensibleElement> extends Bui
 
     abstract boolean isModuleAllowed(Class<? extends Module> module);
 
-    boolean isTagAllowed(final Class<? extends Module> module, String tag) {
+    boolean isTagAllowed(final Class<? extends Module> module, final String tag) {
         return true;
     }
 }
